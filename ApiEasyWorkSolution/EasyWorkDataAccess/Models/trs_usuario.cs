@@ -27,6 +27,7 @@ namespace EasyWorkDataAccess.Models
         public string cod_aplicacion_registro { get; set; }
         public string cod_aplicacion_actualizacion { get; set; }
         public string cod_aplicacion_eliminacion { get; set; }
+        public string cod_usuario { get; set; }
     
         public virtual mst_rol mst_rol { get; set; }
     }

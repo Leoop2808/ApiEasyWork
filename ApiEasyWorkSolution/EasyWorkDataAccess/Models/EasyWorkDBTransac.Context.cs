@@ -27,5 +27,6 @@ namespace EasyWorkDataAccess.Models
     
         public virtual DbSet<mst_rol> mst_rol { get; set; }
         public virtual DbSet<trs_usuario> trs_usuario { get; set; }
+        public virtual DbSet<mst_aplicacion> mst_aplicacion { get; set; }
     }
 }

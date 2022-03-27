@@ -4,7 +4,24 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EasyWorkDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EasyWorkDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="mst_aplicacion">
+          <Key>
+            <PropertyRef Name="id_aplicacion" />
+          </Key>
+          <Property Name="id_aplicacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cod_aplicacion" Type="varchar" MaxLength="20" />
+          <Property Name="nombre_aplicacion" Type="varchar" MaxLength="20" />
+          <Property Name="access_id" Type="varchar" MaxLength="150" />
+          <Property Name="activo" Type="bit" />
+          <Property Name="eliminado" Type="bit" />
+          <Property Name="fecha_registro" Type="datetime" />
+          <Property Name="fecha_actualizacion" Type="datetime" />
+          <Property Name="fecha_eliminacion" Type="datetime" />
+          <Property Name="gestado" Type="bit" />
+          <Property Name="refreshTokenLife" Type="int" />
+          <Property Name="allowedorigin" Type="varchar" MaxLength="700" />
+        </EntityType>
         <EntityType Name="mst_rol">
           <Key>
             <PropertyRef Name="id_rol" />
@@ -36,6 +53,7 @@
           <Property Name="cod_aplicacion_registro" Type="varchar" MaxLength="20" />
           <Property Name="cod_aplicacion_actualizacion" Type="varchar" MaxLength="20" />
           <Property Name="cod_aplicacion_eliminacion" Type="varchar" MaxLength="20" />
+          <Property Name="cod_usuario" Type="varchar" MaxLength="40" />
         </EntityType>
         <Association Name="FK_USUARIO_ROL">
           <End Role="mst_rol" Type="Self.mst_rol" Multiplicity="1" />
@@ -50,6 +68,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="EasyWorkDBModelStoreContainer">
+          <EntitySet Name="mst_aplicacion" EntityType="Self.mst_aplicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mst_rol" EntityType="Self.mst_rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="trs_usuario" EntityType="Self.trs_usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_USUARIO_ROL" Association="Self.FK_USUARIO_ROL">
@@ -57,8 +76,7 @@
             <End Role="trs_usuario" EntitySet="trs_usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EasyWorkDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -95,6 +113,7 @@
           <Property Name="cod_aplicacion_actualizacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="cod_aplicacion_eliminacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="mst_rol" Relationship="Self.FK_USUARIO_ROL" FromRole="trs_usuario" ToRole="mst_rol" />
+          <Property Name="cod_usuario" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_USUARIO_ROL">
           <End Role="mst_rol" Type="Self.mst_rol" Multiplicity="1" />
@@ -115,7 +134,25 @@
             <End Role="mst_rol" EntitySet="mst_rol" />
             <End Role="trs_usuario" EntitySet="trs_usuario" />
           </AssociationSet>
+          <EntitySet Name="mst_aplicacion" EntityType="EasyWorkDBModel.mst_aplicacion" />
         </EntityContainer>
+        <EntityType Name="mst_aplicacion">
+          <Key>
+            <PropertyRef Name="id_aplicacion" />
+          </Key>
+          <Property Name="id_aplicacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cod_aplicacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_aplicacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="access_id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" />
+          <Property Name="eliminado" Type="Boolean" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <Property Name="fecha_actualizacion" Type="DateTime" Precision="3" />
+          <Property Name="fecha_eliminacion" Type="DateTime" Precision="3" />
+          <Property Name="gestado" Type="Boolean" />
+          <Property Name="refreshTokenLife" Type="Int32" />
+          <Property Name="allowedorigin" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -140,6 +177,7 @@
           <EntitySetMapping Name="trs_usuario">
             <EntityTypeMapping TypeName="EasyWorkDBModel.trs_usuario">
               <MappingFragment StoreEntitySet="trs_usuario">
+                <ScalarProperty Name="cod_usuario" ColumnName="cod_usuario" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="id_rol" ColumnName="id_rol" />
                 <ScalarProperty Name="id_persona" ColumnName="id_persona" />
@@ -153,6 +191,24 @@
                 <ScalarProperty Name="cod_aplicacion_registro" ColumnName="cod_aplicacion_registro" />
                 <ScalarProperty Name="cod_aplicacion_actualizacion" ColumnName="cod_aplicacion_actualizacion" />
                 <ScalarProperty Name="cod_aplicacion_eliminacion" ColumnName="cod_aplicacion_eliminacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mst_aplicacion">
+            <EntityTypeMapping TypeName="EasyWorkDBModel.mst_aplicacion">
+              <MappingFragment StoreEntitySet="mst_aplicacion">
+                <ScalarProperty Name="allowedorigin" ColumnName="allowedorigin" />
+                <ScalarProperty Name="refreshTokenLife" ColumnName="refreshTokenLife" />
+                <ScalarProperty Name="gestado" ColumnName="gestado" />
+                <ScalarProperty Name="fecha_eliminacion" ColumnName="fecha_eliminacion" />
+                <ScalarProperty Name="fecha_actualizacion" ColumnName="fecha_actualizacion" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="eliminado" ColumnName="eliminado" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="access_id" ColumnName="access_id" />
+                <ScalarProperty Name="nombre_aplicacion" ColumnName="nombre_aplicacion" />
+                <ScalarProperty Name="cod_aplicacion" ColumnName="cod_aplicacion" />
+                <ScalarProperty Name="id_aplicacion" ColumnName="id_aplicacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
