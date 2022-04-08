@@ -100,8 +100,11 @@ namespace ApiEasyWork.Providers
 
                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
 
+                var clienteAplicativo = context.OwinContext.Get<mst_aplicacion>("ta:client");
+
                 oAuthIdentity.AddClaim(new Claim("user_id", user.id_usuario.ToString()));
                 oAuthIdentity.AddClaim(new Claim("user_code", user.cod_usuario.ToString()));
+                oAuthIdentity.AddClaim(new Claim("cod_aplicacion", clienteAplicativo.cod_aplicacion.ToString()));
 
 
                 ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);

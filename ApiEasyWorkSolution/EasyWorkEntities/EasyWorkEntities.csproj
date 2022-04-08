@@ -41,9 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\Request\AutenticarFacebookRequest.cs" />
+    <Compile Include="Authentication\Request\AutenticarGoogleRequest.cs" />
+    <Compile Include="Authentication\Response\AutenticarFacebookResponse.cs" />
+    <Compile Include="Authentication\Response\AutenticarGoogleResponse.cs" />
+    <Compile Include="Authentication\Response\AuthenticatedUserData.cs" />
+    <Compile Include="Authentication\Response\ObtenerDataPrincipalUsuarioResponse.cs" />
+    <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
+    <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />
+    <Compile Include="Constantes.cs" />
     <Compile Include="GlobalHTTPResponse.cs" />
     <Compile Include="MensajeHttpResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Usuario\Request\" />
+    <Folder Include="Usuario\Response\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
