@@ -89,6 +89,18 @@
     <Compile Include="Models\mst_rol.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_REGISTRAR_DATOS_FACEBOOK_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_REGISTRAR_DATOS_GOOGLE_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\trs_usuario.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>

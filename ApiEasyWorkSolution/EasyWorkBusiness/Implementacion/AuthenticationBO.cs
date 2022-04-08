@@ -24,7 +24,15 @@ namespace EasyWorkBusiness.Implementacion
             try
             {
                 var response = new AutenticarGoogleResponse();
-                var resRegDtGoogle = _authenticationDO.RegistrarDatosGoogle(request, cod_aplicacion, idLogTexto);
+                var resDataGoogle = _authenticationDO.ObtenerDataGoogle(request.google_token, cod_aplicacion, idLogTexto);
+                if (resDataGoogle.codeRes != HttpStatusCode.OK)
+                {
+                    response.codeRes = resDataGoogle.codeRes;
+                    response.messageRes = resDataGoogle.messageRes;
+                    return response;
+                }
+
+                var resRegDtGoogle = _authenticationDO.RegistrarDatosGoogle(resDataGoogle.dataGoogle, request.latitud, request.longitud, request.google_token, cod_aplicacion, idLogTexto);
 
                 response.codeRes = resRegDtGoogle.codeRes;
                 response.messageRes = resRegDtGoogle.messageRes;
@@ -34,7 +42,7 @@ namespace EasyWorkBusiness.Implementacion
                     return response;
                 }
                 
-                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtGoogle.codUsuarioCreado, Constantes.COD_AUTH_GMAIL, cod_aplicacion, idLogTexto);
+                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtGoogle.codUsuarioCreado, resRegDtGoogle.idUsuarioCreado, Constantes.COD_AUTH_GMAIL, cod_aplicacion, idLogTexto);
 
                 if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
                 {
@@ -64,17 +72,25 @@ namespace EasyWorkBusiness.Implementacion
             try
             {
                 var response = new AutenticarFacebookResponse();
-                var resRegDtGoogle = _authenticationDO.RegistrarDatosFacebook(request, cod_aplicacion, idLogTexto);
+                var resDataFacebook = _authenticationDO.ObtenerDataFacebook(request.facebook_token, cod_aplicacion, idLogTexto);
+                if (resDataFacebook.codeRes != HttpStatusCode.OK)
+                {
+                    response.codeRes = resDataFacebook.codeRes;
+                    response.messageRes = resDataFacebook.messageRes;
+                    return response;
+                }
 
-                response.codeRes = resRegDtGoogle.codeRes;
-                response.messageRes = resRegDtGoogle.messageRes;
+                var resRegDtFacebook = _authenticationDO.RegistrarDatosFacebook(resDataFacebook.dataFacebook, request.latitud, request.longitud, request.facebook_token, cod_aplicacion, idLogTexto);
 
-                if (resRegDtGoogle.codeRes != HttpStatusCode.OK)
+                response.codeRes = resRegDtFacebook.codeRes;
+                response.messageRes = resRegDtFacebook.messageRes;
+
+                if (resRegDtFacebook.codeRes != HttpStatusCode.OK)
                 {
                     return response;
                 }
 
-                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtGoogle.codUsuarioCreado, Constantes.COD_AUTH_FACEBOOK, cod_aplicacion, idLogTexto);
+                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtFacebook.codUsuarioCreado, resRegDtFacebook.idUsuarioCreado, Constantes.COD_AUTH_FACEBOOK, cod_aplicacion, idLogTexto);
 
                 if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
                 {

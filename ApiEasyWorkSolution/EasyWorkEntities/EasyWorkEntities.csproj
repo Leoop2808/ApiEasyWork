@@ -46,6 +46,8 @@
     <Compile Include="Authentication\Response\AutenticarFacebookResponse.cs" />
     <Compile Include="Authentication\Response\AutenticarGoogleResponse.cs" />
     <Compile Include="Authentication\Response\AuthenticatedUserData.cs" />
+    <Compile Include="Authentication\Response\DataFacebookResponse.cs" />
+    <Compile Include="Authentication\Response\DataGoogleResponse.cs" />
     <Compile Include="Authentication\Response\ObtenerDataPrincipalUsuarioResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />

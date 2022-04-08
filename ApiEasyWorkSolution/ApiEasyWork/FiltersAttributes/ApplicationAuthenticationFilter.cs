@@ -59,17 +59,17 @@ namespace ApiEasyWork.FiltersAttributes
 
             var credentials = decodeauthToken.Split(':');
             var clientname = credentials[0];
-            var clientsecret = credentials[1];
+            var accesId = credentials[1];
 
-            var verifyAccess = ctx.SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION(clientname, clientsecret).Select(x => new {
+            var verifyAccess = ctx.SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION(clientname, accesId).Select(x => new {
                 codeRes = x.codeRes.GetValueOrDefault(),
                 messageRes = x.messageRes,
-                cod_aplicacion = x.cod_aplicacion
+                codAplicacion = x.codAplicacion
             }).FirstOrDefault();
 
             if (verifyAccess == null) return false;
-            if (verifyAccess.codeRes != HttpStatusCode.OK) return false;
-            AplicationData.codAplicacion = verifyAccess.cod_aplicacion;
+            if (verifyAccess.codeRes != Convert.ToInt32(HttpStatusCode.OK)) return false;
+            AplicationData.codAplicacion = verifyAccess.codAplicacion;
             return true;
         }
     }

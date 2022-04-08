@@ -67,6 +67,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_OBTENER_DATA_PRINCIPAL_USUARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUsuario" Type="int" Mode="In" />
+          <Parameter Name="codMedioAcceso" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_DATOS_FACEBOOK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUserFacebook" Type="varchar" Mode="In" />
+          <Parameter Name="firstName" Type="varchar" Mode="In" />
+          <Parameter Name="lastName" Type="varchar" Mode="In" />
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="pictureIsSilhouette" Type="bit" Mode="In" />
+          <Parameter Name="pictureUrl" Type="varchar" Mode="In" />
+          <Parameter Name="tokenData" Type="varchar(max)" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_DATOS_GOOGLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUserGoogle" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="verified_email" Type="bit" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="given_name" Type="varchar" Mode="In" />
+          <Parameter Name="family_name" Type="varchar" Mode="In" />
+          <Parameter Name="pictureUrl" Type="varchar" Mode="In" />
+          <Parameter Name="locale" Type="varchar" Mode="In" />
+          <Parameter Name="tokenData" Type="varchar(max)" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombreAplicacion" Type="varchar" Mode="In" />
+          <Parameter Name="accesId" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="EasyWorkDBModelStoreContainer">
           <EntitySet Name="mst_aplicacion" EntityType="Self.mst_aplicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="mst_rol" EntityType="Self.mst_rol" Schema="dbo" store:Type="Tables" />
@@ -135,6 +170,41 @@
             <End Role="trs_usuario" EntitySet="trs_usuario" />
           </AssociationSet>
           <EntitySet Name="mst_aplicacion" EntityType="EasyWorkDBModel.mst_aplicacion" />
+          <FunctionImport Name="SP_OBTENER_DATA_PRINCIPAL_USUARIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result)">
+            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="codMedioAcceso" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_DATOS_FACEBOOK" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_DATOS_FACEBOOK_Result)">
+            <Parameter Name="idUserFacebook" Mode="In" Type="String" />
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="pictureIsSilhouette" Mode="In" Type="Boolean" />
+            <Parameter Name="pictureUrl" Mode="In" Type="String" />
+            <Parameter Name="tokenData" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_DATOS_GOOGLE" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_DATOS_GOOGLE_Result)">
+            <Parameter Name="idUserGoogle" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="verified_email" Mode="In" Type="Boolean" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="given_name" Mode="In" Type="String" />
+            <Parameter Name="family_name" Mode="In" Type="String" />
+            <Parameter Name="pictureUrl" Mode="In" Type="String" />
+            <Parameter Name="locale" Mode="In" Type="String" />
+            <Parameter Name="tokenData" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION" ReturnType="Collection(EasyWorkDBModel.SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result)">
+            <Parameter Name="nombreAplicacion" Mode="In" Type="String" />
+            <Parameter Name="accesId" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
           <Key>
@@ -153,6 +223,34 @@
           <Property Name="refreshTokenLife" Type="Int32" />
           <Property Name="allowedorigin" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="codMedioAcceso" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombres" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="apellidos" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="correo" Nullable="true" MaxLength="150" />
+          <Property Type="Boolean" Name="flgDatosLlenados" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_DATOS_FACEBOOK_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="String" Name="codUsuarioCreado" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="idUsuarioCreado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_DATOS_GOOGLE_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="String" Name="codUsuarioCreado" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="idUsuarioCreado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="codAplicacion" Nullable="true" MaxLength="40" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -212,6 +310,50 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_DATA_PRINCIPAL_USUARIO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_DATA_PRINCIPAL_USUARIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="codMedioAcceso" ColumnName="codMedioAcceso" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="flgDatosLlenados" ColumnName="flgDatosLlenados" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_DATOS_FACEBOOK" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_DATOS_FACEBOOK">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_DATOS_FACEBOOK_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="codUsuarioCreado" ColumnName="codUsuarioCreado" />
+                <ScalarProperty Name="idUsuarioCreado" ColumnName="idUsuarioCreado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_DATOS_GOOGLE" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_DATOS_GOOGLE">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_DATOS_GOOGLE_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="codUsuarioCreado" ColumnName="codUsuarioCreado" />
+                <ScalarProperty Name="idUsuarioCreado" ColumnName="idUsuarioCreado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION" FunctionName="EasyWorkDBModel.Store.SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="codAplicacion" ColumnName="codAplicacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

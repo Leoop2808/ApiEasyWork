@@ -5,8 +5,10 @@ namespace EasyWorkDataAccess.Contrato
 {
     public interface IAuthenticationDO
     {
-        RegistrarDatosGoogleResponse RegistrarDatosGoogle(AutenticarGoogleRequest request,string clientid_aplicacion,string idLogTexto);
-        RegistrarDatosFacebookResponse RegistrarDatosFacebook(AutenticarFacebookRequest request, string clientid_aplicacion, string idLogTexto);
-        ObtenerDataPrincipalUsuarioResponse ObtenerDataPrincipalUsuario(string codUsuarioCreado, string codMedioAcceso, string clientid_aplicacion, string idLogTexto);
+        DataGoogleResponse ObtenerDataGoogle(string google_token,string cod_aplicacion, string idLogTexto);
+        DataFacebookResponse ObtenerDataFacebook(string facebook_token, string cod_aplicacion, string idLogTexto);
+        RegistrarDatosGoogleResponse RegistrarDatosGoogle(DataGoogle request, double latitud, double longitud, string google_token, string clientid_aplicacion,string idLogTexto);
+        RegistrarDatosFacebookResponse RegistrarDatosFacebook(DataFacebook request, double latitud, double longitud, string facebook_token, string clientid_aplicacion, string idLogTexto);
+        ObtenerDataPrincipalUsuarioResponse ObtenerDataPrincipalUsuario(string codUsuarioCreado, int idUsuario, string codMedioAcceso, string clientid_aplicacion, string idLogTexto);
     }
 }

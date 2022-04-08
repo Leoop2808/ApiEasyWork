@@ -56,6 +56,13 @@ namespace ApiEasyWork.Controllers
         public async Task<HttpResponseMessage> AutenticarGoogle(AutenticarGoogleRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.google_token))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_token_google_empty"),
+                    new JProperty("error_description", "Empty Google token.")
+                ));
+            }
             var cod_aplicacion = AplicationData.codAplicacion;
             var respAuthGoogle = _authenticationBO.AutenticarGoogle(request, cod_aplicacion, idLogTexto);
             if (respAuthGoogle.codeRes == HttpStatusCode.OK)
@@ -109,6 +116,13 @@ namespace ApiEasyWork.Controllers
         public async Task<HttpResponseMessage> AutenticarFacebook(AutenticarFacebookRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.facebook_token))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_token_facebook_empty"),
+                    new JProperty("error_description", "Empty Facebook token.")
+                ));
+            }
             var cod_aplicacion = AplicationData.codAplicacion;
             var respAuthFacebook = _authenticationBO.AutenticarFacebook(request, cod_aplicacion, idLogTexto);
             if (respAuthFacebook.codeRes == HttpStatusCode.OK)
