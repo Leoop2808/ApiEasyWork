@@ -3,6 +3,7 @@ using ApiEasyWork.FiltersAttributes;
 using ApiEasyWork.Util;
 using EasyWorkBusiness.Contrato;
 using EasyWorkDataAccess.Models;
+using EasyWorkEntities;
 using EasyWorkEntities.Authentication.Request;
 using log4net;
 using Microsoft.AspNet.Identity;
@@ -18,6 +19,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
+using static EasyWorkEntities.Constantes;
 
 namespace ApiEasyWork.Controllers
 {
@@ -28,9 +30,10 @@ namespace ApiEasyWork.Controllers
         private TimeSpan tokenExpirationTimeSpan = TimeSpan.FromHours(24);
         private readonly ILog log = LogManager.GetLogger(typeof(UsuarioController));
         private readonly IUsuarioBO _usuarioBO;
-        public UsuarioController(IUsuarioBO usuarioBO)
+        public UsuarioController(IUsuarioBO usuarioBO, IAuthenticationBO authenticationBO)
         {
             _usuarioBO = usuarioBO;
+            _authenticationBO = authenticationBO;
         }
 
         private ApplicationUserManager _userManager;
@@ -168,6 +171,57 @@ namespace ApiEasyWork.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_token_facebook"),
                     new JProperty("error_description", "Could not authenticate with Facebook.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/envio-sms-or-whatsapp")]
+        [HttpPost]
+        public HttpResponseMessage EnviarSmsOrWhatsapp(EnviarSmsOrWhatsappRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.nroCelular))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone_number_empty"),
+                    new JProperty("error_description", "Empty Phone Number.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.tipoEnvio))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_type_empty"),
+                    new JProperty("error_description", "Empty Send Type.")
+                ));
+            }
+
+            if (request.tipoEnvio != TipoEnvioCodigoVerificacion.SMS && request.tipoEnvio != TipoEnvioCodigoVerificacion.WHATSAPP)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_type_not_reconized"),
+                    new JProperty("error_description", "Not reconized Send Type.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioSmsOrWhatsapp = _authenticationBO.EnviarSmsOrWhatsapp(request, cod_aplicacion, idLogTexto);
+            if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioSmsOrWhatsapp.messageRes});
+                }
+                return Request.CreateResponse(respEnvioSmsOrWhatsapp.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioSmsOrWhatsapp.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_a_verify_code"),
+                    new JProperty("error_description", "Could not send verify code.")
                 ));
             }
         }

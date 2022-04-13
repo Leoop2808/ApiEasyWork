@@ -71,6 +71,14 @@
           <Parameter Name="idUsuario" Type="int" Mode="In" />
           <Parameter Name="codMedioAcceso" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_REGISTRAR_CODIGO_VERIFICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="verifyCode" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="nroCelular" Type="varchar" Mode="In" />
+          <Parameter Name="flgCelular" Type="bit" Mode="In" />
+          <Parameter Name="flgCorreo" Type="bit" Mode="In" />
+          <Parameter Name="flgEnviadoSms" Type="bit" Mode="In" />
+        </Function>
         <Function Name="SP_REGISTRAR_DATOS_FACEBOOK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUserFacebook" Type="varchar" Mode="In" />
           <Parameter Name="firstName" Type="varchar" Mode="In" />
@@ -205,6 +213,14 @@
             <Parameter Name="nombreAplicacion" Mode="In" Type="String" />
             <Parameter Name="accesId" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_CODIGO_VERIFICACION" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_CODIGO_VERIFICACION_Result)">
+            <Parameter Name="verifyCode" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="nroCelular" Mode="In" Type="String" />
+            <Parameter Name="flgCelular" Mode="In" Type="Boolean" />
+            <Parameter Name="flgCorreo" Mode="In" Type="Boolean" />
+            <Parameter Name="flgEnviadoSms" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
           <Key>
@@ -250,6 +266,10 @@
           <Property Type="Int32" Name="codeRes" Nullable="true" />
           <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="codAplicacion" Nullable="true" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_CODIGO_VERIFICACION_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -351,6 +371,14 @@
                 <ScalarProperty Name="codeRes" ColumnName="codeRes" />
                 <ScalarProperty Name="messageRes" ColumnName="messageRes" />
                 <ScalarProperty Name="codAplicacion" ColumnName="codAplicacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_CODIGO_VERIFICACION" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_CODIGO_VERIFICACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_CODIGO_VERIFICACION_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

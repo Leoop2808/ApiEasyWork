@@ -158,5 +158,34 @@ namespace EasyWorkDataAccess.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result>("SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION", nombreAplicacionParameter, accesIdParameter);
         }
+    
+        public virtual ObjectResult<SP_REGISTRAR_CODIGO_VERIFICACION_Result> SP_REGISTRAR_CODIGO_VERIFICACION(string verifyCode, string correo, string nroCelular, Nullable<bool> flgCelular, Nullable<bool> flgCorreo, Nullable<bool> flgEnviadoSms)
+        {
+            var verifyCodeParameter = verifyCode != null ?
+                new ObjectParameter("verifyCode", verifyCode) :
+                new ObjectParameter("verifyCode", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var flgCelularParameter = flgCelular.HasValue ?
+                new ObjectParameter("flgCelular", flgCelular) :
+                new ObjectParameter("flgCelular", typeof(bool));
+    
+            var flgCorreoParameter = flgCorreo.HasValue ?
+                new ObjectParameter("flgCorreo", flgCorreo) :
+                new ObjectParameter("flgCorreo", typeof(bool));
+    
+            var flgEnviadoSmsParameter = flgEnviadoSms.HasValue ?
+                new ObjectParameter("flgEnviadoSms", flgEnviadoSms) :
+                new ObjectParameter("flgEnviadoSms", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_CODIGO_VERIFICACION_Result>("SP_REGISTRAR_CODIGO_VERIFICACION", verifyCodeParameter, correoParameter, nroCelularParameter, flgCelularParameter, flgCorreoParameter, flgEnviadoSmsParameter);
+        }
     }
 }

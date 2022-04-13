@@ -1,17 +1,25 @@
 ﻿using EasyWorkBusiness.Contrato;
 using EasyWorkDataAccess.Contrato;
-using EasyWorkEntities;
 using EasyWorkEntities.Authentication.Request;
 using EasyWorkEntities.Authentication.Response;
 using log4net;
 using Newtonsoft.Json;
 using System;
+using System.Configuration;
 using System.Net;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+using static EasyWorkEntities.Constantes;
 
 namespace EasyWorkBusiness.Implementacion
 {
     public class AuthenticationBO : IAuthenticationBO
     {
+        private string _twilioAccountSid = ConfigurationManager.AppSettings["TWILIO_ACCOUNT_SID"];
+        private string _twilioAuthToken = ConfigurationManager.AppSettings["TWILIO_AUTH_TOKEN"];
+        private string _twilioPhoneNumber = ConfigurationManager.AppSettings["TWILIO_PHONE_NUMBER"];
+        private string _twilioMessagingServiceSid = ConfigurationManager.AppSettings["TWILIO_MESSAGING_SERVICE_SID"];
         private readonly ILog log = LogManager.GetLogger(typeof(AuthenticationBO));
         readonly IAuthenticationDO _authenticationDO;
         public AuthenticationBO(IAuthenticationDO authenticationDO)
@@ -42,7 +50,7 @@ namespace EasyWorkBusiness.Implementacion
                     return response;
                 }
                 
-                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtGoogle.codUsuarioCreado, resRegDtGoogle.idUsuarioCreado, Constantes.COD_AUTH_GMAIL, cod_aplicacion, idLogTexto);
+                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtGoogle.codUsuarioCreado, resRegDtGoogle.idUsuarioCreado, MedioAcceso.COD_AUTH_GMAIL, cod_aplicacion, idLogTexto);
 
                 if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
                 {
@@ -90,7 +98,7 @@ namespace EasyWorkBusiness.Implementacion
                     return response;
                 }
 
-                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtFacebook.codUsuarioCreado, resRegDtFacebook.idUsuarioCreado, Constantes.COD_AUTH_FACEBOOK, cod_aplicacion, idLogTexto);
+                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegDtFacebook.codUsuarioCreado, resRegDtFacebook.idUsuarioCreado, MedioAcceso.COD_AUTH_FACEBOOK, cod_aplicacion, idLogTexto);
 
                 if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
                 {
@@ -114,6 +122,146 @@ namespace EasyWorkBusiness.Implementacion
                     messageRes = "Error interno al autenticar mediante facebook."
                 };
             }
+        }
+
+        public EnviarSmsOrWhatsappResponse EnviarSmsOrWhatsapp(EnviarSmsOrWhatsappRequest request, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new EnviarSmsOrWhatsappResponse();
+                var verifyCode = GenerateCode(6);
+
+                var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, String.Empty, request.nroCelular,
+                    true, false, (request.tipoEnvio == TipoEnvioCodigoVerificacion.WHATSAPP ? false : true),cod_aplicacion, idLogTexto);
+                if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
+                {
+                    response.codeRes = resRegCodigoVerificacion.codeRes;
+                    response.messageRes = resRegCodigoVerificacion.messageRes;
+                    return response;
+                }
+
+                var resEnvioCodigo = request.tipoEnvio == TipoEnvioCodigoVerificacion.WHATSAPP ? EnviarCodigoWhatsapp(request.nroCelular, verifyCode, cod_aplicacion, idLogTexto) : EnviarCodigoSms(request.nroCelular, verifyCode, cod_aplicacion, idLogTexto);
+
+                response.codeRes = resEnvioCodigo.codeRes;
+                response.messageRes = resEnvioCodigo.messageRes;
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  EnviarSmsOrWhatsapp. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al enviar código de verificación. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new EnviarSmsOrWhatsappResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al enviar código de verificación."
+                };
+            }
+        }
+
+        public EnviarSmsOrWhatsappResponse EnviarCodigoWhatsapp(string nroCelular, string verifyCode, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new EnviarSmsOrWhatsappResponse();
+                TwilioClient.Init(_twilioAccountSid, _twilioAuthToken);
+                var messageOptions = new CreateMessageOptions(new PhoneNumber(TipoEnvioCodigoVerificacion.TWILIO_WHATSAPP + $":+51{nroCelular}"));
+                messageOptions.From = new PhoneNumber(TipoEnvioCodigoVerificacion.TWILIO_WHATSAPP + ":" + _twilioPhoneNumber);
+                messageOptions.Body = ContentMessageVerifyCode.BODY_WHATSAPP.Replace("@verifyCode", verifyCode);
+
+                var message = MessageResource.Create(messageOptions);
+                if (message.Status.ToString() == MessageResource.StatusEnum.Queued.ToString())
+                {
+                    response.codeRes = HttpStatusCode.OK;
+                    response.messageRes = "Código de verificación enviado a Whatsapp";
+                }
+                else
+                {
+                    response.codeRes = HttpStatusCode.BadRequest;
+                    response.messageRes = "No se pudo enviar el código de verificación a Whatsapp";
+                }
+
+                log.Info($"AuthenticationBO ({idLogTexto}) ->  EnviarCodigoWhatsapp. Aplicacion: {cod_aplicacion}." +
+                  "Numero de celular: " + nroCelular + ". " +
+                  "Código de verificación: " + verifyCode + ". " +
+                  "Mensaje al cliente: Código de verificación enviado por Whatsapp. " +
+                  "Respuesta Twilio: " + JsonConvert.SerializeObject(message.Body));
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  EnviarCodigoWhatsapp. Aplicacion: {cod_aplicacion}." +
+                   "Numero de celular: " + nroCelular + ". " +
+                   "Código de verificación: " + verifyCode + ". " +
+                   "Mensaje al cliente: Error interno al enviar código de verificación por WhatsApp. " +
+                   "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new EnviarSmsOrWhatsappResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al enviar código de verificación por WhatsApp."
+                };
+            }
+        }
+
+        public EnviarSmsOrWhatsappResponse EnviarCodigoSms(string nroCelular, string verifyCode, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var response = new EnviarSmsOrWhatsappResponse();
+                TwilioClient.Init(_twilioAccountSid, _twilioAuthToken);
+                var messageOptions = new CreateMessageOptions(new PhoneNumber($"+51{nroCelular}"));
+                messageOptions.MessagingServiceSid = _twilioMessagingServiceSid;
+                messageOptions.Body = ContentMessageVerifyCode.BODY_SMS.Replace("@verifyCode", verifyCode);
+
+                var message = MessageResource.Create(messageOptions);
+                if (message.Status.ToString() == MessageResource.StatusEnum.Accepted.ToString())
+                {
+                    response.codeRes = HttpStatusCode.OK;
+                    response.messageRes = "Código de verificación enviado por SMS";
+                }
+                else
+                {
+                    response.codeRes = HttpStatusCode.BadRequest;
+                    response.messageRes = "No se pudo enviar el código de verificación por SMS";
+                }
+
+                log.Info($"AuthenticationBO ({idLogTexto}) ->  EnviarCodigoSms. Aplicacion: {cod_aplicacion}." +
+                  "Numero de celular: " + nroCelular + ". " +
+                  "Código de verificación: " + verifyCode + ". " +
+                  "Mensaje al cliente: Código de verificación enviado por . " +
+                  "Respuesta Twilio: " + JsonConvert.SerializeObject(message.Body));
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  EnviarCodigoSms. Aplicacion: {cod_aplicacion}." +
+                   "Numero de celular: " + nroCelular + ". " +
+                   "Código de verificación: " + verifyCode + ". " +
+                   "Mensaje al cliente: Error interno al enviar código de verificación por SMS. " +
+                   "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new EnviarSmsOrWhatsappResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al enviar código de verificación por SMS."
+                };
+            }
+        }
+
+        public string GenerateCode(int p_CodeLength)
+        {
+            string result = "";
+            string pattern = "01234567890123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+            Random myRndGenerator = new Random((int)DateTime.Now.Ticks);
+            for (int i = 0; i < p_CodeLength; i++)
+            {
+                int mIndex = myRndGenerator.Next(pattern.Length);
+                result += pattern[mIndex];
+            }
+
+            return result;
         }
     }
 }

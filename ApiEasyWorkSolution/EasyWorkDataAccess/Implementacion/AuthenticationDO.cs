@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EasyWorkDataAccess.Contrato;
 using EasyWorkDataAccess.Models;
-using EasyWorkEntities.Authentication.Request;
 using EasyWorkEntities.Authentication.Response;
 using log4net;
 using Newtonsoft.Json;
@@ -318,6 +317,77 @@ namespace EasyWorkDataAccess.Implementacion
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno al obtener los datos del usuario."
                 };
+            }
+        }
+        public RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, bool flgCelular, bool flgCorreo, bool flgEnviadoSms, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resRegDtGoogle = ctx.SP_REGISTRAR_CODIGO_VERIFICACION(verifyCode, correo, nroCelular, flgCelular, flgCorreo, flgEnviadoSms).FirstOrDefault();
+
+                if (resRegDtGoogle != null)
+                {
+                    if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201)
+                    {
+                        return new RegistrarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.Created,
+                            messageRes = resRegDtGoogle.messageRes
+                        };
+                    }
+                    else
+                    {
+                        log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
+                        $"Código de verificación: {verifyCode}. " +
+                        $"Correo: {correo}. " +
+                        $"Número de celular: {nroCelular}. " +
+                        $"FlgCelular: {flgCelular.ToString()}. " +
+                        $"FlgCorreo: {flgCorreo.ToString()}. " +
+                        $"FlgEnviadoSms: {flgEnviadoSms.ToString()}. " +
+                        "Mensaje al cliente: No se obtuvo respuesta al almacenar el código de verificación. " +
+                        "Detalle error: " + "No se obtuvo respuesta al almacenar el código de verificación en la base de datos.");
+                        return new RegistrarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al almacenar el código de verificación."
+                        };
+                    }
+                }
+                else
+                {
+                    log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
+                    $"Código de verificación: {verifyCode}. " +
+                    $"Correo: {correo}. " +
+                    $"Número de celular: {nroCelular}. " +
+                    $"FlgCelular: {flgCelular.ToString()}. " +
+                    $"FlgCorreo: {flgCorreo.ToString()}. " +
+                    $"FlgEnviadoSms: {flgEnviadoSms.ToString()}. " +
+                    "Mensaje al cliente: No se obtuvo respuesta al almacenar el código de verificación. " +
+                    "Detalle error: " + "No se obtuvo respuesta al almacenar el código de verificación en la base de datos.");
+                    return new RegistrarCodigoVerificacionResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al almacenar el código de verificación."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
+                  $"Código de verificación: {verifyCode}. " +
+                  $"Correo: {correo}. " +
+                  $"Número de celular: {nroCelular}. " +
+                  $"FlgCelular: {flgCelular.ToString()}. " +
+                  $"FlgCorreo: {flgCorreo.ToString()}. " +
+                  $"FlgEnviadoSms: {flgEnviadoSms.ToString()}. " +
+                  "Mensaje al cliente: No se obtuvo respuesta al guardar registro del código de verificación. " +
+                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new RegistrarCodigoVerificacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al guardar registro del código de verificación."
+                }; 
             }
         }
     }
