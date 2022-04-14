@@ -2,6 +2,7 @@
 using EasyWorkDataAccess.Contrato;
 using EasyWorkEntities.Authentication.Request;
 using EasyWorkEntities.Authentication.Response;
+using EasyWorkHelpers;
 using log4net;
 using Newtonsoft.Json;
 using System;
@@ -129,7 +130,7 @@ namespace EasyWorkBusiness.Implementacion
             try
             {
                 var response = new EnviarSmsOrWhatsappResponse();
-                var verifyCode = GenerateCode(6);
+                var verifyCode = Helpers.GenerateCode(6);
 
                 var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, String.Empty, request.nroCelular,
                     true, false, (request.tipoEnvio == TipoEnvioCodigoVerificacion.WHATSAPP ? false : true),cod_aplicacion, idLogTexto);
@@ -255,7 +256,7 @@ namespace EasyWorkBusiness.Implementacion
             try
             {
                 var response = new EnviarCodigoVerificacionCorreoResponse();
-                var verifyCode = GenerateCode(6);
+                var verifyCode = Helpers.GenerateCode(6);
 
                 var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, request.correo, String.Empty,
                     false, true, null, cod_aplicacion, idLogTexto);
@@ -284,19 +285,6 @@ namespace EasyWorkBusiness.Implementacion
                     messageRes = "Error interno al enviar código de verificación."
                 };
             }
-        }
-        public string GenerateCode(int p_CodeLength)
-        {
-            string result = "";
-            string pattern = "01234567890123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-            Random myRndGenerator = new Random((int)DateTime.Now.Ticks);
-            for (int i = 0; i < p_CodeLength; i++)
-            {
-                int mIndex = myRndGenerator.Next(pattern.Length);
-                result += pattern[mIndex];
-            }
-
-            return result;
-        }
+        }        
     }
 }

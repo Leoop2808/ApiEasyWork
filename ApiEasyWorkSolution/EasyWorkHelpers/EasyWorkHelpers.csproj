@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{974F6529-20B8-4FC1-8F3A-8246FD88573F}</ProjectGuid>
+    <ProjectGuid>{CEF8A91B-84B4-48EB-8970-DDDA094C7853}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyWorkEntities</RootNamespace>
-    <AssemblyName>EasyWorkEntities</AssemblyName>
+    <RootNamespace>EasyWorkHelpers</RootNamespace>
+    <AssemblyName>EasyWorkHelpers</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,7 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,31 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\Request\AutenticarFacebookRequest.cs" />
-    <Compile Include="Authentication\Request\AutenticarGoogleRequest.cs" />
-    <Compile Include="Authentication\Request\EnviarCodigoVerificacionCorreoRequest.cs" />
-    <Compile Include="Authentication\Request\EnviarSmsOrWhatsappRequest.cs" />
-    <Compile Include="Authentication\Response\AutenticarFacebookResponse.cs" />
-    <Compile Include="Authentication\Response\AutenticarGoogleResponse.cs" />
-    <Compile Include="Authentication\Response\AuthenticatedUserData.cs" />
-    <Compile Include="Authentication\Response\DataFacebookResponse.cs" />
-    <Compile Include="Authentication\Response\DataGoogleResponse.cs" />
-    <Compile Include="Authentication\Response\EnviarCodigoVerificacionCorreoResponse.cs" />
-    <Compile Include="Authentication\Response\EnviarSmsOrWhatsappResponse.cs" />
-    <Compile Include="Authentication\Response\ObtenerDataPrincipalUsuarioResponse.cs" />
-    <Compile Include="Authentication\Response\RegistrarCodigoVerificacionResponse.cs" />
-    <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
-    <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />
-    <Compile Include="Constantes.cs" />
-    <Compile Include="GlobalHTTPResponse.cs" />
-    <Compile Include="Helpers\Request\EnviarCorreoRequest.cs" />
-    <Compile Include="Helpers\Response\EnviarCorreoResponse.cs" />
-    <Compile Include="MensajeHttpResponse.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Usuario\Request\" />
-    <Folder Include="Usuario\Response\" />
+    <ProjectReference Include="..\EasyWorkEntities\EasyWorkEntities.csproj">
+      <Project>{974F6529-20B8-4FC1-8F3A-8246FD88573F}</Project>
+      <Name>EasyWorkEntities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

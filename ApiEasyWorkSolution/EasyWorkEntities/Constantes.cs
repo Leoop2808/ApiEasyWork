@@ -22,5 +22,10 @@
             public const string BODY_SMS = "Su código de verificación es @verifyCode";
             public const string BODY_WHATSAPP = "Su código de verificación es *@verifyCode*";
         }
+
+        public class BodyEmails 
+        {
+            public const string VALIDATION_EMAIL_VERIFY_CODE = "Su código de verificación es @verifyCode";
+        }
     }
 }

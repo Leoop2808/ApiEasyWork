@@ -78,6 +78,10 @@
       <Project>{974f6529-20b8-4fc1-8f3a-8246fd88573f}</Project>
       <Name>EasyWorkEntities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EasyWorkHelpers\EasyWorkHelpers.csproj">
+      <Project>{CEF8A91B-84B4-48EB-8970-DDDA094C7853}</Project>
+      <Name>EasyWorkHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
