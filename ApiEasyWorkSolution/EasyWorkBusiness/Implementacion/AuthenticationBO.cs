@@ -250,6 +250,41 @@ namespace EasyWorkBusiness.Implementacion
             }
         }
 
+        public EnviarCodigoVerificacionCorreoResponse EnviarCodigoVerificacionCorreo(EnviarCodigoVerificacionCorreoRequest request, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new EnviarCodigoVerificacionCorreoResponse();
+                var verifyCode = GenerateCode(6);
+
+                var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, request.correo, String.Empty,
+                    false, true, null, cod_aplicacion, idLogTexto);
+                if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
+                {
+                    response.codeRes = resRegCodigoVerificacion.codeRes;
+                    response.messageRes = resRegCodigoVerificacion.messageRes;
+                    return response;
+                }
+
+                //var resEnvioCodigo = 
+
+                //response.codeRes = resEnvioCodigo.codeRes;
+                //response.messageRes = resEnvioCodigo.messageRes;
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  EnviarCodigoVerificacionCorreo. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al enviar código de verificación. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new EnviarCodigoVerificacionCorreoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al enviar código de verificación."
+                };
+            }
+        }
         public string GenerateCode(int p_CodeLength)
         {
             string result = "";

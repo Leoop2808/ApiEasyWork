@@ -319,7 +319,7 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-        public RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, bool flgCelular, bool flgCorreo, bool flgEnviadoSms, string cod_aplicacion, string idLogTexto) 
+        public RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, bool flgCelular, bool flgCorreo, bool? flgEnviadoSms, string cod_aplicacion, string idLogTexto) 
         {
             try
             {

@@ -176,7 +176,7 @@ namespace ApiEasyWork.Controllers
         }
 
         [ApplicationAuthenticationFilter]
-        [Route("autenticacion/envio-sms-or-whatsapp")]
+        [Route("autenticacion/envio-verificacion-celular")]
         [HttpPost]
         public HttpResponseMessage EnviarSmsOrWhatsapp(EnviarSmsOrWhatsappRequest request)
         {
@@ -216,6 +216,41 @@ namespace ApiEasyWork.Controllers
                 }
                 return Request.CreateResponse(respEnvioSmsOrWhatsapp.codeRes,
                     new MensajeHttpResponse() { Message = respEnvioSmsOrWhatsapp.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_a_verify_code"),
+                    new JProperty("error_description", "Could not send verify code.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/envio-verificacion-correo")]
+        [HttpPost]
+        public HttpResponseMessage EnviarCodigoVerificacionCorreo(EnviarCodigoVerificacionCorreoRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.correo))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_email_empty"),
+                    new JProperty("error_description", "Empty Email.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioCorreo = _authenticationBO.EnviarCodigoVerificacionCorreo(request, cod_aplicacion, idLogTexto);
+            if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioCorreo.messageRes });
+                }
+                return Request.CreateResponse(respEnvioCorreo.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioCorreo.messageRes });
             }
             else
             {

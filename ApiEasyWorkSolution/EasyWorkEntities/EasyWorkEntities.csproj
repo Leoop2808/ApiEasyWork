@@ -43,12 +43,14 @@
   <ItemGroup>
     <Compile Include="Authentication\Request\AutenticarFacebookRequest.cs" />
     <Compile Include="Authentication\Request\AutenticarGoogleRequest.cs" />
+    <Compile Include="Authentication\Request\EnviarCodigoVerificacionCorreoRequest.cs" />
     <Compile Include="Authentication\Request\EnviarSmsOrWhatsappRequest.cs" />
     <Compile Include="Authentication\Response\AutenticarFacebookResponse.cs" />
     <Compile Include="Authentication\Response\AutenticarGoogleResponse.cs" />
     <Compile Include="Authentication\Response\AuthenticatedUserData.cs" />
     <Compile Include="Authentication\Response\DataFacebookResponse.cs" />
     <Compile Include="Authentication\Response\DataGoogleResponse.cs" />
+    <Compile Include="Authentication\Response\EnviarCodigoVerificacionCorreoResponse.cs" />
     <Compile Include="Authentication\Response\EnviarSmsOrWhatsappResponse.cs" />
     <Compile Include="Authentication\Response\ObtenerDataPrincipalUsuarioResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarCodigoVerificacionResponse.cs" />
