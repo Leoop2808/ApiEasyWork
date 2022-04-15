@@ -260,5 +260,68 @@ namespace ApiEasyWork.Controllers
                 ));
             }
         }
+
+        //[ApplicationAuthenticationFilter]
+        //[Route("autenticacion/registro-usuario-cliente")]
+        //[HttpPost]
+        //public async Task<HttpResponseMessage> RegistrarUsuarioCliente(RegistrarUsuarioClienteRequest request)
+        //{
+        //    string idLogTexto = Guid.NewGuid().ToString();
+        //    if (String.IsNullOrEmpty(request.correo))
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+        //            new JProperty("error", "invalid_email_empty"),
+        //            new JProperty("error_description", "Empty Email.")
+        //        ));
+        //    }
+
+        //    var cod_aplicacion = AplicationData.codAplicacion;
+        //    var resRegUsuCli = _authenticationBO.RegistrarUsuarioCliente(request, cod_aplicacion, idLogTexto);
+        //    if (resRegUsuCli.codeRes == HttpStatusCode.OK)
+        //    {
+        //        var userSearch = UserManager.FindByName(resRegUsuCli.datos.correo);
+        //        var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+        //        identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+        //        identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+        //        identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+
+        //        EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+        //        mst_rol rol = ctxBD.mst_rol.Where(x => x.id_rol == userSearch.id_rol).FirstOrDefault();
+
+        //        identity.AddClaim(new Claim(ClaimTypes.Role, rol.cod_rol.ToString()));
+        //        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
+
+        //        var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+
+        //        AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+        //        var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+        //        ticket.Properties.IssuedUtc = currentUtc;
+        //        ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+        //        var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+        //        Authentication.SignIn(cookiesIdentity);
+
+        //        // Create the response
+        //        JObject blob = new JObject(
+        //            new JProperty("access_token", accesstoken),
+        //            new JProperty("token_type", "bearer"),
+        //            new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+        //            new JProperty("nombres", resRegUsuCli.datos.nombres),
+        //            new JProperty("apellidos", resRegUsuCli.datos.apellidos),
+        //            new JProperty("correo", resRegUsuCli.datos.correo),
+        //            new JProperty("flgMostrarRegistroUsuario", resRegUsuCli.flgMostrarRegistroUsuario),
+        //            new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+        //            new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+        //        );
+
+        //        return Request.CreateResponse(HttpStatusCode.OK, blob);
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+        //            new JProperty("error", "invalid_data_client_user"),
+        //            new JProperty("error_description", "Could not register and authenticate user.")
+        //        ));
+        //    }
+        //}
     }
 }
