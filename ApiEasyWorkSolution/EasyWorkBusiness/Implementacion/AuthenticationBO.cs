@@ -2,6 +2,7 @@
 using EasyWorkDataAccess.Contrato;
 using EasyWorkEntities.Authentication.Request;
 using EasyWorkEntities.Authentication.Response;
+using EasyWorkEntities.Helpers.Request;
 using EasyWorkHelpers;
 using log4net;
 using Newtonsoft.Json;
@@ -267,10 +268,18 @@ namespace EasyWorkBusiness.Implementacion
                     return response;
                 }
 
-                //var resEnvioCodigo = 
+                var resEnvioCodigo = Helpers.EnviarCorreo(
+                    new EnviarCorreoRequest() {
+                        correo = request.correo,
+                        asunto = AsuntoEmails.VALIDATION_EMAIL_VERIFY_CODE,
+                        body = BodyEmails.VALIDATION_EMAIL_VERIFY_CODE.Replace("@verifyCode", verifyCode),
+                        idLogTexto = idLogTexto,
+                        cod_aplicacion = cod_aplicacion
+                    }
+                );
 
-                //response.codeRes = resEnvioCodigo.codeRes;
-                //response.messageRes = resEnvioCodigo.messageRes;
+                response.codeRes = resEnvioCodigo.codeRes;
+                response.messageRes = resEnvioCodigo.messageRes;
 
                 return response;
             }
