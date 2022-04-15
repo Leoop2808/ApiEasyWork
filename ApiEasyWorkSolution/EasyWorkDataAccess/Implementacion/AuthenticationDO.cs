@@ -390,5 +390,9 @@ namespace EasyWorkDataAccess.Implementacion
                 }; 
             }
         }
+        public RegistrarUsuarioResponse RegistrarUsuario(request,string cod_aplicacion,string idLogTexto) 
+        {
+        
+        }
     }
 }

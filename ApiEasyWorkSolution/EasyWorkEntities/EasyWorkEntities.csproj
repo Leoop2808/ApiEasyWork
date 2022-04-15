@@ -57,6 +57,8 @@
     <Compile Include="Authentication\Response\RegistrarCodigoVerificacionResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />
+    <Compile Include="Authentication\Response\RegistrarUsuarioClienteResponse.cs" />
+    <Compile Include="Authentication\Response\RegistrarUsuarioResponse.cs" />
     <Compile Include="Constantes.cs" />
     <Compile Include="GlobalHTTPResponse.cs" />
     <Compile Include="Helpers\Request\EnviarCorreoRequest.cs" />
