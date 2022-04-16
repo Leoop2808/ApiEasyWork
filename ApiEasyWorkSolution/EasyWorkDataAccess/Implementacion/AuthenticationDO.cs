@@ -161,7 +161,8 @@ namespace EasyWorkDataAccess.Implementacion
                             messageRes = resRegDtGoogle.messageRes,
                             codUsuarioCreado = resRegDtGoogle.codUsuarioCreado,
                             idUsuarioCreado = resRegDtGoogle.idUsuarioCreado.GetValueOrDefault(),
-                            flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario.GetValueOrDefault()
+                            flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            flgCelularValidado = resRegDtGoogle.flgCelularValidado.GetValueOrDefault()
                         };
                     }
                     else
@@ -223,7 +224,8 @@ namespace EasyWorkDataAccess.Implementacion
                             messageRes = resRegDtGoogle.messageRes,
                             codUsuarioCreado = resRegDtGoogle.codUsuarioCreado,
                             idUsuarioCreado = resRegDtGoogle.idUsuarioCreado.GetValueOrDefault(),
-                            flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario.GetValueOrDefault()
+                            flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            flgCelularValidado = resRegDtGoogle.flgCelularValidado.GetValueOrDefault()
                         };
                     }
                     else
@@ -390,9 +392,9 @@ namespace EasyWorkDataAccess.Implementacion
                 }; 
             }
         }
-        public RegistrarUsuarioResponse RegistrarUsuario(request,string cod_aplicacion,string idLogTexto) 
-        {
+        //public RegistrarUsuarioResponse RegistrarUsuario(request,string cod_aplicacion,string idLogTexto) 
+        //{
         
-        }
+        //}
     }
 }

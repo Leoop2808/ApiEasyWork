@@ -254,6 +254,7 @@
           <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
           <Property Type="String" Name="codUsuarioCreado" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="idUsuarioCreado" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_REGISTRAR_DATOS_GOOGLE_Result">
           <Property Type="Int32" Name="codeRes" Nullable="true" />
@@ -261,6 +262,7 @@
           <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
           <Property Type="String" Name="codUsuarioCreado" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="idUsuarioCreado" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result">
           <Property Type="Int32" Name="codeRes" Nullable="true" />
@@ -351,6 +353,7 @@
                 <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
                 <ScalarProperty Name="codUsuarioCreado" ColumnName="codUsuarioCreado" />
                 <ScalarProperty Name="idUsuarioCreado" ColumnName="idUsuarioCreado" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -362,6 +365,7 @@
                 <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
                 <ScalarProperty Name="codUsuarioCreado" ColumnName="codUsuarioCreado" />
                 <ScalarProperty Name="idUsuarioCreado" ColumnName="idUsuarioCreado" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

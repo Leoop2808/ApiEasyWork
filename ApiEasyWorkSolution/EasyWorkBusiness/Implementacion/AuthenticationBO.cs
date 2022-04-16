@@ -46,6 +46,8 @@ namespace EasyWorkBusiness.Implementacion
 
                 response.codeRes = resRegDtGoogle.codeRes;
                 response.messageRes = resRegDtGoogle.messageRes;
+                response.flgCorreoValidado = true;
+                response.flgCelularValidado = resRegDtGoogle.flgCelularValidado;
 
                 if (resRegDtGoogle.codeRes != HttpStatusCode.OK)
                 {
@@ -94,6 +96,8 @@ namespace EasyWorkBusiness.Implementacion
 
                 response.codeRes = resRegDtFacebook.codeRes;
                 response.messageRes = resRegDtFacebook.messageRes;
+                response.flgCorreoValidado = true;
+                response.flgCelularValidado = resRegDtFacebook.flgCelularValidado;
 
                 if (resRegDtFacebook.codeRes != HttpStatusCode.OK)
                 {
@@ -296,57 +300,57 @@ namespace EasyWorkBusiness.Implementacion
             }
         }
 
-        public RegistrarUsuarioClienteResponse RegistrarUsuarioCliente(RegistrarUsuarioClienteRequest request, string cod_aplicacion, string idLogTexto) 
-        {
-            try
-            {
-                var response = new RegistrarUsuarioClienteResponse();
-                var verifyCode = Helpers.GenerateCode(6);
+        //public RegistrarUsuarioClienteResponse RegistrarUsuarioCliente(RegistrarUsuarioClienteRequest request, string cod_aplicacion, string idLogTexto) 
+        //{
+        //    try
+        //    {
+        //        var response = new RegistrarUsuarioClienteResponse();
+        //        var verifyCode = Helpers.GenerateCode(6);
 
-                var resRegUsuario = _authenticationDO.RegistrarUsuario(request, cod_aplicacion, idLogTexto);
-                if (resRegUsuario.codeRes != HttpStatusCode.Created)
-                {
-                    response.codeRes = resRegUsuario.codeRes;
-                    response.messageRes = resRegUsuario.messageRes;
-                    return response;
-                }
+        //        var resRegUsuario = _authenticationDO.RegistrarUsuario(request, cod_aplicacion, idLogTexto);
+        //        if (resRegUsuario.codeRes != HttpStatusCode.Created)
+        //        {
+        //            response.codeRes = resRegUsuario.codeRes;
+        //            response.messageRes = resRegUsuario.messageRes;
+        //            return response;
+        //        }
 
-                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegUsuario.codUsuarioCreado, resRegUsuario.idUsuarioCreado, MedioAcceso.COD_AUTH_CORREO_DEFAULT, cod_aplicacion, idLogTexto);
+        //        var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegUsuario.codUsuarioCreado, resRegUsuario.idUsuarioCreado, MedioAcceso.COD_AUTH_CORREO_DEFAULT, cod_aplicacion, idLogTexto);
 
-                if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
-                {
-                    response.codeRes = resDataPrincipalUsu.codeRes;
-                    response.messageRes = resDataPrincipalUsu.messageRes;
-                    return response;
-                }
+        //        if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
+        //        {
+        //            response.codeRes = resDataPrincipalUsu.codeRes;
+        //            response.messageRes = resDataPrincipalUsu.messageRes;
+        //            return response;
+        //        }
 
-                var resEnvioCodigo = Helpers.EnviarCorreo(
-                    new EnviarCorreoRequest()
-                    {
-                        correo = request.correo,
-                        asunto = AsuntoEmails.VALIDATION_EMAIL_VERIFY_CODE,
-                        body = BodyEmails.VALIDATION_EMAIL_VERIFY_CODE.Replace("@verifyCode", verifyCode),
-                        idLogTexto = idLogTexto,
-                        cod_aplicacion = cod_aplicacion
-                    }
-                );
+        //        var resEnvioCodigo = Helpers.EnviarCorreo(
+        //            new EnviarCorreoRequest()
+        //            {
+        //                correo = request.correo,
+        //                asunto = AsuntoEmails.VALIDATION_EMAIL_VERIFY_CODE,
+        //                body = BodyEmails.VALIDATION_EMAIL_VERIFY_CODE.Replace("@verifyCode", verifyCode),
+        //                idLogTexto = idLogTexto,
+        //                cod_aplicacion = cod_aplicacion
+        //            }
+        //        );
 
-                response.codeRes = resEnvioCodigo.codeRes;
-                response.messageRes = resEnvioCodigo.messageRes;
+        //        response.codeRes = resEnvioCodigo.codeRes;
+        //        response.messageRes = resEnvioCodigo.messageRes;
 
-                return response;
-            }
-            catch (Exception e)
-            {
-                log.Error($"AuthenticationBO ({idLogTexto}) ->  RegistrarUsuarioCliente. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno al registrar el usuario cliente. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
-                return new RegistrarUsuarioClienteResponse()
-                {
-                    codeRes = HttpStatusCode.InternalServerError,
-                    messageRes = "Error interno al registrar el usuario cliente."
-                };
-            }
-        }
+        //        return response;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        log.Error($"AuthenticationBO ({idLogTexto}) ->  RegistrarUsuarioCliente. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+        //            "Mensaje al cliente: Error interno al registrar el usuario cliente. " +
+        //            "Detalle error: " + JsonConvert.SerializeObject(e));
+        //        return new RegistrarUsuarioClienteResponse()
+        //        {
+        //            codeRes = HttpStatusCode.InternalServerError,
+        //            messageRes = "Error interno al registrar el usuario cliente."
+        //        };
+        //    }
+        //}
     }
 }

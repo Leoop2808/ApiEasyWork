@@ -18,5 +18,6 @@ namespace EasyWorkDataAccess.Models
         public Nullable<bool> flgMostrarRegistroUsuario { get; set; }
         public string codUsuarioCreado { get; set; }
         public Nullable<int> idUsuarioCreado { get; set; }
+        public Nullable<bool> flgCelularValidado { get; set; }
     }
 }
