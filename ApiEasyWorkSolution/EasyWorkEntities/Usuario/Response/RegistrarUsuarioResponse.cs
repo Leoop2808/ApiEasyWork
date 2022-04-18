@@ -1,4 +1,4 @@
-﻿namespace EasyWorkEntities.Authentication.Response
+﻿namespace EasyWorkEntities.Usuario.Response
 {
     public class RegistrarUsuarioResponse : GlobalHTTPResponse
     {

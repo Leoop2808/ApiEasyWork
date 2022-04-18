@@ -17,11 +17,13 @@ namespace ApiEasyWork
             #region Business
             container.RegisterType<IUsuarioBO, UsuarioBO>();
             container.RegisterType<IAuthenticationBO, AuthenticationBO>();
+            container.RegisterType<IClienteBO, ClienteBO>();
             #endregion
 
             #region DataAccess
             container.RegisterType<IUsuarioDO, UsuarioDO>();
             container.RegisterType<IAuthenticationDO, AuthenticationDO>();
+            container.RegisterType<IClienteDO, ClienteDO>();
             #endregion
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);

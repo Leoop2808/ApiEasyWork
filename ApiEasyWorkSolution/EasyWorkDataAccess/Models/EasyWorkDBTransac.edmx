@@ -67,10 +67,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_OBTENER_CATEGORIAS_SERVICIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_OBTENER_DATA_PRINCIPAL_USUARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUsuario" Type="int" Mode="In" />
           <Parameter Name="codMedioAcceso" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_OBTENER_DATA_SESION_X_USUARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_OBTENER_DISTRITOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_OBTENER_MEDIOS_PAGO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_OBTENER_ROL_X_COD_ROL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codRol" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_OBTENER_TIPOS_BUSQUEDA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_OBTENER_TIPOS_DOCUMENTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_OBTENER_TIPOS_TRANSPORTE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_REGISTRAR_CODIGO_VERIFICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="verifyCode" Type="varchar" Mode="In" />
           <Parameter Name="correo" Type="varchar" Mode="In" />
@@ -106,9 +118,39 @@
           <Parameter Name="longitud" Type="numeric" Mode="In" />
           <Parameter Name="codAplicacion" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="SP_REGISTRAR_PERSONA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre1" Type="varchar" Mode="In" />
+          <Parameter Name="nombre2" Type="varchar" Mode="In" />
+          <Parameter Name="apellido1" Type="varchar" Mode="In" />
+          <Parameter Name="apellido2" Type="varchar" Mode="In" />
+          <Parameter Name="celular" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="codDistrito" Type="varchar" Mode="In" />
+          <Parameter Name="codTipoDocumento" Type="varchar" Mode="In" />
+          <Parameter Name="documento" Type="varchar" Mode="In" />
+          <Parameter Name="genero" Type="varchar" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nombreAplicacion" Type="varchar" Mode="In" />
           <Parameter Name="accesId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="celular" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_VERIFICAR_CODIGO_VERIFICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codigoVerificacion" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="nroCelular" Type="varchar" Mode="In" />
+          <Parameter Name="flgCelular" Type="bit" Mode="In" />
+          <Parameter Name="flgCorreo" Type="bit" Mode="In" />
         </Function>
         <EntityContainer Name="EasyWorkDBModelStoreContainer">
           <EntitySet Name="mst_aplicacion" EntityType="Self.mst_aplicacion" Schema="dbo" store:Type="Tables" />
@@ -221,6 +263,48 @@
             <Parameter Name="flgCorreo" Mode="In" Type="Boolean" />
             <Parameter Name="flgEnviadoSms" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="SP_VERIFICAR_CODIGO_VERIFICACION" ReturnType="Collection(EasyWorkDBModel.SP_VERIFICAR_CODIGO_VERIFICACION_Result)">
+            <Parameter Name="codigoVerificacion" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="nroCelular" Mode="In" Type="String" />
+            <Parameter Name="flgCelular" Mode="In" Type="Boolean" />
+            <Parameter Name="flgCorreo" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_DATA_SESION_X_USUARIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_DATA_SESION_X_USUARIO_Result)">
+          <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_ROL_X_COD_ROL" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_ROL_X_COD_ROL_Result)">
+          <Parameter Name="codRol" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_PERSONA" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_PERSONA_Result)">
+            <Parameter Name="nombre1" Mode="In" Type="String" />
+            <Parameter Name="nombre2" Mode="In" Type="String" />
+            <Parameter Name="apellido1" Mode="In" Type="String" />
+            <Parameter Name="apellido2" Mode="In" Type="String" />
+            <Parameter Name="celular" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="codDistrito" Mode="In" Type="String" />
+            <Parameter Name="codTipoDocumento" Mode="In" Type="String" />
+            <Parameter Name="documento" Mode="In" Type="String" />
+            <Parameter Name="genero" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result)">
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="celular" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_CATEGORIAS_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result)" />
+          <FunctionImport Name="SP_OBTENER_DISTRITOS" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_DISTRITOS_Result)" />
+          <FunctionImport Name="SP_OBTENER_MEDIOS_PAGO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_MEDIOS_PAGO_Result)" />
+          <FunctionImport Name="SP_OBTENER_TIPOS_BUSQUEDA" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_TIPOS_BUSQUEDA_Result)" />
+          <FunctionImport Name="SP_OBTENER_TIPOS_DOCUMENTO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_TIPOS_DOCUMENTO_Result)" />
+          <FunctionImport Name="SP_OBTENER_TIPOS_TRANSPORTE" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_TIPOS_TRANSPORTE_Result)" />
+          <FunctionImport Name="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result)">
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
           <Key>
@@ -270,6 +354,61 @@
           <Property Type="String" Name="codAplicacion" Nullable="true" MaxLength="40" />
         </ComplexType>
         <ComplexType Name="SP_REGISTRAR_CODIGO_VERIFICACION_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_VERIFICAR_CODIGO_VERIFICACION_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_DATA_SESION_X_USUARIO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="nombres" Nullable="true" MaxLength="120" />
+          <Property Type="String" Name="apellidos" Nullable="true" MaxLength="120" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
+          <Property Type="Boolean" Name="flgCorreoValidado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_ROL_X_COD_ROL_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="idRol" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_PERSONA_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="idPersona" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_CATEGORIAS_SERVICIO_Result">
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaCategoriaServicio" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_DISTRITOS_Result">
+          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaDistrito" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_MEDIOS_PAGO_Result">
+          <Property Type="String" Name="codMedioPago" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaMedioPago" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_TIPOS_BUSQUEDA_Result">
+          <Property Type="String" Name="codTipoBusqueda" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaTipoBusqueda" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_TIPOS_DOCUMENTO_Result">
+          <Property Type="String" Name="codTipoDocumento" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaTipoDocumento" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_TIPOS_TRANSPORTE_Result">
+          <Property Type="String" Name="codTipoTransporte" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaTipoTransporte" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result">
           <Property Type="Int32" Name="codeRes" Nullable="true" />
           <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
         </ComplexType>
@@ -381,6 +520,109 @@
           <FunctionImportMapping FunctionImportName="SP_REGISTRAR_CODIGO_VERIFICACION" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_CODIGO_VERIFICACION">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_CODIGO_VERIFICACION_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VERIFICAR_CODIGO_VERIFICACION" FunctionName="EasyWorkDBModel.Store.SP_VERIFICAR_CODIGO_VERIFICACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VERIFICAR_CODIGO_VERIFICACION_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_DATA_SESION_X_USUARIO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_DATA_SESION_X_USUARIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_DATA_SESION_X_USUARIO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
+                <ScalarProperty Name="flgCorreoValidado" ColumnName="flgCorreoValidado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_ROL_X_COD_ROL" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_ROL_X_COD_ROL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_ROL_X_COD_ROL_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_PERSONA" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_PERSONA">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_PERSONA_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_CATEGORIAS_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_CATEGORIAS_SERVICIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result">
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="siglaCategoriaServicio" ColumnName="siglaCategoriaServicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_DISTRITOS" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_DISTRITOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_DISTRITOS_Result">
+                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
+                <ScalarProperty Name="siglaDistrito" ColumnName="siglaDistrito" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_MEDIOS_PAGO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_MEDIOS_PAGO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_MEDIOS_PAGO_Result">
+                <ScalarProperty Name="codMedioPago" ColumnName="codMedioPago" />
+                <ScalarProperty Name="siglaMedioPago" ColumnName="siglaMedioPago" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_TIPOS_BUSQUEDA" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_TIPOS_BUSQUEDA">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_TIPOS_BUSQUEDA_Result">
+                <ScalarProperty Name="codTipoBusqueda" ColumnName="codTipoBusqueda" />
+                <ScalarProperty Name="siglaTipoBusqueda" ColumnName="siglaTipoBusqueda" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_TIPOS_DOCUMENTO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_TIPOS_DOCUMENTO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_TIPOS_DOCUMENTO_Result">
+                <ScalarProperty Name="codTipoDocumento" ColumnName="codTipoDocumento" />
+                <ScalarProperty Name="siglaTipoDocumento" ColumnName="siglaTipoDocumento" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_TIPOS_TRANSPORTE" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_TIPOS_TRANSPORTE">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_TIPOS_TRANSPORTE_Result">
+                <ScalarProperty Name="codTipoTransporte" ColumnName="codTipoTransporte" />
+                <ScalarProperty Name="siglaTipoTransporte" ColumnName="siglaTipoTransporte" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result">
                 <ScalarProperty Name="codeRes" ColumnName="codeRes" />
                 <ScalarProperty Name="messageRes" ColumnName="messageRes" />
               </ComplexTypeMapping>

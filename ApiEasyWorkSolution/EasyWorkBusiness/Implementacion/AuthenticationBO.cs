@@ -300,57 +300,106 @@ namespace EasyWorkBusiness.Implementacion
             }
         }
 
-        //public RegistrarUsuarioClienteResponse RegistrarUsuarioCliente(RegistrarUsuarioClienteRequest request, string cod_aplicacion, string idLogTexto) 
-        //{
-        //    try
-        //    {
-        //        var response = new RegistrarUsuarioClienteResponse();
-        //        var verifyCode = Helpers.GenerateCode(6);
+        public EnviarCorreoCodigoRecuperacionClaveResponse EnviarCorreoCodigoRecuperacionClave(EnviarCorreoCodigoRecuperacionClaveRequest request, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new EnviarCorreoCodigoRecuperacionClaveResponse();
+                var verifyCode = Helpers.GenerateCode(6);
 
-        //        var resRegUsuario = _authenticationDO.RegistrarUsuario(request, cod_aplicacion, idLogTexto);
-        //        if (resRegUsuario.codeRes != HttpStatusCode.Created)
-        //        {
-        //            response.codeRes = resRegUsuario.codeRes;
-        //            response.messageRes = resRegUsuario.messageRes;
-        //            return response;
-        //        }
+                var resValExisUsuCorreo = _authenticationDO.ValidarExistenciaUsuarioCorreo(request.correo, cod_aplicacion, idLogTexto);
+                if (resValExisUsuCorreo.codeRes != HttpStatusCode.OK)
+                {
+                    response.codeRes = resValExisUsuCorreo.codeRes;
+                    response.messageRes = resValExisUsuCorreo.messageRes;
+                    return response;
+                }
 
-        //        var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resRegUsuario.codUsuarioCreado, resRegUsuario.idUsuarioCreado, MedioAcceso.COD_AUTH_CORREO_DEFAULT, cod_aplicacion, idLogTexto);
+                var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, request.correo, String.Empty,
+                    false, true, null, cod_aplicacion, idLogTexto);
+                if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
+                {
+                    response.codeRes = resRegCodigoVerificacion.codeRes;
+                    response.messageRes = resRegCodigoVerificacion.messageRes;
+                    return response;
+                }
 
-        //        if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
-        //        {
-        //            response.codeRes = resDataPrincipalUsu.codeRes;
-        //            response.messageRes = resDataPrincipalUsu.messageRes;
-        //            return response;
-        //        }
+                var resEnvioCodigo = Helpers.EnviarCorreo(
+                    new EnviarCorreoRequest()
+                    {
+                        correo = request.correo,
+                        asunto = AsuntoEmails.FORGOT_PASSWORD_VERIFY_CODE,
+                        body = BodyEmails.FORGOT_PASSWORD_VERIFY_CODE.Replace("@verifyCode", verifyCode),
+                        idLogTexto = idLogTexto,
+                        cod_aplicacion = cod_aplicacion
+                    }
+                );
 
-        //        var resEnvioCodigo = Helpers.EnviarCorreo(
-        //            new EnviarCorreoRequest()
-        //            {
-        //                correo = request.correo,
-        //                asunto = AsuntoEmails.VALIDATION_EMAIL_VERIFY_CODE,
-        //                body = BodyEmails.VALIDATION_EMAIL_VERIFY_CODE.Replace("@verifyCode", verifyCode),
-        //                idLogTexto = idLogTexto,
-        //                cod_aplicacion = cod_aplicacion
-        //            }
-        //        );
+                response.codeRes = resEnvioCodigo.codeRes;
+                response.messageRes = resEnvioCodigo.messageRes;
 
-        //        response.codeRes = resEnvioCodigo.codeRes;
-        //        response.messageRes = resEnvioCodigo.messageRes;
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  EnviarCorreoCodigoRecuperacionClave. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al enviar código de recuperación. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new EnviarCorreoCodigoRecuperacionClaveResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al enviar código de recuperación."
+                };
+            }
+        }
 
-        //        return response;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        log.Error($"AuthenticationBO ({idLogTexto}) ->  RegistrarUsuarioCliente. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
-        //            "Mensaje al cliente: Error interno al registrar el usuario cliente. " +
-        //            "Detalle error: " + JsonConvert.SerializeObject(e));
-        //        return new RegistrarUsuarioClienteResponse()
-        //        {
-        //            codeRes = HttpStatusCode.InternalServerError,
-        //            messageRes = "Error interno al registrar el usuario cliente."
-        //        };
-        //    }
-        //}
+        public VerificarCodigoVerificacionCorreoResponse VerificarCodigoVerificacionCorreo(VerificarCodigoVerificacionCorreoRequest request, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new VerificarCodigoVerificacionCorreoResponse();
+
+                var resRegCodigoVerificacion = _authenticationDO.VerificarCodigoVerificacion(request.codigoVerificacion, request.correo, String.Empty, false, true, cod_aplicacion, idLogTexto);
+
+                response.codeRes = resRegCodigoVerificacion.codeRes;
+                response.messageRes = resRegCodigoVerificacion.messageRes;
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  VerificarCodigoVerificacionCorreo. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al verificar código de verificación. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new VerificarCodigoVerificacionCorreoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al verificar código de verificación."
+                };
+            }
+        }
+        public VerificarCodigoVerificacionCelularResponse VerificarCodigoVerificacionCelular(VerificarCodigoVerificacionCelularRequest request, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var response = new VerificarCodigoVerificacionCelularResponse();
+
+                var resRegCodigoVerificacion = _authenticationDO.VerificarCodigoVerificacion(request.codigoVerificacion, String.Empty, request.nroCelular, true, false, cod_aplicacion, idLogTexto);
+
+                response.codeRes = resRegCodigoVerificacion.codeRes;
+                response.messageRes = resRegCodigoVerificacion.messageRes;
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  VerificarCodigoVerificacionCelular. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al verificar código de verificación. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new VerificarCodigoVerificacionCelularResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al verificar código de verificación."
+                };
+            }
+        }
     }
 }

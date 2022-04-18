@@ -187,5 +187,161 @@ namespace EasyWorkDataAccess.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_CODIGO_VERIFICACION_Result>("SP_REGISTRAR_CODIGO_VERIFICACION", verifyCodeParameter, correoParameter, nroCelularParameter, flgCelularParameter, flgCorreoParameter, flgEnviadoSmsParameter);
         }
+    
+        public virtual ObjectResult<SP_VERIFICAR_CODIGO_VERIFICACION_Result> SP_VERIFICAR_CODIGO_VERIFICACION(string codigoVerificacion, string correo, string nroCelular, Nullable<bool> flgCelular, Nullable<bool> flgCorreo)
+        {
+            var codigoVerificacionParameter = codigoVerificacion != null ?
+                new ObjectParameter("codigoVerificacion", codigoVerificacion) :
+                new ObjectParameter("codigoVerificacion", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var flgCelularParameter = flgCelular.HasValue ?
+                new ObjectParameter("flgCelular", flgCelular) :
+                new ObjectParameter("flgCelular", typeof(bool));
+    
+            var flgCorreoParameter = flgCorreo.HasValue ?
+                new ObjectParameter("flgCorreo", flgCorreo) :
+                new ObjectParameter("flgCorreo", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_VERIFICACION_Result>("SP_VERIFICAR_CODIGO_VERIFICACION", codigoVerificacionParameter, correoParameter, nroCelularParameter, flgCelularParameter, flgCorreoParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_DATA_SESION_X_USUARIO_Result> SP_OBTENER_DATA_SESION_X_USUARIO(Nullable<int> idUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("idUsuario", idUsuario) :
+                new ObjectParameter("idUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DATA_SESION_X_USUARIO_Result>("SP_OBTENER_DATA_SESION_X_USUARIO", idUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_ROL_X_COD_ROL_Result> SP_OBTENER_ROL_X_COD_ROL(string codRol)
+        {
+            var codRolParameter = codRol != null ?
+                new ObjectParameter("codRol", codRol) :
+                new ObjectParameter("codRol", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_ROL_X_COD_ROL_Result>("SP_OBTENER_ROL_X_COD_ROL", codRolParameter);
+        }
+    
+        public virtual ObjectResult<SP_REGISTRAR_PERSONA_Result> SP_REGISTRAR_PERSONA(string nombre1, string nombre2, string apellido1, string apellido2, string celular, string correo, string codDistrito, string codTipoDocumento, string documento, string genero, Nullable<decimal> latitud, Nullable<decimal> longitud, string codAplicacion)
+        {
+            var nombre1Parameter = nombre1 != null ?
+                new ObjectParameter("nombre1", nombre1) :
+                new ObjectParameter("nombre1", typeof(string));
+    
+            var nombre2Parameter = nombre2 != null ?
+                new ObjectParameter("nombre2", nombre2) :
+                new ObjectParameter("nombre2", typeof(string));
+    
+            var apellido1Parameter = apellido1 != null ?
+                new ObjectParameter("apellido1", apellido1) :
+                new ObjectParameter("apellido1", typeof(string));
+    
+            var apellido2Parameter = apellido2 != null ?
+                new ObjectParameter("apellido2", apellido2) :
+                new ObjectParameter("apellido2", typeof(string));
+    
+            var celularParameter = celular != null ?
+                new ObjectParameter("celular", celular) :
+                new ObjectParameter("celular", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var codDistritoParameter = codDistrito != null ?
+                new ObjectParameter("codDistrito", codDistrito) :
+                new ObjectParameter("codDistrito", typeof(string));
+    
+            var codTipoDocumentoParameter = codTipoDocumento != null ?
+                new ObjectParameter("codTipoDocumento", codTipoDocumento) :
+                new ObjectParameter("codTipoDocumento", typeof(string));
+    
+            var documentoParameter = documento != null ?
+                new ObjectParameter("documento", documento) :
+                new ObjectParameter("documento", typeof(string));
+    
+            var generoParameter = genero != null ?
+                new ObjectParameter("genero", genero) :
+                new ObjectParameter("genero", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_PERSONA_Result>("SP_REGISTRAR_PERSONA", nombre1Parameter, nombre2Parameter, apellido1Parameter, apellido2Parameter, celularParameter, correoParameter, codDistritoParameter, codTipoDocumentoParameter, documentoParameter, generoParameter, latitudParameter, longitudParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result> SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE(string correo, string celular)
+        {
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var celularParameter = celular != null ?
+                new ObjectParameter("celular", celular) :
+                new ObjectParameter("celular", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE", correoParameter, celularParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_CATEGORIAS_SERVICIO_Result> SP_OBTENER_CATEGORIAS_SERVICIO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_CATEGORIAS_SERVICIO_Result>("SP_OBTENER_CATEGORIAS_SERVICIO");
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_DISTRITOS_Result> SP_OBTENER_DISTRITOS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DISTRITOS_Result>("SP_OBTENER_DISTRITOS");
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_MEDIOS_PAGO_Result> SP_OBTENER_MEDIOS_PAGO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_MEDIOS_PAGO_Result>("SP_OBTENER_MEDIOS_PAGO");
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_TIPOS_BUSQUEDA_Result> SP_OBTENER_TIPOS_BUSQUEDA()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_TIPOS_BUSQUEDA_Result>("SP_OBTENER_TIPOS_BUSQUEDA");
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_TIPOS_DOCUMENTO_Result> SP_OBTENER_TIPOS_DOCUMENTO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_TIPOS_DOCUMENTO_Result>("SP_OBTENER_TIPOS_DOCUMENTO");
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_TIPOS_TRANSPORTE_Result> SP_OBTENER_TIPOS_TRANSPORTE()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_TIPOS_TRANSPORTE_Result>("SP_OBTENER_TIPOS_TRANSPORTE");
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result> SP_VALIDAR_EXISTENCIA_USUARIO_CORREO(string correo, string codAplicacion)
+        {
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CORREO", correoParameter, codAplicacionParameter);
+        }
     }
 }

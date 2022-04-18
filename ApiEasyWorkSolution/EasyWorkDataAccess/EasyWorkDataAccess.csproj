@@ -66,8 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contrato\IAuthenticationDO.cs" />
+    <Compile Include="Contrato\IClienteDO.cs" />
     <Compile Include="Contrato\IUsuarioDO.cs" />
     <Compile Include="Implementacion\AuthenticationDO.cs" />
+    <Compile Include="Implementacion\ClienteDO.cs" />
     <Compile Include="Implementacion\UsuarioDO.cs" />
     <Compile Include="Models\EasyWorkDBTransac.Context.cs">
       <AutoGen>True</AutoGen>
@@ -90,7 +92,31 @@
     <Compile Include="Models\mst_rol.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_OBTENER_CATEGORIAS_SERVICIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_DATA_SESION_X_USUARIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_DISTRITOS_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_MEDIOS_PAGO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_ROL_X_COD_ROL_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_TIPOS_BUSQUEDA_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_TIPOS_DOCUMENTO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_TIPOS_TRANSPORTE_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_REGISTRAR_CODIGO_VERIFICACION_Result.cs">
@@ -102,7 +128,19 @@
     <Compile Include="Models\SP_REGISTRAR_DATOS_GOOGLE_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_REGISTRAR_PERSONA_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VERIFICAR_CODIGO_VERIFICACION_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\trs_usuario.cs">

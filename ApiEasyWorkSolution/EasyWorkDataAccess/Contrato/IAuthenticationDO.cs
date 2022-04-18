@@ -10,6 +10,8 @@ namespace EasyWorkDataAccess.Contrato
         RegistrarDatosGoogleResponse RegistrarDatosGoogle(DataGoogle request, double latitud, double longitud, string google_token, string clientid_aplicacion,string idLogTexto);
         RegistrarDatosFacebookResponse RegistrarDatosFacebook(DataFacebook request, double latitud, double longitud, string facebook_token, string clientid_aplicacion, string idLogTexto);
         ObtenerDataPrincipalUsuarioResponse ObtenerDataPrincipalUsuario(string codUsuarioCreado, int idUsuario, string codMedioAcceso, string clientid_aplicacion, string idLogTexto);
+        ValidarExistenciaUsuarioCorreoResponse ValidarExistenciaUsuarioCorreo(string correo, string cod_aplicacion, string idLogTexto);
         RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, bool flgCelular, bool flgCorreo, bool? flgEnviadoSms,string cod_aplicacion, string idLogTexto);
+        VerificarCodigoVerificacionResponse VerificarCodigoVerificacion(string codigoVerificacion, string correo, string nroCelular, bool flgCelular, bool flgCorreo, string cod_aplicacion, string idLogTexto);
     }
 }

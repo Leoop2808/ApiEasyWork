@@ -1,6 +1,6 @@
 ﻿namespace EasyWorkEntities.Authentication.Request
 {
-    public class EnviarCodigoVerificacionCorreoRequest
+    public class EnviarCorreoCodigoRecuperacionClaveRequest
     {
         public string correo { get; set; }
     }

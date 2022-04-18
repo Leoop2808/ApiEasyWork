@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyWorkDataAccess.Contrato;
 using EasyWorkDataAccess.Models;
+using EasyWorkEntities.Authentication.Request;
 using EasyWorkEntities.Authentication.Response;
 using log4net;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ namespace EasyWorkDataAccess.Implementacion
         private string _apiGoogle = ConfigurationManager.AppSettings["API_GOOGLE"];
 
         private readonly ILog log = LogManager.GetLogger(typeof(AuthenticationDO));
-        public DataGoogleResponse ObtenerDataGoogle(string google_token, string cod_aplicacion, string idLogTexto) 
+        public DataGoogleResponse ObtenerDataGoogle(string google_token, string cod_aplicacion, string idLogTexto)
         {
             try
             {
@@ -81,7 +82,7 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-        public DataFacebookResponse ObtenerDataFacebook(string facebook_token, string cod_aplicacion, string idLogTexto) 
+        public DataFacebookResponse ObtenerDataFacebook(string facebook_token, string cod_aplicacion, string idLogTexto)
         {
             try
             {
@@ -142,12 +143,12 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-        public RegistrarDatosGoogleResponse RegistrarDatosGoogle(DataGoogle request, double latitud, double longitud, string google_token, string cod_aplicacion, string idLogTexto) 
+        public RegistrarDatosGoogleResponse RegistrarDatosGoogle(DataGoogle request, double latitud, double longitud, string google_token, string cod_aplicacion, string idLogTexto)
         {
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var resRegDtGoogle = ctx.SP_REGISTRAR_DATOS_GOOGLE(request.sub,request.email, request.email_verified, 
+                var resRegDtGoogle = ctx.SP_REGISTRAR_DATOS_GOOGLE(request.sub, request.email, request.email_verified,
                 request.name, request.given_name, request.family_name, request.picture, request.locale, google_token, Convert.ToDecimal(latitud),
                 Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
 
@@ -189,7 +190,7 @@ namespace EasyWorkDataAccess.Implementacion
                         codeRes = HttpStatusCode.NoContent,
                         messageRes = "No se obtuvo respuesta al almacenar los datos de google."
                     };
-                }                
+                }
             }
             catch (Exception e)
             {
@@ -204,14 +205,14 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-        public RegistrarDatosFacebookResponse RegistrarDatosFacebook(DataFacebook request, double latitud, double longitud, string facebook_token, string cod_aplicacion, string idLogTexto) 
+        public RegistrarDatosFacebookResponse RegistrarDatosFacebook(DataFacebook request, double latitud, double longitud, string facebook_token, string cod_aplicacion, string idLogTexto)
         {
             try
             {
                 var ctx = new EasyWorkDBEntities();
                 var resRegDtGoogle = ctx.SP_REGISTRAR_DATOS_FACEBOOK(request.id, request.first_name, request.last_name,
-                request.username, request.email, request.picture.data.is_silhouette, request.picture.data.url, 
-                facebook_token, Convert.ToDecimal(latitud), 
+                request.username, request.email, request.picture.data.is_silhouette, request.picture.data.url,
+                facebook_token, Convert.ToDecimal(latitud),
                 Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
 
                 if (resRegDtGoogle != null)
@@ -267,7 +268,7 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-        public ObtenerDataPrincipalUsuarioResponse ObtenerDataPrincipalUsuario(string codUsuarioCreado, int idUsuario, string codMedioAcceso, string cod_aplicacion, string idLogTexto) 
+        public ObtenerDataPrincipalUsuarioResponse ObtenerDataPrincipalUsuario(string codUsuarioCreado, int idUsuario, string codMedioAcceso, string cod_aplicacion, string idLogTexto)
         {
             try
             {
@@ -318,6 +319,45 @@ namespace EasyWorkDataAccess.Implementacion
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno al obtener los datos del usuario."
+                };
+            }
+        } 
+        public ValidarExistenciaUsuarioCorreoResponse ValidarExistenciaUsuarioCorreo(string correo, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resValExisUsuCorreo= ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO(correo, cod_aplicacion).FirstOrDefault();
+                if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
+                {
+                    return new ValidarExistenciaUsuarioCorreoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = resValExisUsuCorreo.messageRes,
+                    };
+                }
+                else
+                {
+                    log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCorreo. Aplicacion: {cod_aplicacion}. " +
+                    $"Correo: {correo}. " +
+                    "Mensaje al cliente: No se obtuvo respuesta al validar existencia del usuario correo. " +
+                    "Detalle error: " + "No se obtuvo respuesta al validar existencia del usuario correo en la base de datos.");
+                    return new ValidarExistenciaUsuarioCorreoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al validar existencia del usuario correo."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCorreo. Aplicacion: {cod_aplicacion}. " +
+                    "Mensaje al cliente: Error interno al validar existencia del usuario correo. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new ValidarExistenciaUsuarioCorreoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al validar existencia del usuario correo."
                 };
             }
         }
@@ -392,9 +432,74 @@ namespace EasyWorkDataAccess.Implementacion
                 }; 
             }
         }
-        //public RegistrarUsuarioResponse RegistrarUsuario(request,string cod_aplicacion,string idLogTexto) 
-        //{
-        
-        //}
+
+        public VerificarCodigoVerificacionResponse VerificarCodigoVerificacion(string codigoVerificacion, string correo, string nroCelular, bool flgCelular, bool flgCorreo, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_VERIFICACION(codigoVerificacion, correo, nroCelular, flgCelular, flgCorreo).FirstOrDefault();
+
+                if (resVerifyCode != null)
+                {
+                    if (resVerifyCode.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new VerificarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resVerifyCode.messageRes
+                        };
+                    }
+                    else
+                    {
+                        log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
+                        $"Código de verificación: {codigoVerificacion}. " +
+                        $"Correo: {correo}. " +
+                        $"Número de celular: {nroCelular}. " +
+                        $"FlgCelular: {flgCelular.ToString()}. " +
+                        $"FlgCorreo: {flgCorreo.ToString()}. " +
+                        "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
+                        "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
+                        return new VerificarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                        };
+                    }
+                }
+                else
+                {
+                    log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
+                    $"Código de verificación: {codigoVerificacion}. " +
+                    $"Correo: {correo}. " +
+                    $"Número de celular: {nroCelular}. " +
+                    $"FlgCelular: {flgCelular.ToString()}. " +
+                    $"FlgCorreo: {flgCorreo.ToString()}. " +
+                    "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
+                    "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
+                    return new VerificarCodigoVerificacionResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
+                  $"Código de verificación: {codigoVerificacion}. " +
+                  $"Correo: {correo}. " +
+                  $"Número de celular: {nroCelular}. " +
+                  $"FlgCelular: {flgCelular.ToString()}. " +
+                  $"FlgCorreo: {flgCorreo.ToString()}. " +
+                  "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
+                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new VerificarCodigoVerificacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                };
+            }
+        }
     }
 }
