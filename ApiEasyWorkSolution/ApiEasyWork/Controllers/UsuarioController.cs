@@ -391,7 +391,7 @@ namespace ApiEasyWork.Controllers
 
         [ApplicationAuthenticationFilter]
         [Route("actualizar-clave")]
-        [HttpPost]
+        [HttpPut]
         public HttpResponseMessage ActualizarClave(ActualizarClaveRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
@@ -561,6 +561,43 @@ namespace ApiEasyWork.Controllers
             );
 
             return Request.CreateResponse(HttpStatusCode.OK, blob);
+        }
+
+        [Authorize]
+        [Route("registrar-dispositivo")]
+        [HttpPost]
+        public HttpResponseMessage RegistrarDispositivo(RegistrarDispositivoRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (!ModelState.IsValid)
+            {
+                var errores = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_data_register_device_user"),
+                    new JProperty("error_description", errores[0])
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var cod_usuario = User.Identity.GetUserId();
+            var respEnvioCorreo = _usuarioBO.RegistrarDispositivo(request, cod_usuario, cod_aplicacion, idLogTexto);
+            if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioCorreo.messageRes });
+                }
+                return Request.CreateResponse(respEnvioCorreo.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioCorreo.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_register_device"),
+                    new JProperty("error_description", "Could not register device.")
+                ));
+            }
         }
     }
 }

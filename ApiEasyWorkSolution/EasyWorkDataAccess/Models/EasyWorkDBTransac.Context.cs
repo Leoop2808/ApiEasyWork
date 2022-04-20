@@ -343,5 +343,38 @@ namespace EasyWorkDataAccess.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CORREO", correoParameter, codAplicacionParameter);
         }
+    
+        public virtual ObjectResult<SP_REGISTRAR_DISPOSITIVO_Result> SP_REGISTRAR_DISPOSITIVO(string keyDispositivo, string versionAndroid, string versionApp, Nullable<decimal> latitud, Nullable<decimal> longitud, string codUsuario, string codAplicacion)
+        {
+            var keyDispositivoParameter = keyDispositivo != null ?
+                new ObjectParameter("keyDispositivo", keyDispositivo) :
+                new ObjectParameter("keyDispositivo", typeof(string));
+    
+            var versionAndroidParameter = versionAndroid != null ?
+                new ObjectParameter("versionAndroid", versionAndroid) :
+                new ObjectParameter("versionAndroid", typeof(string));
+    
+            var versionAppParameter = versionApp != null ?
+                new ObjectParameter("versionApp", versionApp) :
+                new ObjectParameter("versionApp", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_DISPOSITIVO_Result>("SP_REGISTRAR_DISPOSITIVO", keyDispositivoParameter, versionAndroidParameter, versionAppParameter, latitudParameter, longitudParameter, codUsuarioParameter, codAplicacionParameter);
+        }
     }
 }

@@ -125,5 +125,34 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
+
+        public RegistrarDispositivoResponse RegistrarDispositivo(RegistrarDispositivoRequest request, string cod_usuario, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new RegistrarDispositivoResponse();
+
+                var resRegDisp = _usuarioDO.RegistrarDispositivo(request, cod_usuario, cod_aplicacion, idLogTexto);
+                if (resRegDisp.codeRes != HttpStatusCode.OK)
+                {
+                    response.codeRes = resRegDisp.codeRes;
+                    response.messageRes = resRegDisp.messageRes;
+                    return response;
+                }
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"UsuarioBO ({idLogTexto}) ->  RegistrarDispositivo. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
+                    "Mensaje al cliente: Error interno al registrar los datos del dispositivo. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new RegistrarDispositivoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al registrar los datos del dispositivo."
+                };
+            }
+        }
     }
 }

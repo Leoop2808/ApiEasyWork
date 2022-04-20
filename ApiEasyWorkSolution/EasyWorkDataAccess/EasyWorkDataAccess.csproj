@@ -128,6 +128,9 @@
     <Compile Include="Models\SP_REGISTRAR_DATOS_GOOGLE_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_REGISTRAR_DISPOSITIVO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_REGISTRAR_PERSONA_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>

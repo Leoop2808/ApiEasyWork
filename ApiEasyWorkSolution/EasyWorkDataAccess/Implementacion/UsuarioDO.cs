@@ -258,5 +258,63 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
+
+        public RegistrarDispositivoResponse RegistrarDispositivo(RegistrarDispositivoRequest request, string cod_usuario, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var reRegPersona = ctx.SP_REGISTRAR_DISPOSITIVO(request.keyDispositivo, request.versionAndroid,
+                request.versionApp, Convert.ToDecimal(request.latitud), Convert.ToDecimal(request.longitud), cod_usuario, cod_aplicacion).FirstOrDefault();
+
+                if (reRegPersona != null)
+                {
+                    if (reRegPersona.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new RegistrarDispositivoResponse()
+                        {
+                            codeRes = HttpStatusCode.Created,
+                            messageRes = reRegPersona.messageRes
+                        };
+                    }
+                    else
+                    {
+                        log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarDispositivo. Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
+                        $"Request: {JsonConvert.SerializeObject(request)}. " +
+                        "Mensaje al cliente: No se obtuvo respuesta al registrar los datos de dispositivo. " +
+                        "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de dispositivo en la base de datos.");
+                        return new RegistrarDispositivoResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al almacenar los datos de dispositivo."
+                        };
+                    }
+                }
+                else
+                {
+                    log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarDispositivo. Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
+                    $"Request: {JsonConvert.SerializeObject(request)}. " +
+                    "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de dispositivo. " +
+                    "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de dispositivo en la base de datos.");
+                    return new RegistrarDispositivoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al almacenar los datos de dispositivo."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarDispositivo. Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
+                  $"Request: {JsonConvert.SerializeObject(request)}. " +
+                  "Mensaje al cliente: No se obtuvo respuesta al guardar registro de datos de dispositivo. " +
+                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new RegistrarDispositivoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al guardar registro de datos de dispositivo."
+                };
+            }
+        }
     }
 }

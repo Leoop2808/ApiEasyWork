@@ -73,9 +73,11 @@
     <Compile Include="MensajeHttpResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Usuario\Request\ActualizarClaveRequest.cs" />
+    <Compile Include="Usuario\Request\RegistrarDispositivoRequest.cs" />
     <Compile Include="Usuario\Request\RegistrarUsuarioClienteRequest.cs" />
     <Compile Include="Usuario\Response\ObtenerDataSesionResponse.cs" />
     <Compile Include="Usuario\Response\ObtenerRolPorCodRolResponse.cs" />
+    <Compile Include="Usuario\Response\RegistrarDispositivoResponse.cs" />
     <Compile Include="Usuario\Response\RegistrarPersonaResponse.cs" />
     <Compile Include="Usuario\Response\RegistrarUsuarioResponse.cs" />
     <Compile Include="Usuario\Response\ValidarExistenciaUsuarioResponse.cs" />
