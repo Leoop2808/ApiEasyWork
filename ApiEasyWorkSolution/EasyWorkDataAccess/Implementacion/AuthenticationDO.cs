@@ -154,11 +154,11 @@ namespace EasyWorkDataAccess.Implementacion
 
                 if (resRegDtGoogle != null)
                 {
-                    if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201)
+                    if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201 || resRegDtGoogle.codeRes.GetValueOrDefault() == 200)
                     {
                         return new RegistrarDatosGoogleResponse()
                         {
-                            codeRes = HttpStatusCode.Created,
+                            codeRes = HttpStatusCode.OK,
                             messageRes = resRegDtGoogle.messageRes,
                             codUsuarioCreado = resRegDtGoogle.codUsuarioCreado,
                             idUsuarioCreado = resRegDtGoogle.idUsuarioCreado.GetValueOrDefault(),

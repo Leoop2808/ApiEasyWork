@@ -48,6 +48,7 @@ namespace EasyWorkBusiness.Implementacion
                 response.messageRes = resRegDtGoogle.messageRes;
                 response.flgCorreoValidado = true;
                 response.flgCelularValidado = resRegDtGoogle.flgCelularValidado;
+                response.flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario;
 
                 if (resRegDtGoogle.codeRes != HttpStatusCode.OK)
                 {
