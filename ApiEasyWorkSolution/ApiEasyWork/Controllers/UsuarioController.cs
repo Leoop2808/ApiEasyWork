@@ -110,8 +110,8 @@ namespace ApiEasyWork.Controllers
             else
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
-                    new JProperty("error", "invalid_token_facebook"),
-                    new JProperty("error_description", "Could not authenticate with Facebook.")
+                    new JProperty("error", "invalid_token_google"),
+                    new JProperty("error_description", "Could not authenticate with Google.")
                 ));
             }
         }
