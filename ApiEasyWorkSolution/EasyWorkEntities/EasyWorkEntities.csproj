@@ -42,13 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\Request\AutenticarCelularRequest.cs" />
     <Compile Include="Authentication\Request\AutenticarFacebookRequest.cs" />
     <Compile Include="Authentication\Request\AutenticarGoogleRequest.cs" />
     <Compile Include="Authentication\Request\EnviarCorreoCodigoRecuperacionClaveRequest.cs" />
     <Compile Include="Authentication\Request\EnviarCodigoVerificacionCorreoRequest.cs" />
+    <Compile Include="Authentication\Request\EnviarSmsOrWhatsappAutenticacionRequest.cs" />
     <Compile Include="Authentication\Request\EnviarSmsOrWhatsappRequest.cs" />
     <Compile Include="Authentication\Request\VerificarCodigoVerificacionCelularRequest.cs" />
     <Compile Include="Authentication\Request\VerificarCodigoVerificacionCorreoRequest.cs" />
+    <Compile Include="Authentication\Response\AutenticarCelularResponse.cs" />
     <Compile Include="Authentication\Response\AutenticarFacebookResponse.cs" />
     <Compile Include="Authentication\Response\AutenticarGoogleResponse.cs" />
     <Compile Include="Authentication\Response\AuthenticatedUserData.cs" />
@@ -56,12 +59,14 @@
     <Compile Include="Authentication\Response\DataGoogleResponse.cs" />
     <Compile Include="Authentication\Response\EnviarCorreoCodigoRecuperacionClaveResponse.cs" />
     <Compile Include="Authentication\Response\EnviarCodigoVerificacionCorreoResponse.cs" />
+    <Compile Include="Authentication\Response\EnviarSmsOrWhatsappAutenticacionResponse.cs" />
     <Compile Include="Authentication\Response\EnviarSmsOrWhatsappResponse.cs" />
     <Compile Include="Authentication\Response\ObtenerDataPrincipalUsuarioResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarCodigoVerificacionResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />
     <Compile Include="Authentication\Response\ValidarExistenciaUsuarioCorreoResponse.cs" />
+    <Compile Include="Authentication\Response\VerificarCodigoAutenticacionResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCelularResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCorreoResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionResponse.cs" />

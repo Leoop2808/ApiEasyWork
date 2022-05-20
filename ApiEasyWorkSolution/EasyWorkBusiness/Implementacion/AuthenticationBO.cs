@@ -28,7 +28,6 @@ namespace EasyWorkBusiness.Implementacion
         {
             _authenticationDO = authenticationDO;
         }
-
         public AutenticarGoogleResponse AutenticarGoogle(AutenticarGoogleRequest request, string cod_aplicacion, string idLogTexto) 
         {
             try
@@ -129,16 +128,15 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public EnviarSmsOrWhatsappResponse EnviarSmsOrWhatsapp(EnviarSmsOrWhatsappRequest request, string cod_aplicacion, string idLogTexto) 
         {
             try
             {
                 var response = new EnviarSmsOrWhatsappResponse();
                 var verifyCode = Helpers.GenerateCode(6);
-
+                var codTipoCodigoVerificacion = (request.tipoEnvio == TipoEnvioCodigoVerificacion.SMS) ? TipoEnvioCodigoVerificacion.COD_SMS : TipoEnvioCodigoVerificacion.COD_WHATSAPP;
                 var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, String.Empty, request.nroCelular,
-                    true, false, (request.tipoEnvio == TipoEnvioCodigoVerificacion.WHATSAPP ? false : true),cod_aplicacion, idLogTexto);
+                    codTipoCodigoVerificacion,cod_aplicacion, idLogTexto);
                 if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
                 {
                     response.codeRes = resRegCodigoVerificacion.codeRes;
@@ -165,7 +163,6 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public EnviarSmsOrWhatsappResponse EnviarCodigoWhatsapp(string nroCelular, string verifyCode, string cod_aplicacion, string idLogTexto) 
         {
             try
@@ -210,7 +207,6 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public EnviarSmsOrWhatsappResponse EnviarCodigoSms(string nroCelular, string verifyCode, string cod_aplicacion, string idLogTexto)
         {
             try
@@ -255,16 +251,15 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public EnviarCodigoVerificacionCorreoResponse EnviarCodigoVerificacionCorreo(EnviarCodigoVerificacionCorreoRequest request, string cod_aplicacion, string idLogTexto) 
         {
             try
             {
                 var response = new EnviarCodigoVerificacionCorreoResponse();
                 var verifyCode = Helpers.GenerateCode(6);
-
+                
                 var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, request.correo, String.Empty,
-                    false, true, null, cod_aplicacion, idLogTexto);
+                    TipoEnvioCodigoVerificacion.COD_CORREO, cod_aplicacion, idLogTexto);
                 if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
                 {
                     response.codeRes = resRegCodigoVerificacion.codeRes;
@@ -299,7 +294,6 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public EnviarCorreoCodigoRecuperacionClaveResponse EnviarCorreoCodigoRecuperacionClave(EnviarCorreoCodigoRecuperacionClaveRequest request, string cod_aplicacion, string idLogTexto) 
         {
             try
@@ -316,7 +310,7 @@ namespace EasyWorkBusiness.Implementacion
                 }
 
                 var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, request.correo, String.Empty,
-                    false, true, null, cod_aplicacion, idLogTexto);
+                    TipoEnvioCodigoVerificacion.COD_CORREO, cod_aplicacion, idLogTexto);
                 if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
                 {
                     response.codeRes = resRegCodigoVerificacion.codeRes;
@@ -352,14 +346,13 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public VerificarCodigoVerificacionCorreoResponse VerificarCodigoVerificacionCorreo(VerificarCodigoVerificacionCorreoRequest request, string cod_aplicacion, string idLogTexto) 
         {
             try
             {
                 var response = new VerificarCodigoVerificacionCorreoResponse();
 
-                var resRegCodigoVerificacion = _authenticationDO.VerificarCodigoVerificacion(request.codigoVerificacion, request.correo, String.Empty, false, true, cod_aplicacion, idLogTexto);
+                var resRegCodigoVerificacion = _authenticationDO.VerificarCodigoVerificacion(request.codigoVerificacion, request.correo, String.Empty, false, cod_aplicacion, idLogTexto);
 
                 response.codeRes = resRegCodigoVerificacion.codeRes;
                 response.messageRes = resRegCodigoVerificacion.messageRes;
@@ -383,7 +376,7 @@ namespace EasyWorkBusiness.Implementacion
             {
                 var response = new VerificarCodigoVerificacionCelularResponse();
 
-                var resRegCodigoVerificacion = _authenticationDO.VerificarCodigoVerificacion(request.codigoVerificacion, String.Empty, request.nroCelular, true, false, cod_aplicacion, idLogTexto);
+                var resRegCodigoVerificacion = _authenticationDO.VerificarCodigoVerificacion(request.codigoVerificacion, String.Empty, request.nroCelular, true, cod_aplicacion, idLogTexto);
 
                 response.codeRes = resRegCodigoVerificacion.codeRes;
                 response.messageRes = resRegCodigoVerificacion.messageRes;
@@ -398,6 +391,84 @@ namespace EasyWorkBusiness.Implementacion
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno al verificar código de verificación."
+                };
+            }
+        }
+        public EnviarSmsOrWhatsappAutenticacionResponse EnviarSmsOrWhatsappAutenticacion(EnviarSmsOrWhatsappAutenticacionRequest request, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var response = new EnviarSmsOrWhatsappAutenticacionResponse();
+                var verifyCode = Helpers.GenerateCode(6);
+                var codTipoCodigoVerificacion = (request.tipoEnvio == TipoEnvioCodigoVerificacion.SMS) ? TipoEnvioCodigoVerificacion.COD_AUTH_SMS : TipoEnvioCodigoVerificacion.COD_AUTH_WHATSAPP;
+                var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, String.Empty, request.nroCelular,
+                    codTipoCodigoVerificacion, cod_aplicacion, idLogTexto);
+                if (resRegCodigoVerificacion.codeRes != HttpStatusCode.Created)
+                {
+                    response.codeRes = resRegCodigoVerificacion.codeRes;
+                    response.messageRes = resRegCodigoVerificacion.messageRes;
+                    return response;
+                }
+
+                var resEnvioCodigo = request.tipoEnvio == TipoEnvioCodigoVerificacion.WHATSAPP ? EnviarCodigoWhatsapp(request.nroCelular, verifyCode, cod_aplicacion, idLogTexto) : EnviarCodigoSms(request.nroCelular, verifyCode, cod_aplicacion, idLogTexto);
+
+                response.codeRes = resEnvioCodigo.codeRes;
+                response.messageRes = resEnvioCodigo.messageRes;
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  EnviarSmsOrWhatsappAutenticacion. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al enviar código de verificación. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new EnviarSmsOrWhatsappAutenticacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al enviar código de verificación."
+                };
+            }
+        }
+        public AutenticarCelularResponse AutenticarCelular(AutenticarCelularRequest request, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var response = new AutenticarCelularResponse();
+
+                var resVerCodAut = _authenticationDO.VerificarCodigoAutenticacion(request.codVerificacion, request.nroCelular, request.latitud, request.longitud, cod_aplicacion, idLogTexto);
+
+                response.codeRes = resVerCodAut.codeRes;
+                response.messageRes = resVerCodAut.messageRes;
+                response.flgCorreoValidado = true;
+                response.flgCelularValidado = resVerCodAut.flgCelularValidado;
+
+                if (resVerCodAut.codeRes != HttpStatusCode.OK)
+                {
+                    return response;
+                }
+
+                var resDataPrincipalUsu = _authenticationDO.ObtenerDataPrincipalUsuario(resVerCodAut.codUsuario, resVerCodAut.idUsuario, MedioAcceso.COD_AUTH_CELULAR, cod_aplicacion, idLogTexto);
+
+                if (resDataPrincipalUsu.codeRes != HttpStatusCode.OK)
+                {
+                    response.codeRes = resDataPrincipalUsu.codeRes;
+                    response.messageRes = resDataPrincipalUsu.messageRes;
+                    return response;
+                }
+
+                response.datos = resDataPrincipalUsu.datos;
+
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationBO ({idLogTexto}) ->  AutenticarCelular. Request: {JsonConvert.SerializeObject(request)}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno al autenticar mediante celular. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new AutenticarCelularResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al autenticar mediante celular."
                 };
             }
         }

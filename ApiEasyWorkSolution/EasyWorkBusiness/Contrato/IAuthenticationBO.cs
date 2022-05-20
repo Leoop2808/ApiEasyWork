@@ -12,5 +12,7 @@ namespace EasyWorkBusiness.Contrato
         EnviarCorreoCodigoRecuperacionClaveResponse EnviarCorreoCodigoRecuperacionClave(EnviarCorreoCodigoRecuperacionClaveRequest request, string cod_aplicacion, string idLogTexto);
         VerificarCodigoVerificacionCorreoResponse VerificarCodigoVerificacionCorreo(VerificarCodigoVerificacionCorreoRequest request, string cod_aplicacion, string idLogTexto);
         VerificarCodigoVerificacionCelularResponse VerificarCodigoVerificacionCelular(VerificarCodigoVerificacionCelularRequest request, string cod_aplicacion, string idLogTexto);
+        EnviarSmsOrWhatsappAutenticacionResponse EnviarSmsOrWhatsappAutenticacion(EnviarSmsOrWhatsappAutenticacionRequest request, string cod_aplicacion, string idLogTexto);
+        AutenticarCelularResponse AutenticarCelular(AutenticarCelularRequest request, string cod_aplicacion, string idLogTexto);
     }
 }

@@ -361,12 +361,12 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-        public RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, bool flgCelular, bool flgCorreo, bool? flgEnviadoSms, string cod_aplicacion, string idLogTexto) 
+        public RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, string codTipoCodigoVerificacion, string cod_aplicacion, string idLogTexto) 
         {
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var resRegDtGoogle = ctx.SP_REGISTRAR_CODIGO_VERIFICACION(verifyCode, correo, nroCelular, flgCelular, flgCorreo, flgEnviadoSms).FirstOrDefault();
+                var resRegDtGoogle = ctx.SP_REGISTRAR_CODIGO_VERIFICACION(verifyCode, correo, nroCelular, codTipoCodigoVerificacion).FirstOrDefault();
 
                 if (resRegDtGoogle != null)
                 {
@@ -384,9 +384,7 @@ namespace EasyWorkDataAccess.Implementacion
                         $"Código de verificación: {verifyCode}. " +
                         $"Correo: {correo}. " +
                         $"Número de celular: {nroCelular}. " +
-                        $"FlgCelular: {flgCelular.ToString()}. " +
-                        $"FlgCorreo: {flgCorreo.ToString()}. " +
-                        $"FlgEnviadoSms: {flgEnviadoSms.ToString()}. " +
+                        $"codTipoCodigoVerificacion: {codTipoCodigoVerificacion.ToString()}. " +
                         "Mensaje al cliente: No se obtuvo respuesta al almacenar el código de verificación. " +
                         "Detalle error: " + "No se obtuvo respuesta al almacenar el código de verificación en la base de datos.");
                         return new RegistrarCodigoVerificacionResponse()
@@ -402,9 +400,7 @@ namespace EasyWorkDataAccess.Implementacion
                     $"Código de verificación: {verifyCode}. " +
                     $"Correo: {correo}. " +
                     $"Número de celular: {nroCelular}. " +
-                    $"FlgCelular: {flgCelular.ToString()}. " +
-                    $"FlgCorreo: {flgCorreo.ToString()}. " +
-                    $"FlgEnviadoSms: {flgEnviadoSms.ToString()}. " +
+                    $"codTipoCodigoVerificacion: {codTipoCodigoVerificacion.ToString()}. " +
                     "Mensaje al cliente: No se obtuvo respuesta al almacenar el código de verificación. " +
                     "Detalle error: " + "No se obtuvo respuesta al almacenar el código de verificación en la base de datos.");
                     return new RegistrarCodigoVerificacionResponse()
@@ -420,9 +416,7 @@ namespace EasyWorkDataAccess.Implementacion
                   $"Código de verificación: {verifyCode}. " +
                   $"Correo: {correo}. " +
                   $"Número de celular: {nroCelular}. " +
-                  $"FlgCelular: {flgCelular.ToString()}. " +
-                  $"FlgCorreo: {flgCorreo.ToString()}. " +
-                  $"FlgEnviadoSms: {flgEnviadoSms.ToString()}. " +
+                  $"codTipoCodigoVerificacion: {codTipoCodigoVerificacion.ToString()}. " +
                   "Mensaje al cliente: No se obtuvo respuesta al guardar registro del código de verificación. " +
                   "Detalle error: " + JsonConvert.SerializeObject(e));
                 return new RegistrarCodigoVerificacionResponse()
@@ -432,13 +426,12 @@ namespace EasyWorkDataAccess.Implementacion
                 }; 
             }
         }
-
-        public VerificarCodigoVerificacionResponse VerificarCodigoVerificacion(string codigoVerificacion, string correo, string nroCelular, bool flgCelular, bool flgCorreo, string cod_aplicacion, string idLogTexto) 
+        public VerificarCodigoVerificacionResponse VerificarCodigoVerificacion(string codigoVerificacion, string correo, string nroCelular, bool flgCelularcorreo, string cod_aplicacion, string idLogTexto) 
         {
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_VERIFICACION(codigoVerificacion, correo, nroCelular, flgCelular, flgCorreo).FirstOrDefault();
+                var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_VERIFICACION(codigoVerificacion, correo, nroCelular, flgCelularcorreo).FirstOrDefault();
 
                 if (resVerifyCode != null)
                 {
@@ -456,8 +449,7 @@ namespace EasyWorkDataAccess.Implementacion
                         $"Código de verificación: {codigoVerificacion}. " +
                         $"Correo: {correo}. " +
                         $"Número de celular: {nroCelular}. " +
-                        $"FlgCelular: {flgCelular.ToString()}. " +
-                        $"FlgCorreo: {flgCorreo.ToString()}. " +
+                        $"flgCelularcorreo: {flgCelularcorreo.ToString()}. " +
                         "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
                         "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
                         return new VerificarCodigoVerificacionResponse()
@@ -473,8 +465,7 @@ namespace EasyWorkDataAccess.Implementacion
                     $"Código de verificación: {codigoVerificacion}. " +
                     $"Correo: {correo}. " +
                     $"Número de celular: {nroCelular}. " +
-                    $"FlgCelular: {flgCelular.ToString()}. " +
-                    $"FlgCorreo: {flgCorreo.ToString()}. " +
+                    $"flgCelularcorreo: {flgCelularcorreo.ToString()}. " +
                     "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
                     "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
                     return new VerificarCodigoVerificacionResponse()
@@ -490,14 +481,78 @@ namespace EasyWorkDataAccess.Implementacion
                   $"Código de verificación: {codigoVerificacion}. " +
                   $"Correo: {correo}. " +
                   $"Número de celular: {nroCelular}. " +
-                  $"FlgCelular: {flgCelular.ToString()}. " +
-                  $"FlgCorreo: {flgCorreo.ToString()}. " +
+                  $"flgCelularcorreo: {flgCelularcorreo.ToString()}. " +
                   "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
                   "Detalle error: " + JsonConvert.SerializeObject(e));
                 return new VerificarCodigoVerificacionResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                };
+            }
+        }
+        public VerificarCodigoAutenticacionResponse VerificarCodigoAutenticacion(string codVerificacion, string nroCelular, double latitud, double longitud, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_AUTENTICACION(codVerificacion, nroCelular, Convert.ToDecimal(latitud), Convert.ToDecimal(longitud)).FirstOrDefault();
+
+                if (resVerifyCode != null)
+                {
+                    if (resVerifyCode.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new VerificarCodigoAutenticacionResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resVerifyCode.messageRes
+                        };
+                    }
+                    else
+                    {
+                        log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoAutenticacion. Aplicacion: {cod_aplicacion}. " +
+                        $"Código de verificación: {codVerificacion}. " +
+                        $"Número de celular: {nroCelular}. " +
+                        $"latitud: {latitud.ToString()}. " +
+                        $"longitud: {longitud.ToString()}. " +
+                        "Mensaje al cliente: No se obtuvo respuesta al verificar el código de autenticación. " +
+                        "Detalle error: " + "No se obtuvo respuesta al verificar el código de autenticación en la base de datos.");
+                        return new VerificarCodigoAutenticacionResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al verificar el código de autenticación."
+                        };
+                    }
+                }
+                else
+                {
+                    log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoAutenticacion. Aplicacion: {cod_aplicacion}. " +
+                    $"Código de verificación: {codVerificacion}. " +
+                    $"Número de celular: {nroCelular}. " +
+                    $"latitud: {latitud.ToString()}. " +
+                    $"longitud: {longitud.ToString()}. " +
+                    "Mensaje al cliente: No se obtuvo respuesta al verificar el código de autenticación. " +
+                    "Detalle error: " + "No se obtuvo respuesta al verificar el código de autenticación en la base de datos.");
+                    return new VerificarCodigoAutenticacionResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al verificar el código de autenticación."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoAutenticacion. Aplicacion: {cod_aplicacion}. " +
+                  $"Código de verificación: {codVerificacion}. " +
+                  $"Número de celular: {nroCelular}. " +
+                  $"latitud: {latitud.ToString()}. " +
+                  $"longitud: {longitud.ToString()}. " +
+                  "Mensaje al cliente: No se obtuvo respuesta al verificar el código de autenticación. " +
+                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new VerificarCodigoAutenticacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al verificar el código de autenticación."
                 };
             }
         }

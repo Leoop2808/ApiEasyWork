@@ -599,5 +599,129 @@ namespace ApiEasyWork.Controllers
                 ));
             }
         }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/envio-autenticacion-celular")]
+        [HttpPost]
+        public HttpResponseMessage EnviarSmsOrWhatsappAutenticacion(EnviarSmsOrWhatsappAutenticacionRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.nroCelular))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone_number_empty"),
+                    new JProperty("error_description", "Empty Phone Number.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.tipoEnvio))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_type_empty"),
+                    new JProperty("error_description", "Empty Send Type.")
+                ));
+            }
+
+            if (request.tipoEnvio != TipoEnvioCodigoVerificacion.SMS && request.tipoEnvio != TipoEnvioCodigoVerificacion.WHATSAPP)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_type_not_reconized"),
+                    new JProperty("error_description", "Not reconized Send Type.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioSmsOrWhatsapp = _authenticationBO.EnviarSmsOrWhatsappAutenticacion(request, cod_aplicacion, idLogTexto);
+            if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioSmsOrWhatsapp.messageRes });
+                }
+                return Request.CreateResponse(respEnvioSmsOrWhatsapp.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioSmsOrWhatsapp.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_a_verify_code"),
+                    new JProperty("error_description", "Could not send verify code.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/celular")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> AutenticarCelular(AutenticarCelularRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.nroCelular))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone_number_empty"),
+                    new JProperty("error_description", "Empty Phone Number.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.codVerificacion))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verification_code_empty"),
+                    new JProperty("error_description", "Empty verification code token.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respAuthFacebook = _authenticationBO.AutenticarCelular(request, cod_aplicacion, idLogTexto);
+            if (respAuthFacebook.codeRes == HttpStatusCode.OK)
+            {
+                var userSearch = UserManager.FindByName(respAuthFacebook.datos.correo);
+                var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+                identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+                identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+                identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+
+                EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+                mst_rol rol = ctxBD.mst_rol.Where(x => x.id_rol == userSearch.id_rol).FirstOrDefault();
+
+                identity.AddClaim(new Claim(ClaimTypes.Role, rol.cod_rol.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
+
+                var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+                var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+                ticket.Properties.IssuedUtc = currentUtc;
+                ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+                var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+                Authentication.SignIn(cookiesIdentity);
+
+                // Create the response
+                JObject blob = new JObject(
+                    new JProperty("access_token", accesstoken),
+                    new JProperty("token_type", "bearer"),
+                    new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+                    new JProperty("nombres", respAuthFacebook.datos.nombres),
+                    new JProperty("apellidos", respAuthFacebook.datos.apellidos),
+                    new JProperty("correo", respAuthFacebook.datos.correo),
+                    new JProperty("flgMostrarRegistroUsuario", respAuthFacebook.flgMostrarRegistroUsuario),
+                    new JProperty("flgCelularValidado", respAuthFacebook.flgCelularValidado),
+                    new JProperty("flgCorreoValidado", respAuthFacebook.flgCorreoValidado),
+                    new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                    new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+                );
+
+                return Request.CreateResponse(HttpStatusCode.OK, blob);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone"),
+                    new JProperty("error_description", "Could not authenticate with phone.")
+                ));
+            }
+        }
     }
 }

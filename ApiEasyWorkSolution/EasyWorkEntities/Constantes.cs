@@ -20,6 +20,12 @@
             public const string WHATSAPP = "WHATSAPP";
             public const string TWILIO_SMS = "sms";
             public const string TWILIO_WHATSAPP = "whatsapp";
+
+            public const string COD_SMS = "1";
+            public const string COD_WHATSAPP = "2";
+            public const string COD_CORREO = "3";
+            public const string COD_AUTH_SMS = "4";
+            public const string COD_AUTH_WHATSAPP = "5";
         }
 
         public class ContentMessageVerifyCode 

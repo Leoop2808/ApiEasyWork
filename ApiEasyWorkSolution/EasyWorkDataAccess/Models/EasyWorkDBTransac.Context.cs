@@ -159,7 +159,7 @@ namespace EasyWorkDataAccess.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result>("SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION", nombreAplicacionParameter, accesIdParameter);
         }
     
-        public virtual ObjectResult<SP_REGISTRAR_CODIGO_VERIFICACION_Result> SP_REGISTRAR_CODIGO_VERIFICACION(string verifyCode, string correo, string nroCelular, Nullable<bool> flgCelular, Nullable<bool> flgCorreo, Nullable<bool> flgEnviadoSms)
+        public virtual ObjectResult<SP_REGISTRAR_CODIGO_VERIFICACION_Result> SP_REGISTRAR_CODIGO_VERIFICACION(string verifyCode, string correo, string nroCelular, string codTipoCodigoVerificacion)
         {
             var verifyCodeParameter = verifyCode != null ?
                 new ObjectParameter("verifyCode", verifyCode) :
@@ -173,22 +173,14 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("nroCelular", nroCelular) :
                 new ObjectParameter("nroCelular", typeof(string));
     
-            var flgCelularParameter = flgCelular.HasValue ?
-                new ObjectParameter("flgCelular", flgCelular) :
-                new ObjectParameter("flgCelular", typeof(bool));
+            var codTipoCodigoVerificacionParameter = codTipoCodigoVerificacion != null ?
+                new ObjectParameter("codTipoCodigoVerificacion", codTipoCodigoVerificacion) :
+                new ObjectParameter("codTipoCodigoVerificacion", typeof(string));
     
-            var flgCorreoParameter = flgCorreo.HasValue ?
-                new ObjectParameter("flgCorreo", flgCorreo) :
-                new ObjectParameter("flgCorreo", typeof(bool));
-    
-            var flgEnviadoSmsParameter = flgEnviadoSms.HasValue ?
-                new ObjectParameter("flgEnviadoSms", flgEnviadoSms) :
-                new ObjectParameter("flgEnviadoSms", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_CODIGO_VERIFICACION_Result>("SP_REGISTRAR_CODIGO_VERIFICACION", verifyCodeParameter, correoParameter, nroCelularParameter, flgCelularParameter, flgCorreoParameter, flgEnviadoSmsParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_CODIGO_VERIFICACION_Result>("SP_REGISTRAR_CODIGO_VERIFICACION", verifyCodeParameter, correoParameter, nroCelularParameter, codTipoCodigoVerificacionParameter);
         }
     
-        public virtual ObjectResult<SP_VERIFICAR_CODIGO_VERIFICACION_Result> SP_VERIFICAR_CODIGO_VERIFICACION(string codigoVerificacion, string correo, string nroCelular, Nullable<bool> flgCelular, Nullable<bool> flgCorreo)
+        public virtual ObjectResult<SP_VERIFICAR_CODIGO_VERIFICACION_Result> SP_VERIFICAR_CODIGO_VERIFICACION(string codigoVerificacion, string correo, string nroCelular, Nullable<bool> flgCelularCorreo)
         {
             var codigoVerificacionParameter = codigoVerificacion != null ?
                 new ObjectParameter("codigoVerificacion", codigoVerificacion) :
@@ -202,15 +194,11 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("nroCelular", nroCelular) :
                 new ObjectParameter("nroCelular", typeof(string));
     
-            var flgCelularParameter = flgCelular.HasValue ?
-                new ObjectParameter("flgCelular", flgCelular) :
-                new ObjectParameter("flgCelular", typeof(bool));
+            var flgCelularCorreoParameter = flgCelularCorreo.HasValue ?
+                new ObjectParameter("flgCelularCorreo", flgCelularCorreo) :
+                new ObjectParameter("flgCelularCorreo", typeof(bool));
     
-            var flgCorreoParameter = flgCorreo.HasValue ?
-                new ObjectParameter("flgCorreo", flgCorreo) :
-                new ObjectParameter("flgCorreo", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_VERIFICACION_Result>("SP_VERIFICAR_CODIGO_VERIFICACION", codigoVerificacionParameter, correoParameter, nroCelularParameter, flgCelularParameter, flgCorreoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_VERIFICACION_Result>("SP_VERIFICAR_CODIGO_VERIFICACION", codigoVerificacionParameter, correoParameter, nroCelularParameter, flgCelularCorreoParameter);
         }
     
         public virtual ObjectResult<SP_OBTENER_DATA_SESION_X_USUARIO_Result> SP_OBTENER_DATA_SESION_X_USUARIO(Nullable<int> idUsuario)
@@ -375,6 +363,27 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("codAplicacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_DISPOSITIVO_Result>("SP_REGISTRAR_DISPOSITIVO", keyDispositivoParameter, versionAndroidParameter, versionAppParameter, latitudParameter, longitudParameter, codUsuarioParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_VERIFICAR_CODIGO_AUTENTICACION_Result> SP_VERIFICAR_CODIGO_AUTENTICACION(string codigoVerificacion, string nroCelular, Nullable<decimal> latitud, Nullable<decimal> longitud)
+        {
+            var codigoVerificacionParameter = codigoVerificacion != null ?
+                new ObjectParameter("codigoVerificacion", codigoVerificacion) :
+                new ObjectParameter("codigoVerificacion", typeof(string));
+    
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_AUTENTICACION_Result>("SP_VERIFICAR_CODIGO_AUTENTICACION", codigoVerificacionParameter, nroCelularParameter, latitudParameter, longitudParameter);
         }
     }
 }

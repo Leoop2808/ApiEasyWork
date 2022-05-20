@@ -143,6 +143,9 @@
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_VERIFICAR_CODIGO_AUTENTICACION_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_VERIFICAR_CODIGO_VERIFICACION_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
