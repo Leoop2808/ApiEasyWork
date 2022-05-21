@@ -20,5 +20,6 @@ namespace EasyWorkDataAccess.Models
         public string apellidos { get; set; }
         public string correo { get; set; }
         public Nullable<bool> flgDatosLlenados { get; set; }
+        public string codUsuario { get; set; }
     }
 }

@@ -505,7 +505,11 @@ namespace EasyWorkDataAccess.Implementacion
                         return new VerificarCodigoAutenticacionResponse()
                         {
                             codeRes = HttpStatusCode.OK,
-                            messageRes = resVerifyCode.messageRes
+                            messageRes = resVerifyCode.messageRes,
+                            flgCelularValidado = resVerifyCode.flgCelularValidado.GetValueOrDefault(),
+                            flgMostrarRegistroUsuario = resVerifyCode.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            codUsuario = resVerifyCode.codUsuario,
+                            idUsuario = resVerifyCode.idUsuario.GetValueOrDefault()
                         };
                     }
                     else

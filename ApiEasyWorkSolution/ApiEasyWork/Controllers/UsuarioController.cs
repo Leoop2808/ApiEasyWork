@@ -674,10 +674,10 @@ namespace ApiEasyWork.Controllers
             }
 
             var cod_aplicacion = AplicationData.codAplicacion;
-            var respAuthFacebook = _authenticationBO.AutenticarCelular(request, cod_aplicacion, idLogTexto);
-            if (respAuthFacebook.codeRes == HttpStatusCode.OK)
+            var respAuthPhone = _authenticationBO.AutenticarCelular(request, cod_aplicacion, idLogTexto);
+            if (respAuthPhone.codeRes == HttpStatusCode.OK)
             {
-                var userSearch = UserManager.FindByName(respAuthFacebook.datos.correo);
+                var userSearch = UserManager.FindById(respAuthPhone.datos.codUsuario);
                 var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
                 identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
                 identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
@@ -703,12 +703,12 @@ namespace ApiEasyWork.Controllers
                     new JProperty("access_token", accesstoken),
                     new JProperty("token_type", "bearer"),
                     new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
-                    new JProperty("nombres", respAuthFacebook.datos.nombres),
-                    new JProperty("apellidos", respAuthFacebook.datos.apellidos),
-                    new JProperty("correo", respAuthFacebook.datos.correo),
-                    new JProperty("flgMostrarRegistroUsuario", respAuthFacebook.flgMostrarRegistroUsuario),
-                    new JProperty("flgCelularValidado", respAuthFacebook.flgCelularValidado),
-                    new JProperty("flgCorreoValidado", respAuthFacebook.flgCorreoValidado),
+                    new JProperty("nombres", respAuthPhone.datos.nombres),
+                    new JProperty("apellidos", respAuthPhone.datos.apellidos),
+                    new JProperty("correo", respAuthPhone.datos.correo),
+                    new JProperty("flgMostrarRegistroUsuario", respAuthPhone.flgMostrarRegistroUsuario),
+                    new JProperty("flgCelularValidado", respAuthPhone.flgCelularValidado),
+                    new JProperty("flgCorreoValidado", respAuthPhone.flgCorreoValidado),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );

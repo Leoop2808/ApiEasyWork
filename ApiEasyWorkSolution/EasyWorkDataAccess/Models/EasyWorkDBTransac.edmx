@@ -363,6 +363,7 @@
           <Property Type="String" Name="apellidos" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="correo" Nullable="true" MaxLength="150" />
           <Property Type="Boolean" Name="flgDatosLlenados" Nullable="true" />
+          <Property Type="String" Name="codUsuario" Nullable="true" MaxLength="20" />
         </ComplexType>
         <ComplexType Name="SP_REGISTRAR_DATOS_FACEBOOK_Result">
           <Property Type="Int32" Name="codeRes" Nullable="true" />
@@ -529,6 +530,7 @@
                 <ScalarProperty Name="apellidos" ColumnName="apellidos" />
                 <ScalarProperty Name="correo" ColumnName="correo" />
                 <ScalarProperty Name="flgDatosLlenados" ColumnName="flgDatosLlenados" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
