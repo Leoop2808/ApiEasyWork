@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -59,6 +60,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> AutenticarGoogle(AutenticarGoogleRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.google_token))
             {
@@ -121,6 +123,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> AutenticarFacebook(AutenticarFacebookRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.facebook_token))
             {
@@ -185,6 +188,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage EnviarSmsOrWhatsapp(EnviarSmsOrWhatsappRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.nroCelular))
             {
@@ -236,6 +240,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage EnviarCodigoVerificacionCorreo(EnviarCodigoVerificacionCorreoRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.correo))
             {
@@ -271,6 +276,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage EnviarCorreoCodigoRecuperacionClave(EnviarCorreoCodigoRecuperacionClaveRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.correo))
             {
@@ -306,6 +312,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage VerificarCodigoVerificacionCorreo(VerificarCodigoVerificacionCorreoRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
 
             if (String.IsNullOrEmpty(request.codigoVerificacion))
@@ -350,6 +357,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage VerificarCodigoVerificacionCelular(VerificarCodigoVerificacionCelularRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
 
             if (String.IsNullOrEmpty(request.codigoVerificacion))
@@ -394,6 +402,7 @@ namespace ApiEasyWork.Controllers
         [HttpPut]
         public HttpResponseMessage ActualizarClave(ActualizarClaveRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.username))
             {
@@ -447,6 +456,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> RegistrarUsuarioCliente(RegistrarUsuarioClienteRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
 
             if (!ModelState.IsValid)
@@ -460,10 +470,12 @@ namespace ApiEasyWork.Controllers
             var cod_aplicacion = AplicationData.codAplicacion;
 
             var resValExisUsu = _usuarioBO.ValidarExistenciaUsuario(request.datosPersona.correo, request.datosPersona.celular, cod_aplicacion, idLogTexto);
+            log.Info($"resValExisUsu --> " + JsonConvert.SerializeObject(resValExisUsu));
             trs_usuario userSearch;
             if (resValExisUsu.codeRes == HttpStatusCode.OK)
             {
                 var resRol = _usuarioBO.ObtenerRolPorCodRol(Roles.CLIENTE, cod_aplicacion, idLogTexto);
+                log.Info($"resRol --> " + JsonConvert.SerializeObject(resRol));
                 if (resRol.codeRes != HttpStatusCode.OK)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
@@ -473,6 +485,7 @@ namespace ApiEasyWork.Controllers
                 }
 
                 var resRegPersona = _usuarioBO.RegistrarPersona(request.datosPersona, cod_aplicacion, idLogTexto);
+                log.Info($"resRegPersona --> " + JsonConvert.SerializeObject(resRegPersona));
                 if (resRegPersona.codeRes != HttpStatusCode.OK)
                 {
                     return Request.CreateResponse(resRegPersona.codeRes, new JObject(
@@ -492,6 +505,7 @@ namespace ApiEasyWork.Controllers
                 usuario.cod_aplicacion_registro = cod_aplicacion;
 
                 var respCreateUser = UserManager.CreateAsync(usuario, usuario.password);
+                log.Info($"respCreateUser --> " + JsonConvert.SerializeObject(respCreateUser));
                 if (!respCreateUser.Result.Succeeded)
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
@@ -504,6 +518,7 @@ namespace ApiEasyWork.Controllers
             if (resValExisUsu.codeRes == HttpStatusCode.Continue)
             {
                 userSearch = UserManager.FindByName(request.datosPersona.correo);
+                log.Info($"userSearch --> " + JsonConvert.SerializeObject(userSearch));
                 if (String.IsNullOrEmpty(userSearch.password))
                 {
                     UserManager.AddPassword(userSearch.Id, request.contrasenia);
@@ -518,6 +533,7 @@ namespace ApiEasyWork.Controllers
             }
 
             var resDataSesion = _usuarioBO.ObtenerDataSesion(userSearch.id_usuario, cod_aplicacion, idLogTexto);
+            log.Info($"resDataSesion --> " + JsonConvert.SerializeObject(resDataSesion));
             if (resDataSesion.codeRes != HttpStatusCode.OK)
             {
                 return Request.CreateResponse(resDataSesion.codeRes, new JObject(
@@ -568,6 +584,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage RegistrarDispositivo(RegistrarDispositivoRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (!ModelState.IsValid)
             {
@@ -605,6 +622,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public HttpResponseMessage EnviarSmsOrWhatsappAutenticacion(EnviarSmsOrWhatsappAutenticacionRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.nroCelular))
             {
@@ -656,6 +674,7 @@ namespace ApiEasyWork.Controllers
         [HttpPost]
         public async Task<HttpResponseMessage> AutenticarCelular(AutenticarCelularRequest request)
         {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
             string idLogTexto = Guid.NewGuid().ToString();
             if (String.IsNullOrEmpty(request.nroCelular))
             {

@@ -33,10 +33,7 @@ namespace EasyWorkBusiness.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteBO ({idLogTexto}) ->  ObtenerListaMaestros. Aplicacion: {cod_aplicacion}." +
-                    "Usuario: " + cod_usuario + " " +
-                    "Mensaje al cliente: Error interno al obtener datos maestros. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerListaMaestrosResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -48,7 +45,7 @@ namespace EasyWorkBusiness.Implementacion
         private void ListadoDatosMaestrosFillData(ObtenerListaMaestrosResponse response, string cod_usuario, string cod_aplicacion, string idLogTexto) 
         {
             var dataCategoriaServicio = _clienteDO.ObtenerCategoriasServicio(cod_usuario, cod_aplicacion, idLogTexto);
-
+            log.Info($"dataCategoriaServicio --> " + JsonConvert.SerializeObject(dataCategoriaServicio));
             if (dataCategoriaServicio != null && dataCategoriaServicio.codeRes == HttpStatusCode.OK)
             {
                 response.datos.listaCategoriaServicio = new List<DataCategoriaServicio>();
@@ -60,7 +57,7 @@ namespace EasyWorkBusiness.Implementacion
             }
 
             var dataTipoDocumento = _clienteDO.ObtenerTiposDocumento(cod_usuario, cod_aplicacion, idLogTexto);
-
+            log.Info($"dataTipoDocumento --> " + JsonConvert.SerializeObject(dataTipoDocumento));
             if (dataTipoDocumento != null && dataTipoDocumento.codeRes == HttpStatusCode.OK)
             {
                 response.datos.listaTipoDocumento = new List<DataTipoDocumento>();
@@ -72,7 +69,7 @@ namespace EasyWorkBusiness.Implementacion
             }
 
             var dataDistrito = _clienteDO.ObtenerDistritos(cod_usuario, cod_aplicacion, idLogTexto);
-
+            log.Info($"dataDistrito --> " + JsonConvert.SerializeObject(dataDistrito));
             if (dataDistrito != null && dataDistrito.codeRes == HttpStatusCode.OK)
             {
                 response.datos.listaDistrito = new List<DataDistrito>();
@@ -83,7 +80,7 @@ namespace EasyWorkBusiness.Implementacion
                 dataDistrito.messageRes += dataDistrito.messageRes;
             }
             var dataMedioPago = _clienteDO.ObtenerMediosPago(cod_usuario, cod_aplicacion, idLogTexto);
-
+            log.Info($"dataMedioPago --> " + JsonConvert.SerializeObject(dataMedioPago));
             if (dataMedioPago != null && dataMedioPago.codeRes == HttpStatusCode.OK)
             {
                 response.datos.listaMedioPago = new List<DataMedioPago>();
@@ -94,7 +91,7 @@ namespace EasyWorkBusiness.Implementacion
                 dataMedioPago.messageRes += dataMedioPago.messageRes;
             }
             var dataTipoTransporte = _clienteDO.ObtenerTiposTransporte(cod_usuario, cod_aplicacion, idLogTexto);
-
+            log.Info($"dataTipoTransporte --> " + JsonConvert.SerializeObject(dataTipoTransporte));
             if (dataTipoTransporte != null && dataTipoTransporte.codeRes == HttpStatusCode.OK)
             {
                 response.datos.listaTipoTransporte = new List<DataTipoTransporte>();
@@ -105,7 +102,7 @@ namespace EasyWorkBusiness.Implementacion
                 dataTipoTransporte.messageRes += dataTipoTransporte.messageRes;
             }
             var dataTipoBusqueda = _clienteDO.ObtenerTiposBusqueda(cod_usuario, cod_aplicacion, idLogTexto);
-
+            log.Info($"dataTipoBusqueda --> " + JsonConvert.SerializeObject(dataTipoBusqueda));
             if (dataTipoBusqueda != null && dataTipoBusqueda.codeRes == HttpStatusCode.OK)
             {
                 response.datos.listaTipoBusqueda = new List<DataTipoBusqueda>();

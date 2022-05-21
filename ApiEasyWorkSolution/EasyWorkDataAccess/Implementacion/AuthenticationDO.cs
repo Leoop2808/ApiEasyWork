@@ -28,7 +28,7 @@ namespace EasyWorkDataAccess.Implementacion
                 HttpClient httpClient = new HttpClient();
                 httpClient.Timeout = new TimeSpan(0, timeOut, 0);
                 var responseGoogle = httpClient.GetAsync(_apiGoogle + "?id_token=" + google_token).Result;
-
+                log.Info($"responseGoogle --> " + JsonConvert.SerializeObject(responseGoogle));
                 if (responseGoogle.StatusCode == HttpStatusCode.OK)
                 {
                     Stream stream = responseGoogle.Content.ReadAsStreamAsync().Result;
@@ -71,10 +71,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  ObtenerDataGoogle. Aplicacion: {cod_aplicacion}. " +
-                   $"Token: {google_token}. " +
-                   "Mensaje al cliente: No se obtuvo la data de google. " +
-                   "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new DataGoogleResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -90,7 +87,7 @@ namespace EasyWorkDataAccess.Implementacion
                 httpClient.Timeout = new TimeSpan(0, timeOut, 0);
                 var requestUri = $"&access_token={facebook_token}";
                 var responseFacebook = httpClient.GetAsync(_apiGraphFacebook + requestUri).Result;
-
+                log.Info($"responseFacebook --> " + JsonConvert.SerializeObject(responseFacebook));
                 if (responseFacebook.StatusCode == HttpStatusCode.OK)
                 {
                     Stream stream = responseFacebook.Content.ReadAsStreamAsync().Result;
@@ -132,10 +129,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  ObtenerDataFacebook. Aplicacion: {cod_aplicacion}. " +
-                   $"Token: {facebook_token}. " +
-                   "Mensaje al cliente: No se obtuvo la data de facebook. " +
-                   "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new DataFacebookResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -151,7 +145,7 @@ namespace EasyWorkDataAccess.Implementacion
                 var resRegDtGoogle = ctx.SP_REGISTRAR_DATOS_GOOGLE(request.sub, request.email, request.email_verified,
                 request.name, request.given_name, request.family_name, request.picture, request.locale, google_token, Convert.ToDecimal(latitud),
                 Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
-
+                log.Info($"resRegDtGoogle --> " + JsonConvert.SerializeObject(resRegDtGoogle));
                 if (resRegDtGoogle != null)
                 {
                     if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201 || resRegDtGoogle.codeRes.GetValueOrDefault() == 200)
@@ -168,10 +162,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarDatosGoogle. Aplicacion: {cod_aplicacion}. " +
-                        $"Data: {JsonConvert.SerializeObject(request)}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de google. " +
-                        "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de google en la base de datos.");
                         return new RegistrarDatosGoogleResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -181,10 +171,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarDatosGoogle. Aplicacion: {cod_aplicacion}. " +
-                    $"Data: {JsonConvert.SerializeObject(request)}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de google. " +
-                    "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de google en la base de datos.");
                     return new RegistrarDatosGoogleResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -194,10 +180,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarDatosGoogle. Aplicacion: {cod_aplicacion}. " +
-                   $"Data: {JsonConvert.SerializeObject(request)}. " +
-                   "Mensaje al cliente: Error interno al almacenar datos de google. " +
-                   "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new RegistrarDatosGoogleResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -214,7 +197,7 @@ namespace EasyWorkDataAccess.Implementacion
                 request.username, request.email, request.picture.data.is_silhouette, request.picture.data.url,
                 facebook_token, Convert.ToDecimal(latitud),
                 Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
-
+                log.Info($"resRegDtGoogle --> " + JsonConvert.SerializeObject(resRegDtGoogle));
                 if (resRegDtGoogle != null)
                 {
                     if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201)
@@ -231,10 +214,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarDatosFacebook. Aplicacion: {cod_aplicacion}. " +
-                        $"Data: {JsonConvert.SerializeObject(request)}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de facebook. " +
-                        "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de facebook en la base de datos.");
                         return new RegistrarDatosFacebookResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -244,10 +223,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarDatosFacebook. Aplicacion: {cod_aplicacion}. " +
-                    $"Data: {JsonConvert.SerializeObject(request)}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de facebook. " +
-                    "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de facebook en la base de datos.");
                     return new RegistrarDatosFacebookResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -257,10 +232,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarDatosFacebook. Aplicacion: {cod_aplicacion}. " +
-                   $"Data: {JsonConvert.SerializeObject(request)}. " +
-                   "Mensaje al cliente: Error interno al almacenar datos de facebook. " +
-                   "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new RegistrarDatosFacebookResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -274,6 +246,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resDtPrincipalUsuario = ctx.SP_OBTENER_DATA_PRINCIPAL_USUARIO(idUsuario, codMedioAcceso).FirstOrDefault();
+                log.Info($"resDtPrincipalUsuario --> " + JsonConvert.SerializeObject(resDtPrincipalUsuario));
                 if (resDtPrincipalUsuario != null)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -312,9 +285,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  ObtenerDataPrincipalUsuario. Usuario: {codUsuarioCreado}, Aplicacion: {cod_aplicacion}. " +
-                    "Mensaje al cliente: Error interno al obtener los datos del usuario. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerDataPrincipalUsuarioResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -328,6 +299,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resValExisUsuCorreo= ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO(correo, cod_aplicacion).FirstOrDefault();
+                log.Info($"resValExisUsuCorreo --> " + JsonConvert.SerializeObject(resValExisUsuCorreo));
                 if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
                 {
                     return new ValidarExistenciaUsuarioCorreoResponse()
@@ -338,10 +310,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCorreo. Aplicacion: {cod_aplicacion}. " +
-                    $"Correo: {correo}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al validar existencia del usuario correo. " +
-                    "Detalle error: " + "No se obtuvo respuesta al validar existencia del usuario correo en la base de datos.");
                     return new ValidarExistenciaUsuarioCorreoResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -351,9 +319,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCorreo. Aplicacion: {cod_aplicacion}. " +
-                    "Mensaje al cliente: Error interno al validar existencia del usuario correo. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ValidarExistenciaUsuarioCorreoResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -366,27 +332,20 @@ namespace EasyWorkDataAccess.Implementacion
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var resRegDtGoogle = ctx.SP_REGISTRAR_CODIGO_VERIFICACION(verifyCode, correo, nroCelular, codTipoCodigoVerificacion).FirstOrDefault();
-
-                if (resRegDtGoogle != null)
+                var resRegCodVer= ctx.SP_REGISTRAR_CODIGO_VERIFICACION(verifyCode, correo, nroCelular, codTipoCodigoVerificacion).FirstOrDefault();
+                log.Info($"resRegCodVer --> " + JsonConvert.SerializeObject(resRegCodVer));
+                if (resRegCodVer != null)
                 {
-                    if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201)
+                    if (resRegCodVer.codeRes.GetValueOrDefault() == 201)
                     {
                         return new RegistrarCodigoVerificacionResponse()
                         {
                             codeRes = HttpStatusCode.Created,
-                            messageRes = resRegDtGoogle.messageRes
+                            messageRes = resRegCodVer.messageRes
                         };
                     }
                     else
                     {
-                        log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
-                        $"Código de verificación: {verifyCode}. " +
-                        $"Correo: {correo}. " +
-                        $"Número de celular: {nroCelular}. " +
-                        $"codTipoCodigoVerificacion: {codTipoCodigoVerificacion.ToString()}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al almacenar el código de verificación. " +
-                        "Detalle error: " + "No se obtuvo respuesta al almacenar el código de verificación en la base de datos.");
                         return new RegistrarCodigoVerificacionResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -396,13 +355,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
-                    $"Código de verificación: {verifyCode}. " +
-                    $"Correo: {correo}. " +
-                    $"Número de celular: {nroCelular}. " +
-                    $"codTipoCodigoVerificacion: {codTipoCodigoVerificacion.ToString()}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al almacenar el código de verificación. " +
-                    "Detalle error: " + "No se obtuvo respuesta al almacenar el código de verificación en la base de datos.");
                     return new RegistrarCodigoVerificacionResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -412,13 +364,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  RegistrarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
-                  $"Código de verificación: {verifyCode}. " +
-                  $"Correo: {correo}. " +
-                  $"Número de celular: {nroCelular}. " +
-                  $"codTipoCodigoVerificacion: {codTipoCodigoVerificacion.ToString()}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al guardar registro del código de verificación. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new RegistrarCodigoVerificacionResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -432,7 +378,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_VERIFICACION(codigoVerificacion, correo, nroCelular, flgCelularcorreo).FirstOrDefault();
-
+                log.Info($"resVerifyCode --> " + JsonConvert.SerializeObject(resVerifyCode));
                 if (resVerifyCode != null)
                 {
                     if (resVerifyCode.codeRes.GetValueOrDefault() == 200)
@@ -445,13 +391,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
-                        $"Código de verificación: {codigoVerificacion}. " +
-                        $"Correo: {correo}. " +
-                        $"Número de celular: {nroCelular}. " +
-                        $"flgCelularcorreo: {flgCelularcorreo.ToString()}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
-                        "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
                         return new VerificarCodigoVerificacionResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -461,13 +400,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
-                    $"Código de verificación: {codigoVerificacion}. " +
-                    $"Correo: {correo}. " +
-                    $"Número de celular: {nroCelular}. " +
-                    $"flgCelularcorreo: {flgCelularcorreo.ToString()}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
-                    "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
                     return new VerificarCodigoVerificacionResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -477,13 +409,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoVerificacion. Aplicacion: {cod_aplicacion}. " +
-                  $"Código de verificación: {codigoVerificacion}. " +
-                  $"Correo: {correo}. " +
-                  $"Número de celular: {nroCelular}. " +
-                  $"flgCelularcorreo: {flgCelularcorreo.ToString()}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new VerificarCodigoVerificacionResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -497,7 +423,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_AUTENTICACION(codVerificacion, nroCelular, Convert.ToDecimal(latitud), Convert.ToDecimal(longitud)).FirstOrDefault();
-
+                log.Info($"resVerifyCode --> " + JsonConvert.SerializeObject(resVerifyCode));
                 if (resVerifyCode != null)
                 {
                     if (resVerifyCode.codeRes.GetValueOrDefault() == 200)
@@ -514,13 +440,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoAutenticacion. Aplicacion: {cod_aplicacion}. " +
-                        $"Código de verificación: {codVerificacion}. " +
-                        $"Número de celular: {nroCelular}. " +
-                        $"latitud: {latitud.ToString()}. " +
-                        $"longitud: {longitud.ToString()}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al verificar el código de autenticación. " +
-                        "Detalle error: " + "No se obtuvo respuesta al verificar el código de autenticación en la base de datos.");
                         return new VerificarCodigoAutenticacionResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -530,13 +449,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoAutenticacion. Aplicacion: {cod_aplicacion}. " +
-                    $"Código de verificación: {codVerificacion}. " +
-                    $"Número de celular: {nroCelular}. " +
-                    $"latitud: {latitud.ToString()}. " +
-                    $"longitud: {longitud.ToString()}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al verificar el código de autenticación. " +
-                    "Detalle error: " + "No se obtuvo respuesta al verificar el código de autenticación en la base de datos.");
                     return new VerificarCodigoAutenticacionResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -546,13 +458,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  VerificarCodigoAutenticacion. Aplicacion: {cod_aplicacion}. " +
-                  $"Código de verificación: {codVerificacion}. " +
-                  $"Número de celular: {nroCelular}. " +
-                  $"latitud: {latitud.ToString()}. " +
-                  $"longitud: {longitud.ToString()}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al verificar el código de autenticación. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new VerificarCodigoAutenticacionResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -566,6 +472,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resValExisUsuCorreo = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR(nroCelular, cod_aplicacion).FirstOrDefault();
+                log.Info($"resValExisUsuCorreo --> " + JsonConvert.SerializeObject(resValExisUsuCorreo));
                 if (resValExisUsuCorreo != null)
                 {
                     if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
@@ -587,10 +494,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCelular. Aplicacion: {cod_aplicacion}. " +
-                    $"Celular: {nroCelular}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al validar existencia del usuario celular. " +
-                    "Detalle error: " + "No se obtuvo respuesta al validar existencia del usuario celular en la base de datos.");
                     return new ValidarExistenciaUsuarioCelularResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -600,9 +503,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCelular. Aplicacion: {cod_aplicacion}. " +
-                    "Mensaje al cliente: Error interno al validar existencia del usuario celular. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ValidarExistenciaUsuarioCelularResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,

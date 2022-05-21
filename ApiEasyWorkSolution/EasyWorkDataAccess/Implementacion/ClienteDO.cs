@@ -20,6 +20,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resCatServ = ctx.SP_OBTENER_CATEGORIAS_SERVICIO().ToList();
+                log.Info($"resCatServ --> " + JsonConvert.SerializeObject(resCatServ));
                 if (resCatServ != null && resCatServ.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -48,9 +49,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteDO ({idLogTexto}) ->  ObtenerCategoriasServicio. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el listado de datos de categorias de servicio. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerCategoriasServicioResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -64,6 +63,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resTipDoc = ctx.SP_OBTENER_TIPOS_DOCUMENTO().ToList();
+                log.Info($"resTipDoc --> " + JsonConvert.SerializeObject(resTipDoc));
                 if (resTipDoc != null && resTipDoc.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -92,9 +92,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteDO ({idLogTexto}) ->  ObtenerTiposDocumento. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el listado de tipos de documento. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerTiposDocumentoResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -108,6 +106,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resDist = ctx.SP_OBTENER_DISTRITOS().ToList();
+                log.Info($"resDist --> " + JsonConvert.SerializeObject(resDist));
                 if (resDist != null && resDist.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -136,9 +135,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteDO ({idLogTexto}) ->  ObtenerDistritos. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el listado de distritos. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerDistritosResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -152,6 +149,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resMedPag = ctx.SP_OBTENER_MEDIOS_PAGO().ToList();
+                log.Info($"resMedPag --> " + JsonConvert.SerializeObject(resMedPag));
                 if (resMedPag != null && resMedPag.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -180,9 +178,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteDO ({idLogTexto}) ->  ObtenerMediosPago. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el listado de medios de pago. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerMediosPagoResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -196,6 +192,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resTipTrans = ctx.SP_OBTENER_TIPOS_TRANSPORTE().ToList();
+                log.Info($"resTipTrans --> " + JsonConvert.SerializeObject(resTipTrans));
                 if (resTipTrans != null && resTipTrans.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -224,9 +221,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteDO ({idLogTexto}) ->  ObtenerTiposTransporte. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el listado de tipos de transporte. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerTiposTransporteResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -240,6 +235,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resTipBus = ctx.SP_OBTENER_TIPOS_BUSQUEDA().ToList();
+                log.Info($"resTipBus --> " + JsonConvert.SerializeObject(resTipBus));
                 if (resTipBus != null && resTipBus.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
@@ -268,9 +264,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"ClienteDO ({idLogTexto}) ->  ObtenerTiposBusqueda. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el listado de tipos de busqueda. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerTiposBusquedaResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,

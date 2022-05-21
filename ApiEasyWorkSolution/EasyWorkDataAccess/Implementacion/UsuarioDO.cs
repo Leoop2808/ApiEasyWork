@@ -19,33 +19,28 @@ namespace EasyWorkDataAccess.Implementacion
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var resVerifyCode = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE(correo, celular).FirstOrDefault();
-
-                if (resVerifyCode != null)
+                var resVerifyExisUsu = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE(correo, celular).FirstOrDefault();
+                log.Info($"resVerifyExisUsu --> " + JsonConvert.SerializeObject(resVerifyExisUsu));
+                if (resVerifyExisUsu != null)
                 {
-                    if (resVerifyCode.codeRes.GetValueOrDefault() == 200) //USUARIO NO EXISTE Y SE PUEDE REGISTRAR
+                    if (resVerifyExisUsu.codeRes.GetValueOrDefault() == 200) //USUARIO NO EXISTE Y SE PUEDE REGISTRAR
                     {
                         return new ValidarExistenciaUsuarioResponse()   
                         {
                             codeRes = HttpStatusCode.OK,
-                            messageRes = resVerifyCode.messageRes
+                            messageRes = resVerifyExisUsu.messageRes
                         };
                     }
-                    else if (resVerifyCode.codeRes.GetValueOrDefault() == 100) //USUARIO EXISTE PERO NO TIENE CONTRASEÑA SE ACTUALIZARA LA CONTRASEÑA
+                    else if (resVerifyExisUsu.codeRes.GetValueOrDefault() == 100) //USUARIO EXISTE PERO NO TIENE CONTRASEÑA SE ACTUALIZARA LA CONTRASEÑA
                     {
                         return new ValidarExistenciaUsuarioResponse()
                         {
                             codeRes = HttpStatusCode.Continue,
-                            messageRes = resVerifyCode.messageRes
+                            messageRes = resVerifyExisUsu.messageRes
                         };
                     }
                     else
                     {
-                        log.Error($"UsuarioDO ({idLogTexto}) ->  ValidarExistenciaUsuario. Aplicacion: {cod_aplicacion}. " +
-                        $"Correo: {correo}. " +
-                        $"Número de celular: {celular}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al validar existecia del usuario. " +
-                        "Detalle error: " + "No se obtuvo respuesta al validar existecia del usuario en la base de datos.");
                         return new ValidarExistenciaUsuarioResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -55,11 +50,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"UsuarioDO ({idLogTexto}) ->  ValidarExistenciaUsuario. Aplicacion: {cod_aplicacion}. " +
-                    $"Correo: {correo}. " +
-                    $"Número de celular: {celular}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al verificar el código de verificación. " +
-                    "Detalle error: " + "No se obtuvo respuesta al verificar el código de verificación en la base de datos.");
                     return new ValidarExistenciaUsuarioResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -69,11 +59,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"UsuarioDO ({idLogTexto}) ->  ValidarExistenciaUsuario. Aplicacion: {cod_aplicacion}. " +
-                  $"Correo: {correo}. " +
-                  $"Número de celular: {celular}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al validar existecia del usuario. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ValidarExistenciaUsuarioResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -87,7 +73,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resCodRol = ctx.SP_OBTENER_ROL_X_COD_ROL(codRol).FirstOrDefault();
-
+                log.Info($"resCodRol --> " + JsonConvert.SerializeObject(resCodRol));
                 if (resCodRol != null)
                 {
                     if (resCodRol.codeRes.GetValueOrDefault() == 200)
@@ -101,10 +87,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"UsuarioDO ({idLogTexto}) ->  ObtenerRolPorCodRol. Aplicacion: {cod_aplicacion}. " +
-                        $"Código rol: {codRol}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al identificar el rol del usuario. " +
-                        "Detalle error: " + "No se obtuvo respuesta al identificar el rol del usuario en la base de datos.");
                         return new ObtenerRolPorCodRolResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -114,10 +96,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"UsuarioDO ({idLogTexto}) ->  ObtenerRolPorCodRol. Aplicacion: {cod_aplicacion}. " +
-                    $"Código rol: {codRol}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al identificar el rol del usuario." +
-                    "Detalle error: " + "No se obtuvo respuesta al identificar el rol del usuario en la base de datos.");
                     return new ObtenerRolPorCodRolResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -127,10 +105,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"UsuarioDO ({idLogTexto}) ->  ObtenerRolPorCodRol. Aplicacion: {cod_aplicacion}. " +
-                  $"Código rol: {codRol}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al identificar el rol del usuario. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerRolPorCodRolResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -146,7 +121,7 @@ namespace EasyWorkDataAccess.Implementacion
                 var reRegPersona = ctx.SP_REGISTRAR_PERSONA(request.nombre1, request.nombre2, request.apellido1, request.apellido2,
                     request.celular, request.correo, request.codDistrito, request.codTipoDocumento, request.documento, request.genero, 
                     Convert.ToDecimal(request.latitud), Convert.ToDecimal(request.longitud), cod_aplicacion).FirstOrDefault();
-
+                log.Info($"reRegPersona --> " + JsonConvert.SerializeObject(reRegPersona));
                 if (reRegPersona != null)
                 {
                     if (reRegPersona.codeRes.GetValueOrDefault() == 201)
@@ -160,10 +135,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarPersona. Aplicacion: {cod_aplicacion}. " +
-                        $"Request: {JsonConvert.SerializeObject(request)}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al registrar los datos de la persona. " +
-                        "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de la persona en la base de datos.");
                         return new RegistrarPersonaResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -173,10 +144,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarPersona. Aplicacion: {cod_aplicacion}. " +
-                    $"Request: {JsonConvert.SerializeObject(request)}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de la persona. " +
-                    "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de la persona en la base de datos.");
                     return new RegistrarPersonaResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -186,10 +153,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarPersona. Aplicacion: {cod_aplicacion}. " +
-                  $"Request: {JsonConvert.SerializeObject(request)}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al guardar registro de datos de persona. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new RegistrarPersonaResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -203,7 +167,7 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resDataSesion = ctx.SP_OBTENER_DATA_SESION_X_USUARIO(id_usuario).FirstOrDefault();
-
+                log.Info($"resDataSesion --> " + JsonConvert.SerializeObject(resDataSesion));
                 if (resDataSesion != null)
                 {
                     if (resDataSesion.codeRes.GetValueOrDefault() == 200)
@@ -221,10 +185,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"UsuarioDO ({idLogTexto}) ->  ObtenerDataSesion. Aplicacion: {cod_aplicacion}. " +
-                        $"Id Usuario: {id_usuario.ToString()}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al obtener data sesión. " +
-                        "Detalle error: " + "No se obtuvo respuesta al obtener data sesión en la base de datos.");
                         return new ObtenerDataSesionResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -234,10 +194,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"UsuarioDO ({idLogTexto}) ->  ObtenerDataSesion. Aplicacion: {cod_aplicacion}. " +
-                    $"Id Usuario: {id_usuario.ToString()}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al obtener data sesión." +
-                    "Detalle error: " + "No se obtuvo respuesta al obtener data sesión en la base de datos.");
                     return new ObtenerDataSesionResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -247,10 +203,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"UsuarioDO ({idLogTexto}) ->  ObtenerDataSesion. Aplicacion: {cod_aplicacion}. " +
-                  $"Id Usuario: {id_usuario.ToString()}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al obtener data sesión. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new ObtenerDataSesionResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
@@ -265,7 +218,7 @@ namespace EasyWorkDataAccess.Implementacion
                 var ctx = new EasyWorkDBEntities();
                 var reRegPersona = ctx.SP_REGISTRAR_DISPOSITIVO(request.keyDispositivo, request.versionAndroid,
                 request.versionApp, Convert.ToDecimal(request.latitud), Convert.ToDecimal(request.longitud), cod_usuario, cod_aplicacion).FirstOrDefault();
-
+                log.Info($"reRegPersona --> " + JsonConvert.SerializeObject(reRegPersona));
                 if (reRegPersona != null)
                 {
                     if (reRegPersona.codeRes.GetValueOrDefault() == 200)
@@ -278,10 +231,6 @@ namespace EasyWorkDataAccess.Implementacion
                     }
                     else
                     {
-                        log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarDispositivo. Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
-                        $"Request: {JsonConvert.SerializeObject(request)}. " +
-                        "Mensaje al cliente: No se obtuvo respuesta al registrar los datos de dispositivo. " +
-                        "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de dispositivo en la base de datos.");
                         return new RegistrarDispositivoResponse()
                         {
                             codeRes = HttpStatusCode.NoContent,
@@ -291,10 +240,6 @@ namespace EasyWorkDataAccess.Implementacion
                 }
                 else
                 {
-                    log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarDispositivo. Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
-                    $"Request: {JsonConvert.SerializeObject(request)}. " +
-                    "Mensaje al cliente: No se obtuvo respuesta al almacenar los datos de dispositivo. " +
-                    "Detalle error: " + "No se obtuvo respuesta al almacenar los datos de dispositivo en la base de datos.");
                     return new RegistrarDispositivoResponse()
                     {
                         codeRes = HttpStatusCode.NoContent,
@@ -304,10 +249,7 @@ namespace EasyWorkDataAccess.Implementacion
             }
             catch (Exception e)
             {
-                log.Error($"UsuarioDO ({idLogTexto}) ->  RegistrarDispositivo. Aplicacion: {cod_aplicacion}. Usuario: {cod_usuario}." +
-                  $"Request: {JsonConvert.SerializeObject(request)}. " +
-                  "Mensaje al cliente: No se obtuvo respuesta al guardar registro de datos de dispositivo. " +
-                  "Detalle error: " + JsonConvert.SerializeObject(e));
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
                 return new RegistrarDispositivoResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,

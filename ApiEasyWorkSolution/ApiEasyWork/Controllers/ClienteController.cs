@@ -45,6 +45,7 @@ namespace ApiEasyWork.Controllers
         public HttpResponseMessage ObtenerListaMaestros()
         {
             string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request --> ");
             var cod_usuario = User.Identity.GetUserId();
             var cod_aplicacion = AplicationData.codAplicacion;
             try
