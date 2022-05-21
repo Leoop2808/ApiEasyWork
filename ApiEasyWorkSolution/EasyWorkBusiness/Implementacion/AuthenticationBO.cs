@@ -401,6 +401,15 @@ namespace EasyWorkBusiness.Implementacion
             try
             {
                 var response = new EnviarSmsOrWhatsappAutenticacionResponse();
+
+                var resValExis = _authenticationDO.ValidarExistenciaUsuarioCelular(verifyCode, String.Empty, request.nroCelular, cod_aplicacion, idLogTexto);
+                if (resValExis.codeRes != HttpStatusCode.OK)
+                {
+                    response.codeRes = resValExis.codeRes;
+                    response.messageRes = resValExis.messageRes;
+                    return response;
+                }
+
                 var verifyCode = Helpers.GenerateCode(6);
                 var codTipoCodigoVerificacion = (request.tipoEnvio == TipoEnvioCodigoVerificacion.SMS) ? TipoEnvioCodigoVerificacion.COD_AUTH_SMS : TipoEnvioCodigoVerificacion.COD_AUTH_WHATSAPP;
                 var resRegCodigoVerificacion = _authenticationDO.RegistrarCodigoVerificacion(verifyCode, String.Empty, request.nroCelular,

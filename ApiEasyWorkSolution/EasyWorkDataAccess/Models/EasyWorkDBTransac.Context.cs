@@ -385,5 +385,18 @@ namespace EasyWorkDataAccess.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_AUTENTICACION_Result>("SP_VERIFICAR_CODIGO_AUTENTICACION", codigoVerificacionParameter, nroCelularParameter, latitudParameter, longitudParameter);
         }
+    
+        public virtual ObjectResult<SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result> SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR(string nroCelular, string codAplicacion)
+        {
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR", nroCelularParameter, codAplicacionParameter);
+        }
     }
 }

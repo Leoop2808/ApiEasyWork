@@ -632,7 +632,7 @@ namespace ApiEasyWork.Controllers
 
             var cod_aplicacion = AplicationData.codAplicacion;
             var respEnvioSmsOrWhatsapp = _authenticationBO.EnviarSmsOrWhatsappAutenticacion(request, cod_aplicacion, idLogTexto);
-            if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+            if (respEnvioSmsOrWhatsapp != null)
             {
                 if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
                 {

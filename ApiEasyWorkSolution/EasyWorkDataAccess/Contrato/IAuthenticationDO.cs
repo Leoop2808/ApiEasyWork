@@ -14,5 +14,6 @@ namespace EasyWorkDataAccess.Contrato
         RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacion(string verifyCode, string correo, string nroCelular, string codTipoCodigoVerificacion, string cod_aplicacion, string idLogTexto);
         VerificarCodigoVerificacionResponse VerificarCodigoVerificacion(string codigoVerificacion, string correo, string nroCelular, bool flgCelularCorreo, string cod_aplicacion, string idLogTexto);
         VerificarCodigoAutenticacionResponse VerificarCodigoAutenticacion(string codVerificacion, string nroCelular, double latitud, double longitud, string cod_aplicacion, string idLogTexto);
+        ValidarExistenciaUsuarioCelularResponse ValidarExistenciaUsuarioCelular(string nroCelular, string cod_aplicacion, string idLogTexto);
     }
 }

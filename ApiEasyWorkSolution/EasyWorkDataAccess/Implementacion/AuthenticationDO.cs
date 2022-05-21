@@ -556,5 +556,44 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
+        public ValidarExistenciaUsuarioCelularResponse ValidarExistenciaUsuarioCelular(string nroCelular, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resValExisUsuCorreo = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR(nroCelular, cod_aplicacion).FirstOrDefault();
+                if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
+                {
+                    return new ValidarExistenciaUsuarioCelularResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = resValExisUsuCorreo.messageRes,
+                    };
+                }
+                else
+                {
+                    log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCelular. Aplicacion: {cod_aplicacion}. " +
+                    $"Celular: {nroCelular}. " +
+                    "Mensaje al cliente: No se obtuvo respuesta al validar existencia del usuario celular. " +
+                    "Detalle error: " + "No se obtuvo respuesta al validar existencia del usuario celular en la base de datos.");
+                    return new ValidarExistenciaUsuarioCelularResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al validar existencia del usuario celular."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error($"AuthenticationDO ({idLogTexto}) ->  ValidarExistenciaUsuarioCelular. Aplicacion: {cod_aplicacion}. " +
+                    "Mensaje al cliente: Error interno al validar existencia del usuario celular. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(e));
+                return new ValidarExistenciaUsuarioCelularResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al validar existencia del usuario celular."
+                };
+            }
+        }
     }
 }

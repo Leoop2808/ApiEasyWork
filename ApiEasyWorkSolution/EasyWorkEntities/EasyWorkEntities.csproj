@@ -65,6 +65,7 @@
     <Compile Include="Authentication\Response\RegistrarCodigoVerificacionResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />
+    <Compile Include="Authentication\Response\ValidarExistenciaUsuarioCelularResponse.cs" />
     <Compile Include="Authentication\Response\ValidarExistenciaUsuarioCorreoResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoAutenticacionResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCelularResponse.cs" />

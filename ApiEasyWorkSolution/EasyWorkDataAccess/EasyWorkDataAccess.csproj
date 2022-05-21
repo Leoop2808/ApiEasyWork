@@ -137,6 +137,9 @@
     <Compile Include="Models\SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
