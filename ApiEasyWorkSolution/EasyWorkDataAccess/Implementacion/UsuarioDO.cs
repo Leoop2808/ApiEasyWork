@@ -258,7 +258,6 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
-
         public RegistrarDispositivoResponse RegistrarDispositivo(RegistrarDispositivoRequest request, string cod_usuario, string cod_aplicacion, string idLogTexto) 
         {
             try

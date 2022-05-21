@@ -64,7 +64,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_token_google_empty"),
-                    new JProperty("error_description", "Empty Google token.")
+                    new JProperty("error_description", "No se recibió el token de google.")
                 ));
             }
             var cod_aplicacion = AplicationData.codAplicacion;
@@ -111,7 +111,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_token_google"),
-                    new JProperty("error_description", "Could not authenticate with Google.")
+                    new JProperty("error_description", "No se pudo realizar la autenticación mediante google.")
                 ));
             }
         }
@@ -126,7 +126,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_token_facebook_empty"),
-                    new JProperty("error_description", "Empty Facebook token.")
+                    new JProperty("error_description", "No se recibió el token de facebook.")
                 ));
             }
             var cod_aplicacion = AplicationData.codAplicacion;
@@ -175,7 +175,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_token_facebook"),
-                    new JProperty("error_description", "Could not authenticate with Facebook.")
+                    new JProperty("error_description", "No se pudo realizar la autenticación mediante facebook.")
                 ));
             }
         }
@@ -190,7 +190,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_phone_number_empty"),
-                    new JProperty("error_description", "Empty Phone Number.")
+                    new JProperty("error_description", "No se recibió el número de celular.")
                 ));
             }
 
@@ -198,7 +198,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_type_empty"),
-                    new JProperty("error_description", "Empty Send Type.")
+                    new JProperty("error_description", "No se recibió el tipo de envío.")
                 ));
             }
 
@@ -206,7 +206,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_type_not_reconized"),
-                    new JProperty("error_description", "Not reconized Send Type.")
+                    new JProperty("error_description", "Tipo de envío desconocido.")
                 ));
             }
 
@@ -241,7 +241,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_email_empty"),
-                    new JProperty("error_description", "Empty Email.")
+                    new JProperty("error_description", "No se recibió el correo.")
                 ));
             }
 
@@ -261,7 +261,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_a_verify_code"),
-                    new JProperty("error_description", "Could not send verify code.")
+                    new JProperty("error_description", "No se pudo enviar el codigo de verificación de correo.")
                 ));
             }
         }
@@ -276,7 +276,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_email_empty"),
-                    new JProperty("error_description", "Empty Email.")
+                    new JProperty("error_description", "No se recibió el correo.")
                 ));
             }
 
@@ -296,7 +296,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_a_recovery_code"),
-                    new JProperty("error_description", "Could not send recovery code.")
+                    new JProperty("error_description", "No se pudo enviar el código de recuperación.")
                 ));
             }
         }
@@ -312,7 +312,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_verify_code_empty"),
-                    new JProperty("error_description", "Empty Verify Code.")
+                    new JProperty("error_description", "No se recibió el codigo de verificación de correo.")
                 ));
             }
 
@@ -320,7 +320,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_email_empty"),
-                    new JProperty("error_description", "Empty Email.")
+                    new JProperty("error_description", "No se recibió el correo.")
                 ));
             }
 
@@ -356,7 +356,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_verify_code_empty"),
-                    new JProperty("error_description", "Empty Verify Code.")
+                    new JProperty("error_description", "No se recibió el código de verificación de celular.")
                 ));
             }
 
@@ -364,7 +364,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_phone_empty"),
-                    new JProperty("error_description", "Empty Phone.")
+                    new JProperty("error_description", "No se recibió el número de celular.")
                 ));
             }
 
@@ -384,7 +384,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_verify_a_verify_code"),
-                    new JProperty("error_description", "Could not verify code.")
+                    new JProperty("error_description", "No se pudo enviar el código de verificación de celula.")
                 ));
             }
         }
@@ -399,7 +399,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_username_empty"),
-                    new JProperty("error_description", "Empty Username.")
+                    new JProperty("error_description", "No se recibió el usuario.")
                 ));
             }
 
@@ -407,7 +407,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_password_empty"),
-                    new JProperty("error_description", "Empty Password.")
+                    new JProperty("error_description", "Debe ingresar la nueva contraseña.")
                 ));
             }
 
@@ -418,7 +418,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                    new JProperty("error", "invalid_recovery_code"),
-                   new JProperty("error_description", "Invalid Recovery Code.")
+                   new JProperty("error_description", "Código de recuperación inválido.")
                ));
             }
 
@@ -468,7 +468,7 @@ namespace ApiEasyWork.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                         new JProperty("error", "invalid_register_user"),
-                        new JProperty("error_description", "User could not be registered.(1)")
+                        new JProperty("error_description", "El usuario no pudo ser registrado.")
                     ));
                 }
 
@@ -477,7 +477,7 @@ namespace ApiEasyWork.Controllers
                 {
                     return Request.CreateResponse(resRegPersona.codeRes, new JObject(
                         new JProperty("error", "person_create_no_complete"),
-                        new JProperty("error_description", "Person could not be registered.")
+                        new JProperty("error_description", "Los datos de persona no pudieron ser registrados.")
                     ));
                 }
 
@@ -496,7 +496,7 @@ namespace ApiEasyWork.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                         new JProperty("error", "invalid_register_user"),
-                        new JProperty("error_description", "User could not be registered.")
+                        new JProperty("error_description", "Usuario no pudo ser registrado.")
                     ));
                 }
             }
@@ -513,7 +513,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_duplicated_user"),
-                    new JProperty("error_description", "There is a user with the same email.")
+                    new JProperty("error_description", "Ya existe un usuario con el mismo email.")
                 ));
             }
 
@@ -522,7 +522,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(resDataSesion.codeRes, new JObject(
                     new JProperty("error", "error_data_sesion"),
-                    new JProperty("error_description", "Data sesion could not be obtained.")
+                    new JProperty("error_description", "No se pudo obtener los datos de sesion.")
                 ));
             }
 
@@ -595,7 +595,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_register_device"),
-                    new JProperty("error_description", "Could not register device.")
+                    new JProperty("error_description", "No se pudo registrar el dispositivo.")
                 ));
             }
         }
@@ -610,7 +610,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_phone_number_empty"),
-                    new JProperty("error_description", "Empty Phone Number.")
+                    new JProperty("error_description", "No se recibió el número de celular.")
                 ));
             }
 
@@ -618,7 +618,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_type_empty"),
-                    new JProperty("error_description", "Empty Send Type.")
+                    new JProperty("error_description", "No se recibió el tipo de envio.")
                 ));
             }
 
@@ -626,7 +626,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_type_not_reconized"),
-                    new JProperty("error_description", "Not reconized Send Type.")
+                    new JProperty("error_description", "Tipo de envio no reconocido.")
                 ));
             }
 
@@ -646,7 +646,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_send_a_verify_code"),
-                    new JProperty("error_description", "Could not send verify code.")
+                    new JProperty("error_description", "No se pudo enviar el código de autenticación de celular.")
                 ));
             }
         }
@@ -661,7 +661,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_phone_number_empty"),
-                    new JProperty("error_description", "Empty Phone Number.")
+                    new JProperty("error_description", "No se recibió el número de celular.")
                 ));
             }
 
@@ -669,7 +669,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_verification_code_empty"),
-                    new JProperty("error_description", "Empty verification code token.")
+                    new JProperty("error_description", "No se recibió el codigo de autenticación.")
                 ));
             }
 
@@ -719,7 +719,7 @@ namespace ApiEasyWork.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
                     new JProperty("error", "invalid_phone"),
-                    new JProperty("error_description", "Could not authenticate with phone.")
+                    new JProperty("error_description", "No se pudo realizar la autenticación mediante el número de celular.")
                 ));
             }
         }

@@ -98,6 +98,7 @@ namespace EasyWorkBusiness.Implementacion
                 response.messageRes = resRegDtFacebook.messageRes;
                 response.flgCorreoValidado = true;
                 response.flgCelularValidado = resRegDtFacebook.flgCelularValidado;
+                response.flgMostrarRegistroUsuario = resRegDtFacebook.flgMostrarRegistroUsuario;
 
                 if (resRegDtFacebook.codeRes != HttpStatusCode.OK)
                 {
@@ -442,6 +443,7 @@ namespace EasyWorkBusiness.Implementacion
                 response.messageRes = resVerCodAut.messageRes;
                 response.flgCorreoValidado = true;
                 response.flgCelularValidado = resVerCodAut.flgCelularValidado;
+                response.flgMostrarRegistroUsuario = resVerCodAut.flgMostrarRegistroUsuario;
 
                 if (resVerCodAut.codeRes != HttpStatusCode.OK)
                 {
