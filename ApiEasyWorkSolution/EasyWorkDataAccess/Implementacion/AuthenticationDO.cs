@@ -562,13 +562,24 @@ namespace EasyWorkDataAccess.Implementacion
             {
                 var ctx = new EasyWorkDBEntities();
                 var resValExisUsuCorreo = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR(nroCelular, cod_aplicacion).FirstOrDefault();
-                if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
+                if (resValExisUsuCorreo != null)
                 {
-                    return new ValidarExistenciaUsuarioCelularResponse()
+                    if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
                     {
-                        codeRes = HttpStatusCode.OK,
-                        messageRes = resValExisUsuCorreo.messageRes,
-                    };
+                        return new ValidarExistenciaUsuarioCelularResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resValExisUsuCorreo.messageRes,
+                        };
+                    }
+                    else
+                    {
+                        return new ValidarExistenciaUsuarioCelularResponse()
+                        {
+                            codeRes = HttpStatusCode.Unauthorized,
+                            messageRes = resValExisUsuCorreo.messageRes,
+                        };
+                    }
                 }
                 else
                 {
