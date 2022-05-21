@@ -402,7 +402,7 @@ namespace EasyWorkBusiness.Implementacion
             {
                 var response = new EnviarSmsOrWhatsappAutenticacionResponse();
 
-                var resValExis = _authenticationDO.ValidarExistenciaUsuarioCelular(verifyCode, String.Empty, request.nroCelular, cod_aplicacion, idLogTexto);
+                var resValExis = _authenticationDO.ValidarExistenciaUsuarioCelular(request.nroCelular, cod_aplicacion, idLogTexto);
                 if (resValExis.codeRes != HttpStatusCode.OK)
                 {
                     response.codeRes = resValExis.codeRes;
