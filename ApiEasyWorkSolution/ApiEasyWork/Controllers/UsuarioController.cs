@@ -595,9 +595,20 @@ namespace ApiEasyWork.Controllers
                 ));
             }
 
-            var cod_aplicacion = AplicationData.codAplicacion;
-            var cod_usuario = User.Identity.GetUserId();
-            var respEnvioCorreo = _usuarioBO.RegistrarDispositivo(request, cod_usuario, cod_aplicacion, idLogTexto);
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+            if (!HelperToken.validClienteCodAplicativo(validToken))
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el aplicativo." });
+            }
+
+            var respEnvioCorreo = _usuarioBO.RegistrarDispositivo(request, validToken.cod_usuario, validToken.cod_aplicacion, idLogTexto);
             if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
             {
                 if (respEnvioCorreo.codeRes == HttpStatusCode.OK)

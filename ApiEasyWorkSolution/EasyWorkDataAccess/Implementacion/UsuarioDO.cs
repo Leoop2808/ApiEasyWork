@@ -225,7 +225,7 @@ namespace EasyWorkDataAccess.Implementacion
                     {
                         return new RegistrarDispositivoResponse()
                         {
-                            codeRes = HttpStatusCode.Created,
+                            codeRes = HttpStatusCode.OK,
                             messageRes = reRegPersona.messageRes
                         };
                     }
