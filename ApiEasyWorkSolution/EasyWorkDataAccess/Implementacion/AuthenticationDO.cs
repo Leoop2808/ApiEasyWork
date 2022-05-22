@@ -193,23 +193,23 @@ namespace EasyWorkDataAccess.Implementacion
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var resRegDtGoogle = ctx.SP_REGISTRAR_DATOS_FACEBOOK(request.id, request.first_name, request.last_name,
+                var resRegDtFacebook = ctx.SP_REGISTRAR_DATOS_FACEBOOK(request.id, request.first_name, request.last_name,
                 request.username, request.email, request.picture.data.is_silhouette, request.picture.data.url,
                 facebook_token, Convert.ToDecimal(latitud),
                 Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
-                log.Info($"resRegDtGoogle --> " + JsonConvert.SerializeObject(resRegDtGoogle));
-                if (resRegDtGoogle != null)
+                log.Info($"resRegDtFacebook --> " + JsonConvert.SerializeObject(resRegDtFacebook));
+                if (resRegDtFacebook != null)
                 {
-                    if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201)
+                    if (resRegDtFacebook.codeRes.GetValueOrDefault() == 200)
                     {
                         return new RegistrarDatosFacebookResponse()
                         {
-                            codeRes = HttpStatusCode.Created,
-                            messageRes = resRegDtGoogle.messageRes,
-                            codUsuarioCreado = resRegDtGoogle.codUsuarioCreado,
-                            idUsuarioCreado = resRegDtGoogle.idUsuarioCreado.GetValueOrDefault(),
-                            flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario.GetValueOrDefault(),
-                            flgCelularValidado = resRegDtGoogle.flgCelularValidado.GetValueOrDefault()
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resRegDtFacebook.messageRes,
+                            codUsuarioCreado = resRegDtFacebook.codUsuarioCreado,
+                            idUsuarioCreado = resRegDtFacebook.idUsuarioCreado.GetValueOrDefault(),
+                            flgMostrarRegistroUsuario = resRegDtFacebook.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            flgCelularValidado = resRegDtFacebook.flgCelularValidado.GetValueOrDefault()
                         };
                     }
                     else
