@@ -308,7 +308,6 @@
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="celular" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_OBTENER_CATEGORIAS_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result)" />
           <FunctionImport Name="SP_OBTENER_DISTRITOS" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_DISTRITOS_Result)" />
           <FunctionImport Name="SP_OBTENER_MEDIOS_PAGO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_MEDIOS_PAGO_Result)" />
           <FunctionImport Name="SP_OBTENER_TIPOS_BUSQUEDA" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_TIPOS_BUSQUEDA_Result)" />
@@ -337,6 +336,7 @@
             <Parameter Name="nroCelular" Mode="In" Type="String" />
             <Parameter Name="codAplicacion" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_CATEGORIAS_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result)" />
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
           <Key>
@@ -417,10 +417,6 @@
           <Property Type="Int32" Name="codeRes" Nullable="true" />
           <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
         </ComplexType>
-        <ComplexType Name="SP_OBTENER_CATEGORIAS_SERVICIO_Result">
-          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="siglaCategoriaServicio" Nullable="true" MaxLength="20" />
-        </ComplexType>
         <ComplexType Name="SP_OBTENER_DISTRITOS_Result">
           <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="siglaDistrito" Nullable="true" MaxLength="20" />
@@ -460,6 +456,11 @@
         <ComplexType Name="SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result">
           <Property Type="Int32" Name="codeRes" Nullable="true" />
           <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_CATEGORIAS_SERVICIO_Result">
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="siglaCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreImgCategoriaServicio" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -622,14 +623,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_OBTENER_CATEGORIAS_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_CATEGORIAS_SERVICIO">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result">
-                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
-                <ScalarProperty Name="siglaCategoriaServicio" ColumnName="siglaCategoriaServicio" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_OBTENER_DISTRITOS" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_DISTRITOS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_DISTRITOS_Result">
@@ -703,6 +696,15 @@
               <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result">
                 <ScalarProperty Name="codeRes" ColumnName="codeRes" />
                 <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_CATEGORIAS_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_CATEGORIAS_SERVICIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result">
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="siglaCategoriaServicio" ColumnName="siglaCategoriaServicio" />
+                <ScalarProperty Name="nombreImgCategoriaServicio" ColumnName="nombreImgCategoriaServicio" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

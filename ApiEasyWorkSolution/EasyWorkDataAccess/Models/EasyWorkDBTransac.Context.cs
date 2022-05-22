@@ -289,11 +289,6 @@ namespace EasyWorkDataAccess.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE", correoParameter, celularParameter);
         }
     
-        public virtual ObjectResult<SP_OBTENER_CATEGORIAS_SERVICIO_Result> SP_OBTENER_CATEGORIAS_SERVICIO()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_CATEGORIAS_SERVICIO_Result>("SP_OBTENER_CATEGORIAS_SERVICIO");
-        }
-    
         public virtual ObjectResult<SP_OBTENER_DISTRITOS_Result> SP_OBTENER_DISTRITOS()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DISTRITOS_Result>("SP_OBTENER_DISTRITOS");
@@ -397,6 +392,11 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("codAplicacion", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR", nroCelularParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_CATEGORIAS_SERVICIO_Result> SP_OBTENER_CATEGORIAS_SERVICIO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_CATEGORIAS_SERVICIO_Result>("SP_OBTENER_CATEGORIAS_SERVICIO");
         }
     }
 }

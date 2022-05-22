@@ -1,5 +1,6 @@
 ﻿using EasyWorkBusiness.Contrato;
 using EasyWorkDataAccess.Contrato;
+using EasyWorkEntities.Cliente.Request;
 using EasyWorkEntities.Cliente.Response;
 using log4net;
 using Newtonsoft.Json;
@@ -111,6 +112,85 @@ namespace EasyWorkBusiness.Implementacion
             else
             {
                 dataTipoBusqueda.messageRes += dataTipoBusqueda.messageRes;
+            }
+        }
+
+        public ObtenerListaTecnicosResponse ObtenerListaTecnicos(ObtenerListaTecnicosRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var response = new ObtenerListaTecnicosResponse() { 
+                    codeRes = HttpStatusCode.OK,
+                    messageRes = "Prueba respuesta"
+                };
+
+                //var resDataTecnicos = _clienteDO.ObtenerListaTecnicos(cod_aplicacion, cod_aplicacion, idLogTexto);
+                //log.Info($"resDataTecnicos --> " + JsonConvert.SerializeObject(resDataTecnicos));
+                //response.codeRes = resDataTecnicos.codeRes;
+                //response.messageRes = resDataTecnicos.messageRes;
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerListaTecnicosResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al obtener lista tecnicos."
+                };
+            }
+        }
+        public ObtenerPerfilTecnicoResponse ObtenerPerfilTecnico(ObtenerPerfilTecnicoRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var response = new ObtenerPerfilTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.OK,
+                    messageRes = "Prueba respuesta"
+                };
+
+                //var resPerfilTecnico = _clienteDO.ObtenerPerfilTecnico(cod_aplicacion, cod_aplicacion, idLogTexto);
+                //log.Info($"resPerfilTecnico --> " + JsonConvert.SerializeObject(resPerfilTecnico));
+                //response.codeRes = resPerfilTecnico.codeRes;
+                //response.messageRes = resPerfilTecnico.messageRes;
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerPerfilTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al obtener perfil del técnico."
+                };
+            }
+        }
+
+        public RegistrarSolicitudServicioResponse RegistrarSolicitudServicio(RegistrarSolicitudServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var response = new RegistrarSolicitudServicioResponse()
+                {
+                    codeRes = HttpStatusCode.OK,
+                    messageRes = "Prueba respuesta"
+                };
+
+                //var resRegSolServ = _clienteDO.RegistrarSolicitudServicio(cod_aplicacion, cod_aplicacion, idLogTexto);
+                //log.Info($"resRegSolServ --> " + JsonConvert.SerializeObject(resRegSolServ));
+                //response.codeRes = resRegSolServ.codeRes;
+                //response.messageRes = resRegSolServ.messageRes;
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new RegistrarSolicitudServicioResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al registrar solicitud de servicio."
+                };
             }
         }
     }

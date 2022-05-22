@@ -15,5 +15,6 @@ namespace EasyWorkDataAccess.Models
     {
         public string codCategoriaServicio { get; set; }
         public string siglaCategoriaServicio { get; set; }
+        public string nombreImgCategoriaServicio { get; set; }
     }
 }

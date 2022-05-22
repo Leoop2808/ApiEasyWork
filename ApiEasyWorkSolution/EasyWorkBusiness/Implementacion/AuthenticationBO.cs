@@ -207,7 +207,7 @@ namespace EasyWorkBusiness.Implementacion
                 messageOptions.Body = ContentMessageVerifyCode.BODY_SMS.Replace("@verifyCode", verifyCode);
 
                 var message = MessageResource.Create(messageOptions);
-                log.Info($"message --> " + JsonConvert.SerializeObject(message));
+                
                 if (message.Status.ToString() == MessageResource.StatusEnum.Accepted.ToString())
                 {
                     response.codeRes = HttpStatusCode.OK;

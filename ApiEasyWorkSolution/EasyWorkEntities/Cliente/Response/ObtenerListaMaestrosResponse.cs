@@ -23,6 +23,7 @@ namespace EasyWorkEntities.Cliente.Response
     {
         public string codCategoriaServicio { get; set; }
         public string siglaCategoriaServicio { get; set; }
+        public string nombreImgCategoriaServicio { get; set; }
     }
     public class ObtenerTiposDocumentoResponse : GlobalHTTPResponse
     {

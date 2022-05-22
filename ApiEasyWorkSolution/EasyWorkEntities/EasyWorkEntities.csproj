@@ -71,7 +71,13 @@
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCelularResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCorreoResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionResponse.cs" />
+    <Compile Include="Cliente\Request\ObtenerListaTecnicosRequest.cs" />
+    <Compile Include="Cliente\Request\ObtenerPerfilTecnicoRequest.cs" />
+    <Compile Include="Cliente\Request\RegistrarSolicitudServicioRequest.cs" />
     <Compile Include="Cliente\Response\ObtenerListaMaestrosResponse.cs" />
+    <Compile Include="Cliente\Response\ObtenerListaTecnicosResponse.cs" />
+    <Compile Include="Cliente\Response\ObtenerPerfilTecnicoResponse.cs" />
+    <Compile Include="Cliente\Response\RegistrarSolicitudServicioResponse.cs" />
     <Compile Include="Constantes.cs" />
     <Compile Include="GlobalHTTPResponse.cs" />
     <Compile Include="Helpers\Request\EnviarCorreoRequest.cs" />
@@ -88,8 +94,6 @@
     <Compile Include="Usuario\Response\RegistrarUsuarioResponse.cs" />
     <Compile Include="Usuario\Response\ValidarExistenciaUsuarioResponse.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cliente\Request\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
