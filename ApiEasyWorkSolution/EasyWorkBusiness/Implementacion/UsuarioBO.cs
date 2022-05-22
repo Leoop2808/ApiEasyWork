@@ -123,13 +123,8 @@ namespace EasyWorkBusiness.Implementacion
 
                 var resRegDisp = _usuarioDO.RegistrarDispositivo(request, cod_usuario, cod_aplicacion, idLogTexto);
                 log.Info($"resRegDisp --> " + JsonConvert.SerializeObject(resRegDisp));
-                if (resRegDisp.codeRes != HttpStatusCode.OK)
-                {
-                    response.codeRes = resRegDisp.codeRes;
-                    response.messageRes = resRegDisp.messageRes;
-                    return response;
-                }
-
+                response.codeRes = resRegDisp.codeRes;
+                response.messageRes = resRegDisp.messageRes;
                 return response;
             }
             catch (Exception e)
