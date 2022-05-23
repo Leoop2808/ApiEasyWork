@@ -422,7 +422,15 @@ namespace ApiEasyWork.Controllers
 
             var cod_aplicacion = AplicationData.codAplicacion;
 
-            //var resValRecoveryCode = _authenticationBO.VerificarCodigoVerificacionCorreo(new VerificarCodigoVerificacionCorreoRequest() { codigoVerificacion = request.recoveryCode, correo = request.username}, cod_aplicacion, idLogTexto);
+            if (request.newPassword.Length < 8)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_password_length"),
+                    new JProperty("error_description", "La contraseña debe tener un mínimo de 8 caracteres.")
+                ));
+            }
+
+            //var resValRecoveryCode = _authenticationBO.VerificarCodigoVerificacionCorreo(new VerificarCodigoVerificacionCorreoRequest() { codigoVerificacion = request.recoveryCode, correo = request.username }, cod_aplicacion, idLogTexto);
             //if (resValRecoveryCode.codeRes != HttpStatusCode.OK)
             //{
             //    return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
