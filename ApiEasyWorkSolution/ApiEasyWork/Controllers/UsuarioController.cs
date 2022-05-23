@@ -422,14 +422,14 @@ namespace ApiEasyWork.Controllers
 
             var cod_aplicacion = AplicationData.codAplicacion;
 
-            var resValRecoveryCode = _authenticationBO.VerificarCodigoVerificacionCorreo(new VerificarCodigoVerificacionCorreoRequest() { codigoVerificacion = request.recoveryCode, correo = request.username}, cod_aplicacion, idLogTexto);
-            if (resValRecoveryCode.codeRes != HttpStatusCode.OK)
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
-                   new JProperty("error", "invalid_recovery_code"),
-                   new JProperty("error_description", "Código de recuperación inválido.")
-               ));
-            }
+            //var resValRecoveryCode = _authenticationBO.VerificarCodigoVerificacionCorreo(new VerificarCodigoVerificacionCorreoRequest() { codigoVerificacion = request.recoveryCode, correo = request.username}, cod_aplicacion, idLogTexto);
+            //if (resValRecoveryCode.codeRes != HttpStatusCode.OK)
+            //{
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+            //       new JProperty("error", "invalid_recovery_code"),
+            //       new JProperty("error_description", "Código de recuperación inválido.")
+            //   ));
+            //}
 
             var usuario = UserManager.FindByName(request.username);
             var passwordToken = UserManager.GeneratePasswordResetToken(usuario.Id);

@@ -5,6 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\EasyWork\01_DataEasyWork\EasyWork_Publicados</_PublishTargetUrl>
+    <History>True|2022-05-22T08:11:06.3080441Z;True|2022-05-21T21:14:33.5401984-05:00;True|2022-05-21T18:41:12.2168373-05:00;True|2022-05-21T18:01:29.9903255-05:00;True|2022-05-21T17:51:07.4568378-05:00;True|2022-05-21T17:43:38.9227786-05:00;True|2022-05-21T17:34:30.6426305-05:00;True|2022-05-21T17:03:07.9852424-05:00;True|2022-05-21T17:00:27.9344630-05:00;True|2022-05-21T16:55:16.8620656-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -77,49 +78,49 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/ApiEasyWork.dll">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 16:12:18</publishTime>
     </File>
     <File Include="bin/ApiEasyWork.pdb">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 16:12:18</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>05/21/2022 16:32:30</publishTime>
+      <publishTime>05/22/2022 16:12:26</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>05/21/2022 16:32:30</publishTime>
+      <publishTime>05/22/2022 16:12:26</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>05/20/2022 14:43:33</publishTime>
     </File>
     <File Include="bin/EasyWorkBusiness.dll">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 16:12:17</publishTime>
     </File>
     <File Include="bin/EasyWorkBusiness.dll.config">
       <publishTime>05/20/2022 14:43:33</publishTime>
     </File>
     <File Include="bin/EasyWorkBusiness.pdb">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 16:12:17</publishTime>
     </File>
     <File Include="bin/EasyWorkDataAccess.dll">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 16:12:17</publishTime>
     </File>
     <File Include="bin/EasyWorkDataAccess.dll.config">
-      <publishTime>05/20/2022 14:43:33</publishTime>
+      <publishTime>05/22/2022 02:29:23</publishTime>
     </File>
     <File Include="bin/EasyWorkDataAccess.pdb">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 16:12:17</publishTime>
     </File>
     <File Include="bin/EasyWorkEntities.dll">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 03:10:55</publishTime>
     </File>
     <File Include="bin/EasyWorkEntities.pdb">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 03:10:55</publishTime>
     </File>
     <File Include="bin/EasyWorkHelpers.dll">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 09:56:18</publishTime>
     </File>
     <File Include="bin/EasyWorkHelpers.pdb">
-      <publishTime>05/21/2022 16:32:19</publishTime>
+      <publishTime>05/22/2022 09:56:18</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>05/20/2022 14:43:33</publishTime>
@@ -503,7 +504,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/07/2022 15:19:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>05/21/2022 16:32:21</publishTime>
+      <publishTime>05/22/2022 16:12:19</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>02/07/2022 15:19:41</publishTime>
@@ -548,7 +549,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/07/2022 15:19:39</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/21/2022 16:32:20</publishTime>
+      <publishTime>05/21/2022 17:34:22</publishTime>
     </File>
   </ItemGroup>
 </Project>

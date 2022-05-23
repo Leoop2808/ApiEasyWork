@@ -81,19 +81,19 @@ namespace ApiEasyWork.Providers
 
                 if (user == null)
                 {
-                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    context.SetError("invalid_grant", "Usuario o clave incorrectos.");
                     return;
                 }
                 else
                 {
                     if (user.activo == false || user.activo == null)
                     {
-                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        context.SetError("invalid_grant", "El usuario o clave es incorrecto.");
                         return;
                     }
                     if (user.eliminado == true)
                     {
-                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        context.SetError("invalid_grant", "Usuario inexistente.");
                         return;
                     }
                 }
