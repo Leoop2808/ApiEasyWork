@@ -441,14 +441,15 @@ namespace ApiEasyWork.Controllers
 
             var usuario = UserManager.FindByName(request.username);
             var passwordToken = UserManager.GeneratePasswordResetToken(usuario.Id);
-            IdentityResult resultChangePassword = UserManager.ResetPassword(User.Identity.GetUserId(), passwordToken, request.newPassword);
+            IdentityResult resultChangePassword = UserManager.ResetPassword(usuario.Id, passwordToken, request.newPassword);
+            log.Info($"resultChangePassword --> " + JsonConvert.SerializeObject(resultChangePassword));
             if (resultChangePassword.Succeeded)
             {
                 usuario.cod_aplicacion_actualizacion = usuario.cod_usuario;
                 usuario.fecha_actualizacion = DateTime.Now;
                 usuario.cod_aplicacion_actualizacion = cod_aplicacion;
                 var registerModified = UserManager.UpdateAsync(usuario);
-
+                log.Info($"registerModified --> " + JsonConvert.SerializeObject(registerModified));
                 return Request.CreateResponse(HttpStatusCode.OK,
                    new { Message = "Clave actualizada" });
             }
