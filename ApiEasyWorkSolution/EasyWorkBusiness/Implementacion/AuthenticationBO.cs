@@ -48,8 +48,7 @@ namespace EasyWorkBusiness.Implementacion
                 response.messageRes = resRegDtGoogle.messageRes;
                 response.flgCorreoValidado = true;
                 response.flgCelularValidado = resRegDtGoogle.flgCelularValidado;
-                response.flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario;
-
+                response.flgMostrarRegistroUsuario = false;
                 if (resRegDtGoogle.codeRes != HttpStatusCode.OK)
                 {
                     return response;
@@ -98,7 +97,7 @@ namespace EasyWorkBusiness.Implementacion
                 response.messageRes = resRegDtFacebook.messageRes;
                 response.flgCorreoValidado = true;
                 response.flgCelularValidado = resRegDtFacebook.flgCelularValidado;
-                response.flgMostrarRegistroUsuario = resRegDtFacebook.flgMostrarRegistroUsuario;
+                response.flgMostrarRegistroUsuario = false;
 
                 if (resRegDtFacebook.codeRes != HttpStatusCode.OK)
                 {
@@ -425,7 +424,7 @@ namespace EasyWorkBusiness.Implementacion
                 response.messageRes = resVerCodAut.messageRes;
                 response.flgCorreoValidado = true;
                 response.flgCelularValidado = resVerCodAut.flgCelularValidado;
-                response.flgMostrarRegistroUsuario = resVerCodAut.flgMostrarRegistroUsuario;
+                response.flgMostrarRegistroUsuario = false;
 
                 if (resVerCodAut.codeRes != HttpStatusCode.OK)
                 {
