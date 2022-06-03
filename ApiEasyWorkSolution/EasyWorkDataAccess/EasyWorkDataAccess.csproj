@@ -89,6 +89,9 @@
     <Compile Include="Models\mst_aplicacion.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\mst_rol.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_OBTENER_CATEGORIAS_SERVICIO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>

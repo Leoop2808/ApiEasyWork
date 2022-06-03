@@ -35,7 +35,6 @@ namespace ApiEasyWork.Providers
                                     user.nombre_aplicacion == clientId &&
                                     user.access_id == clientSecret);
 
-
             if (client == null)
             {
                 //new LoggerRepository().registroLogError(null, null, "invalid_client", "Client credentials are invalid.");
@@ -76,6 +75,12 @@ namespace ApiEasyWork.Providers
 
                 var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
+                var codRol = context.Request.Headers.Get("rol");
+                if (String.IsNullOrEmpty(codRol))
+                {
+                    context.SetError("invalid_client", "No se indicó el rol de autenticación.");
+                    return;
+                }
 
                 trs_usuario user = await userManager.FindAsync(context.UserName, context.Password);
 
@@ -94,6 +99,48 @@ namespace ApiEasyWork.Providers
                     if (user.eliminado == true)
                     {
                         context.SetError("invalid_grant", "Usuario inexistente.");
+                        return;
+                    }
+                }
+
+                mst_rol rol = ctxBD.mst_rol.Where(x => x.cod_rol == codRol).FirstOrDefault();
+
+                if (rol == null)
+                {
+                    context.SetError("invalid_grant", "Rol no encontrado.");
+                    return;
+                }
+                else
+                {
+                    if (rol.activo == false || rol.activo == null)
+                    {
+                        context.SetError("invalid_grant", "El rol es incorrecto.");
+                        return;
+                    }
+                    if (rol.eliminado == true)
+                    {
+                        context.SetError("invalid_grant", "Rol inexistente.");
+                        return;
+                    }
+                }
+
+                trs_usuario_rol usuario_rol = ctxBD.trs_usuario_rol.Where(x => x.id_usuario == user.id_usuario && x.id_rol == rol.id_rol).FirstOrDefault();
+
+                if (usuario_rol == null)
+                {
+                    context.SetError("invalid_grant", "Usuario rol no encontrado.");
+                    return;
+                }
+                else
+                {
+                    if (usuario_rol.activo == false || usuario_rol.activo == null)
+                    {
+                        context.SetError("invalid_grant", "El usuario no cuenta con el rol necesario.");
+                        return;
+                    }
+                    if (usuario_rol.eliminado == true)
+                    {
+                        context.SetError("invalid_grant", "Usuario con rol incorrecto.");
                         return;
                     }
                 }

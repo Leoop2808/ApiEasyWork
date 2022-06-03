@@ -9,6 +9,8 @@
         <EntityTypeShape EntityType="EasyWorkDBModel.trs_usuario" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="EasyWorkDBModel.trs_usuario_rol" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="EasyWorkDBModel.FK_USUARIOROL_USUARIO" />
+        <EntityTypeShape EntityType="EasyWorkDBModel.mst_rol" Width="1.5" PointX="0.75" PointY="6" />
+        <AssociationConnector Association="EasyWorkDBModel.FK_USUARIOROL_ROL" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

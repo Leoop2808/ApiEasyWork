@@ -526,6 +526,10 @@ namespace EasyWorkDataAccess.Implementacion
                         {
                             codeRes = HttpStatusCode.OK,
                             messageRes = resValExisUsuTec.messageRes,
+                            idUsuario = resValExisUsuTec.idUsuario.GetValueOrDefault(),
+                            codUsuario = resValExisUsuTec.codUsuario,
+                            flgMostrarRegistroUsuario = resValExisUsuTec.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            flgCelularValidado = resValExisUsuTec.flgCelularValidado.GetValueOrDefault()
                         };
                     }
                     else

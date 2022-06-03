@@ -30,6 +30,7 @@ namespace EasyWorkDataAccess.Models
         public virtual DbSet<mst_aplicacion> mst_aplicacion { get; set; }
         public virtual DbSet<trs_usuario> trs_usuario { get; set; }
         public virtual DbSet<trs_usuario_rol> trs_usuario_rol { get; set; }
+        public virtual DbSet<mst_rol> mst_rol { get; set; }
     
         public virtual ObjectResult<SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result> SP_OBTENER_DATA_PRINCIPAL_USUARIO(Nullable<int> idUsuario, string codMedioAcceso)
         {

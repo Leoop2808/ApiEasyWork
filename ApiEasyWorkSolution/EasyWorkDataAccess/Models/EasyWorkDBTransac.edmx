@@ -22,6 +22,20 @@
           <Property Name="refreshTokenLife" Type="int" />
           <Property Name="allowedorigin" Type="varchar" MaxLength="700" />
         </EntityType>
+        <EntityType Name="mst_rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cod_rol" Type="varchar" MaxLength="20" />
+          <Property Name="sigla_rol" Type="varchar" MaxLength="20" />
+          <Property Name="nombre_rol" Type="varchar" MaxLength="20" />
+          <Property Name="activo" Type="bit" />
+          <Property Name="eliminado" Type="bit" />
+          <Property Name="fecha_registro" Type="datetime" />
+          <Property Name="fecha_actualizacion" Type="datetime" />
+          <Property Name="fecha_eliminacion" Type="datetime" />
+        </EntityType>
         <EntityType Name="trs_usuario">
           <Key>
             <PropertyRef Name="id_usuario" />
@@ -56,6 +70,18 @@
           <Property Name="cod_aplicacion_actualizacion" Type="varchar" MaxLength="20" />
           <Property Name="cod_aplicacion_eliminacion" Type="varchar" MaxLength="20" />
         </EntityType>
+        <Association Name="FK_USUARIOROL_ROL">
+          <End Role="mst_rol" Type="Self.mst_rol" Multiplicity="1" />
+          <End Role="trs_usuario_rol" Type="Self.trs_usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mst_rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="trs_usuario_rol">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_USUARIOROL_USUARIO">
           <End Role="trs_usuario" Type="Self.trs_usuario" Multiplicity="1" />
           <End Role="trs_usuario_rol" Type="Self.trs_usuario_rol" Multiplicity="*" />
@@ -232,8 +258,13 @@
         </Function>
         <EntityContainer Name="EasyWorkDBModelStoreContainer">
           <EntitySet Name="mst_aplicacion" EntityType="Self.mst_aplicacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mst_rol" EntityType="Self.mst_rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="trs_usuario" EntityType="Self.trs_usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="trs_usuario_rol" EntityType="Self.trs_usuario_rol" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_USUARIOROL_ROL" Association="Self.FK_USUARIOROL_ROL">
+            <End Role="mst_rol" EntitySet="mst_rol" />
+            <End Role="trs_usuario_rol" EntitySet="trs_usuario_rol" />
+          </AssociationSet>
           <AssociationSet Name="FK_USUARIOROL_USUARIO" Association="Self.FK_USUARIOROL_USUARIO">
             <End Role="trs_usuario" EntitySet="trs_usuario" />
             <End Role="trs_usuario_rol" EntitySet="trs_usuario_rol" />
@@ -413,6 +444,11 @@
             <Parameter Name="correo" Mode="In" Type="String" />
             <Parameter Name="codAplicacion" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="mst_rol" EntityType="EasyWorkDBModel.mst_rol" />
+          <AssociationSet Name="FK_USUARIOROL_ROL" Association="EasyWorkDBModel.FK_USUARIOROL_ROL">
+            <End Role="mst_rol" EntitySet="mst_rol" />
+            <End Role="trs_usuario_rol" EntitySet="trs_usuario_rol" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
           <Key>
@@ -581,6 +617,7 @@
           <Property Name="cod_aplicacion_actualizacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="cod_aplicacion_eliminacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="trs_usuario" Relationship="EasyWorkDBModel.FK_USUARIOROL_USUARIO" FromRole="trs_usuario_rol" ToRole="trs_usuario" />
+          <NavigationProperty Name="mst_rol" Relationship="EasyWorkDBModel.FK_USUARIOROL_ROL" FromRole="trs_usuario_rol" ToRole="mst_rol" />
         </EntityType>
         <Association Name="FK_USUARIOROL_USUARIO">
           <End Type="EasyWorkDBModel.trs_usuario" Role="trs_usuario" Multiplicity="1" />
@@ -639,6 +676,33 @@
           <Property Type="Int32" Name="codeRes" Nullable="true" />
           <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
         </ComplexType>
+        <EntityType Name="mst_rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cod_rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sigla_rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" />
+          <Property Name="eliminado" Type="Boolean" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <Property Name="fecha_actualizacion" Type="DateTime" Precision="3" />
+          <Property Name="fecha_eliminacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="trs_usuario_rol" Relationship="EasyWorkDBModel.FK_USUARIOROL_ROL" FromRole="mst_rol" ToRole="trs_usuario_rol" />
+        </EntityType>
+        <Association Name="FK_USUARIOROL_ROL">
+          <End Type="EasyWorkDBModel.mst_rol" Role="mst_rol" Multiplicity="1" />
+          <End Type="EasyWorkDBModel.trs_usuario_rol" Role="trs_usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="mst_rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="trs_usuario_rol">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -975,6 +1039,21 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="mst_rol">
+            <EntityTypeMapping TypeName="EasyWorkDBModel.mst_rol">
+              <MappingFragment StoreEntitySet="mst_rol">
+                <ScalarProperty Name="fecha_eliminacion" ColumnName="fecha_eliminacion" />
+                <ScalarProperty Name="fecha_actualizacion" ColumnName="fecha_actualizacion" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="eliminado" ColumnName="eliminado" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="nombre_rol" ColumnName="nombre_rol" />
+                <ScalarProperty Name="sigla_rol" ColumnName="sigla_rol" />
+                <ScalarProperty Name="cod_rol" ColumnName="cod_rol" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
