@@ -89,9 +89,6 @@
     <Compile Include="Models\mst_aplicacion.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\mst_rol.cs">
-      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SP_OBTENER_CATEGORIAS_SERVICIO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
@@ -102,6 +99,9 @@
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_DISTRITOS_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_IDENTIFICADOR_TECNICO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_MEDIOS_PAGO_Result.cs">
@@ -122,10 +122,19 @@
     <Compile Include="Models\SP_REGISTRAR_CODIGO_VERIFICACION_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_REGISTRAR_DATOS_FACEBOOK_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_REGISTRAR_DATOS_FACEBOOK_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_REGISTRAR_DATOS_GOOGLE_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_REGISTRAR_DATOS_GOOGLE_TECNICO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_REGISTRAR_DISPOSITIVO_Result.cs">
@@ -140,19 +149,37 @@
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_VERIFICAR_CODIGO_AUTENTICACION_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_VERIFICAR_CODIGO_VERIFICACION_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\trs_usuario.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\trs_usuario_rol.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

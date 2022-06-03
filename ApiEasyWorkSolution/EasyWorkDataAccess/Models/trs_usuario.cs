@@ -14,8 +14,13 @@ namespace EasyWorkDataAccess.Models
     
     public partial class trs_usuario
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public trs_usuario()
+        {
+            this.trs_usuario_rol = new HashSet<trs_usuario_rol>();
+        }
+    
         public int id_usuario { get; set; }
-        public int id_rol { get; set; }
         public int id_persona { get; set; }
         public string username { get; set; }
         public string password { get; set; }
@@ -29,6 +34,7 @@ namespace EasyWorkDataAccess.Models
         public string cod_aplicacion_eliminacion { get; set; }
         public string cod_usuario { get; set; }
     
-        public virtual mst_rol mst_rol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<trs_usuario_rol> trs_usuario_rol { get; set; }
     }
 }

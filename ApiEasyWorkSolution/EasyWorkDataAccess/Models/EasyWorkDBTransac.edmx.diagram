@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e69288ff0c28402b81a6c855e53a0b08" Name="Diagram1">
-        <EntityTypeShape EntityType="EasyWorkDBModel.mst_rol" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EasyWorkDBModel.trs_usuario" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="EasyWorkDBModel.FK_USUARIO_ROL" ManuallyRouted="false" />
         <EntityTypeShape EntityType="EasyWorkDBModel.mst_aplicacion" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EasyWorkDBModel.trs_usuario" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EasyWorkDBModel.trs_usuario_rol" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="EasyWorkDBModel.FK_USUARIOROL_USUARIO" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

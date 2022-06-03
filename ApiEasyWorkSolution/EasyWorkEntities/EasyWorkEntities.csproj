@@ -45,6 +45,10 @@
     <Compile Include="Authentication\Request\AutenticarCelularRequest.cs" />
     <Compile Include="Authentication\Request\AutenticarFacebookRequest.cs" />
     <Compile Include="Authentication\Request\AutenticarGoogleRequest.cs" />
+    <Compile Include="Authentication\Request\AutenticarTecnicoCelularRequest.cs" />
+    <Compile Include="Authentication\Request\AutenticarTecnicoFacebookRequest.cs" />
+    <Compile Include="Authentication\Request\AutenticarTecnicoGoogleRequest.cs" />
+    <Compile Include="Authentication\Request\AutenticarTecnicoRequest.cs" />
     <Compile Include="Authentication\Request\EnviarCorreoCodigoRecuperacionClaveRequest.cs" />
     <Compile Include="Authentication\Request\EnviarCodigoVerificacionCorreoRequest.cs" />
     <Compile Include="Authentication\Request\EnviarSmsOrWhatsappAutenticacionRequest.cs" />
@@ -54,6 +58,10 @@
     <Compile Include="Authentication\Response\AutenticarCelularResponse.cs" />
     <Compile Include="Authentication\Response\AutenticarFacebookResponse.cs" />
     <Compile Include="Authentication\Response\AutenticarGoogleResponse.cs" />
+    <Compile Include="Authentication\Response\AutenticarTecnicoCelularResponse.cs" />
+    <Compile Include="Authentication\Response\AutenticarTecnicoFacebookResponse.cs" />
+    <Compile Include="Authentication\Response\AutenticarTecnicoGoogleResponse.cs" />
+    <Compile Include="Authentication\Response\AutenticarTecnicoResponse.cs" />
     <Compile Include="Authentication\Response\AuthenticatedUserData.cs" />
     <Compile Include="Authentication\Response\DataFacebookResponse.cs" />
     <Compile Include="Authentication\Response\DataGoogleResponse.cs" />
@@ -62,6 +70,7 @@
     <Compile Include="Authentication\Response\EnviarSmsOrWhatsappAutenticacionResponse.cs" />
     <Compile Include="Authentication\Response\EnviarSmsOrWhatsappResponse.cs" />
     <Compile Include="Authentication\Response\ObtenerDataPrincipalUsuarioResponse.cs" />
+    <Compile Include="Authentication\Response\ObtenerIdentificadorTecnicoResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarCodigoVerificacionResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosFacebookResponse.cs" />
     <Compile Include="Authentication\Response\RegistrarDatosGoogleResponse.cs" />
@@ -71,6 +80,7 @@
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCelularResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionCorreoResponse.cs" />
     <Compile Include="Authentication\Response\VerificarCodigoVerificacionResponse.cs" />
+    <Compile Include="Authentication\Response\VerificarUsuarioTecnicoResponse.cs" />
     <Compile Include="Cliente\Request\ObtenerListaTecnicosRequest.cs" />
     <Compile Include="Cliente\Request\ObtenerPerfilTecnicoRequest.cs" />
     <Compile Include="Cliente\Request\RegistrarSolicitudServicioRequest.cs" />

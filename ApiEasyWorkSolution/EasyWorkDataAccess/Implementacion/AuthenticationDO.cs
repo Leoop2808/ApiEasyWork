@@ -511,5 +511,418 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
+        public VerificarUsuarioTecnicoResponse VerificarUsuarioTecnico(string usuario, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resValExisUsuTec = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO(usuario, cod_aplicacion).FirstOrDefault();
+                log.Info($"resValExisUsuTec --> " + JsonConvert.SerializeObject(resValExisUsuTec));
+                if (resValExisUsuTec != null)
+                {
+                    if (resValExisUsuTec.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new VerificarUsuarioTecnicoResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resValExisUsuTec.messageRes,
+                        };
+                    }
+                    else
+                    {
+                        return new VerificarUsuarioTecnicoResponse()
+                        {
+                            codeRes = HttpStatusCode.Unauthorized,
+                            messageRes = resValExisUsuTec.messageRes,
+                        };
+                    }
+                }
+                else
+                {
+                    return new VerificarUsuarioTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al validar existencia del usuario técnico."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new VerificarUsuarioTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al validar existencia del usuario técnico."
+                };
+            }
+        }
+        public RegistrarDatosGoogleResponse RegistrarDatosGoogleTecnico(DataGoogle request, double latitud, double longitud, string google_token, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resRegDtGoogle = ctx.SP_REGISTRAR_DATOS_GOOGLE_TECNICO(request.sub, request.email, request.email_verified,
+                request.name, request.given_name, request.family_name, request.picture, request.locale, google_token, Convert.ToDecimal(latitud),
+                Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
+                log.Info($"resRegDtGoogle --> " + JsonConvert.SerializeObject(resRegDtGoogle));
+                if (resRegDtGoogle != null)
+                {
+                    if (resRegDtGoogle.codeRes.GetValueOrDefault() == 201 || resRegDtGoogle.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new RegistrarDatosGoogleResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resRegDtGoogle.messageRes,
+                            codUsuarioCreado = resRegDtGoogle.codUsuarioCreado,
+                            idUsuarioCreado = resRegDtGoogle.idUsuarioCreado.GetValueOrDefault(),
+                            flgMostrarRegistroUsuario = resRegDtGoogle.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            flgCelularValidado = resRegDtGoogle.flgCelularValidado.GetValueOrDefault()
+                        };
+                    }
+                    else
+                    {
+                        return new RegistrarDatosGoogleResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al almacenar los datos de google."
+                        };
+                    }
+                }
+                else
+                {
+                    return new RegistrarDatosGoogleResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al almacenar los datos de google."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new RegistrarDatosGoogleResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al almacenar los datos de google."
+                };
+            }
+        }
+        public RegistrarDatosFacebookResponse RegistrarDatosFacebookTecnico(DataFacebook request, double latitud, double longitud, string facebook_token, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resRegDtFacebook = ctx.SP_REGISTRAR_DATOS_FACEBOOK_TECNICO(request.id, request.first_name, request.last_name,
+                request.username, request.email, request.picture.data.is_silhouette, request.picture.data.url,
+                facebook_token, Convert.ToDecimal(latitud),
+                Convert.ToDecimal(longitud), cod_aplicacion).FirstOrDefault();
+                log.Info($"resRegDtFacebook --> " + JsonConvert.SerializeObject(resRegDtFacebook));
+                if (resRegDtFacebook != null)
+                {
+                    if (resRegDtFacebook.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new RegistrarDatosFacebookResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resRegDtFacebook.messageRes,
+                            codUsuarioCreado = resRegDtFacebook.codUsuarioCreado,
+                            idUsuarioCreado = resRegDtFacebook.idUsuarioCreado.GetValueOrDefault(),
+                            flgMostrarRegistroUsuario = resRegDtFacebook.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            flgCelularValidado = resRegDtFacebook.flgCelularValidado.GetValueOrDefault()
+                        };
+                    }
+                    else
+                    {
+                        return new RegistrarDatosFacebookResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al almacenar los datos de facebook."
+                        };
+                    }
+                }
+                else
+                {
+                    return new RegistrarDatosFacebookResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al almacenar los datos de facebook."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new RegistrarDatosFacebookResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al almacenar los datos de facebook."
+                };
+            }
+        }
+        public VerificarCodigoAutenticacionResponse VerificarCodigoAutenticacionTecnico(string codVerificacion, string nroCelular, double latitud, double longitud, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO(codVerificacion, nroCelular, Convert.ToDecimal(latitud), Convert.ToDecimal(longitud)).FirstOrDefault();
+                log.Info($"resVerifyCode --> " + JsonConvert.SerializeObject(resVerifyCode));
+                if (resVerifyCode != null)
+                {
+                    if (resVerifyCode.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new VerificarCodigoAutenticacionResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resVerifyCode.messageRes,
+                            flgCelularValidado = resVerifyCode.flgCelularValidado.GetValueOrDefault(),
+                            flgMostrarRegistroUsuario = resVerifyCode.flgMostrarRegistroUsuario.GetValueOrDefault(),
+                            codUsuario = resVerifyCode.codUsuario,
+                            idUsuario = resVerifyCode.idUsuario.GetValueOrDefault()
+                        };
+                    }
+                    else
+                    {
+                        return new VerificarCodigoAutenticacionResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al verificar el código de autenticación."
+                        };
+                    }
+                }
+                else
+                {
+                    return new VerificarCodigoAutenticacionResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al verificar el código de autenticación."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new VerificarCodigoAutenticacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al verificar el código de autenticación."
+                };
+            }
+        }
+        public RegistrarCodigoVerificacionResponse RegistrarCodigoVerificacionTecnico(string verifyCode, string correo, string nroCelular, string codTipoCodigoVerificacion, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resRegCodVer = ctx.SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO(verifyCode, correo, nroCelular, codTipoCodigoVerificacion).FirstOrDefault();
+                log.Info($"resRegCodVer --> " + JsonConvert.SerializeObject(resRegCodVer));
+                if (resRegCodVer != null)
+                {
+                    if (resRegCodVer.codeRes.GetValueOrDefault() == 201)
+                    {
+                        return new RegistrarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.Created,
+                            messageRes = resRegCodVer.messageRes
+                        };
+                    }
+                    else
+                    {
+                        return new RegistrarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al almacenar el código de verificación."
+                        };
+                    }
+                }
+                else
+                {
+                    return new RegistrarCodigoVerificacionResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al almacenar el código de verificación."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new RegistrarCodigoVerificacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al guardar registro del código de verificación."
+                };
+            }
+        }
+
+        public ObtenerIdentificadorTecnicoResponse ObtenerIdentificadorTecnico(string username, string cod_aplicacion, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resObtIdTec = ctx.SP_OBTENER_IDENTIFICADOR_TECNICO(username, cod_aplicacion).FirstOrDefault();
+                log.Info($"resObtIdTec --> " + JsonConvert.SerializeObject(resObtIdTec));
+                if (resObtIdTec != null)
+                {
+                    if (resObtIdTec.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new ObtenerIdentificadorTecnicoResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resObtIdTec.messageRes,
+                            idUsuario = resObtIdTec.idUsuario.GetValueOrDefault()
+                        };
+                    }
+                    else
+                    {
+                        return new ObtenerIdentificadorTecnicoResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al obtener el identificador del técnico."
+                        };
+                    }
+                }
+                else
+                {
+                    return new ObtenerIdentificadorTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al obtener el identificador del técnico."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerIdentificadorTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al obtener el identificador del técnico."
+                };
+            }
+        }
+        public ValidarExistenciaUsuarioCorreoResponse ValidarExistenciaUsuarioCorreoTecnico(string correo, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resValExisUsuCorreo = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO(correo, cod_aplicacion).FirstOrDefault();
+                log.Info($"resValExisUsuCorreo --> " + JsonConvert.SerializeObject(resValExisUsuCorreo));
+                if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
+                {
+                    return new ValidarExistenciaUsuarioCorreoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = resValExisUsuCorreo.messageRes,
+                    };
+                }
+                else
+                {
+                    return new ValidarExistenciaUsuarioCorreoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al validar existencia del usuario correo."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ValidarExistenciaUsuarioCorreoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al validar existencia del usuario correo."
+                };
+            }
+        }
+        public VerificarCodigoVerificacionResponse VerificarCodigoVerificacionTecnico(string codigoVerificacion, string correo, string nroCelular, bool flgCelularcorreo, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resVerifyCode = ctx.SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO(codigoVerificacion, correo, nroCelular, flgCelularcorreo).FirstOrDefault();
+                log.Info($"resVerifyCode --> " + JsonConvert.SerializeObject(resVerifyCode));
+                if (resVerifyCode != null)
+                {
+                    if (resVerifyCode.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new VerificarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resVerifyCode.messageRes
+                        };
+                    }
+                    else
+                    {
+                        return new VerificarCodigoVerificacionResponse()
+                        {
+                            codeRes = HttpStatusCode.NoContent,
+                            messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                        };
+                    }
+                }
+                else
+                {
+                    return new VerificarCodigoVerificacionResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new VerificarCodigoVerificacionResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "No se obtuvo respuesta al verificar el código de verificación."
+                };
+            }
+        }
+        public ValidarExistenciaUsuarioCelularResponse ValidarExistenciaUsuarioCelularTecnico(string nroCelular, string cod_aplicacion, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var resValExisUsuCorreo = ctx.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO(nroCelular, cod_aplicacion).FirstOrDefault();
+                log.Info($"resValExisUsuCorreo --> " + JsonConvert.SerializeObject(resValExisUsuCorreo));
+                if (resValExisUsuCorreo != null)
+                {
+                    if (resValExisUsuCorreo.codeRes.GetValueOrDefault() == 200)
+                    {
+                        return new ValidarExistenciaUsuarioCelularResponse()
+                        {
+                            codeRes = HttpStatusCode.OK,
+                            messageRes = resValExisUsuCorreo.messageRes,
+                        };
+                    }
+                    else
+                    {
+                        return new ValidarExistenciaUsuarioCelularResponse()
+                        {
+                            codeRes = HttpStatusCode.Unauthorized,
+                            messageRes = resValExisUsuCorreo.messageRes,
+                        };
+                    }
+                }
+                else
+                {
+                    return new ValidarExistenciaUsuarioCelularResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvo respuesta al validar existencia del usuario celular."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ValidarExistenciaUsuarioCelularResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al validar existencia del usuario celular."
+                };
+            }
+        }
     }
 }

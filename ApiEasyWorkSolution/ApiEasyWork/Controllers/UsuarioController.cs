@@ -80,9 +80,6 @@ namespace ApiEasyWork.Controllers
                 identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
 
                 EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
-                mst_rol rol = ctxBD.mst_rol.Where(x => x.id_rol == userSearch.id_rol).FirstOrDefault();
-
-                identity.AddClaim(new Claim(ClaimTypes.Role, rol.cod_rol.ToString()));
                 var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
 
                 AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
@@ -143,9 +140,6 @@ namespace ApiEasyWork.Controllers
                 identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
 
                 EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
-                mst_rol rol = ctxBD.mst_rol.Where(x => x.id_rol == userSearch.id_rol).FirstOrDefault();
-
-                identity.AddClaim(new Claim(ClaimTypes.Role, rol.cod_rol.ToString()));
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
 
                 var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
@@ -504,7 +498,6 @@ namespace ApiEasyWork.Controllers
                 }
 
                 trs_usuario usuario = new trs_usuario();
-                usuario.id_rol = resRol.idRol;
                 usuario.id_persona = resRegPersona.idPersona;
                 usuario.username = request.datosPersona.correo.Trim();
                 usuario.activo = true;
@@ -522,6 +515,23 @@ namespace ApiEasyWork.Controllers
                         new JProperty("error_description", "Usuario no pudo ser registrado.")
                     ));
                 }
+
+                var codUsuario = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + "-" + (usuario.id_usuario.ToString()).PadLeft(8, '0');
+
+                var ctx = new EasyWorkDBEntities();
+
+                var userUpdate = UserManager.FindById(usuario.Id);
+                userUpdate.cod_usuario = codUsuario;
+                userUpdate.fecha_actualizacion = DateTime.Now;
+
+                trs_usuario_rol usuario_rol = new trs_usuario_rol();
+                usuario_rol.id_usuario = userUpdate.id_usuario;
+                usuario_rol.id_rol = resRol.idRol;
+                usuario_rol.activo = true;
+                usuario_rol.eliminado = false;
+                usuario_rol.fecha_registro = DateTime.Now;
+
+                ctx.SaveChanges();
             }
 
             if (resValExisUsu.codeRes == HttpStatusCode.Continue)
@@ -556,9 +566,7 @@ namespace ApiEasyWork.Controllers
             identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
             identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
             EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
-            mst_rol rol = ctxBD.mst_rol.Where(x => x.id_rol == userSearch.id_rol).FirstOrDefault();
 
-            identity.AddClaim(new Claim(ClaimTypes.Role, rol.cod_rol.ToString()));
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
 
             var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
@@ -723,9 +731,6 @@ namespace ApiEasyWork.Controllers
                 identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
 
                 EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
-                mst_rol rol = ctxBD.mst_rol.Where(x => x.id_rol == userSearch.id_rol).FirstOrDefault();
-
-                identity.AddClaim(new Claim(ClaimTypes.Role, rol.cod_rol.ToString()));
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
 
                 var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
@@ -760,6 +765,550 @@ namespace ApiEasyWork.Controllers
                     new JProperty("error", "invalid_phone"),
                     new JProperty("error_description", "No se pudo realizar la autenticación mediante el número de celular.")
                 ));
+            }
+        }
+
+        //TECNICO
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> AutenticarTecnico(AutenticarTecnicoRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.usuario))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_user_empty"),
+                    new JProperty("error_description", "No se recibió el usuario técnico.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.password))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verification_code_empty"),
+                    new JProperty("error_description", "No se recibió la contraseña.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respAuthTecnico = _authenticationBO.AutenticarTecnico(request, cod_aplicacion, idLogTexto);
+            if (respAuthTecnico.codeRes == HttpStatusCode.OK)
+            {
+                var userSearch = await UserManager.FindAsync(request.usuario, request.password);
+                //var userSearch = UserManager.FindById(respAuthTecnico.datos.codUsuario);
+                var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+                identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+                identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+                identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+
+                EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
+
+                var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+                var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+                ticket.Properties.IssuedUtc = currentUtc;
+                ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+                var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+                Authentication.SignIn(cookiesIdentity);
+
+                // Create the response
+                JObject blob = new JObject(
+                    new JProperty("access_token", accesstoken),
+                    new JProperty("token_type", "bearer"),
+                    new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+                    new JProperty("nombres", respAuthTecnico.datos.nombres),
+                    new JProperty("apellidos", respAuthTecnico.datos.apellidos),
+                    new JProperty("correo", respAuthTecnico.datos.correo),
+                    new JProperty("flgMostrarRegistroUsuario", respAuthTecnico.flgMostrarRegistroUsuario),
+                    new JProperty("flgCelularValidado", respAuthTecnico.flgCelularValidado),
+                    new JProperty("flgCorreoValidado", respAuthTecnico.flgCorreoValidado),
+                    new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                    new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+                );
+
+                return Request.CreateResponse(HttpStatusCode.OK, blob);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_user"),
+                    new JProperty("error_description", "No se pudo realizar la autenticación del técnico.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/google")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> AutenticarTecnicoGoogle(AutenticarTecnicoGoogleRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.google_token))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_token_google_empty"),
+                    new JProperty("error_description", "No se recibió el token de google.")
+                ));
+            }
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respAuthGoogle = _authenticationBO.AutenticarTecnicoGoogle(request, cod_aplicacion, idLogTexto);
+            if (respAuthGoogle.codeRes == HttpStatusCode.OK)
+            {
+                var userSearch = UserManager.FindByName(respAuthGoogle.datos.correo);
+                var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+                identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+                identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+                identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+
+                EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+                var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+                var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+                ticket.Properties.IssuedUtc = currentUtc;
+                ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+                var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+                Authentication.SignIn(cookiesIdentity);
+
+                // Create the response
+                JObject blob = new JObject(
+                    new JProperty("access_token", accesstoken),
+                    new JProperty("token_type", "bearer"),
+                    new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+                    new JProperty("nombres", respAuthGoogle.datos.nombres),
+                    new JProperty("apellidos", respAuthGoogle.datos.apellidos),
+                    new JProperty("correo", respAuthGoogle.datos.correo),
+                    new JProperty("flgMostrarRegistroUsuario", respAuthGoogle.flgMostrarRegistroUsuario),
+                    new JProperty("flgCelularValidado", respAuthGoogle.flgCelularValidado),
+                    new JProperty("flgCorreoValidado", respAuthGoogle.flgCorreoValidado),
+                    new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                    new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+                );
+
+                return Request.CreateResponse(HttpStatusCode.OK, blob);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_token_google"),
+                    new JProperty("error_description", "No se pudo realizar la autenticación de técnico mediante google.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/facebook")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> AutenticarTecnicoFacebook(AutenticarTecnicoFacebookRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.facebook_token))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_token_facebook_empty"),
+                    new JProperty("error_description", "No se recibió el token de facebook.")
+                ));
+            }
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respAuthFacebook = _authenticationBO.AutenticarTecnicoFacebook(request, cod_aplicacion, idLogTexto);
+            if (respAuthFacebook.codeRes == HttpStatusCode.OK)
+            {
+                var userSearch = UserManager.FindByName(respAuthFacebook.datos.correo);
+                var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+                identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+                identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+                identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+
+                EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
+
+                var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+                var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+                ticket.Properties.IssuedUtc = currentUtc;
+                ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+                var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+                Authentication.SignIn(cookiesIdentity);
+
+                // Create the response
+                JObject blob = new JObject(
+                    new JProperty("access_token", accesstoken),
+                    new JProperty("token_type", "bearer"),
+                    new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+                    new JProperty("nombres", respAuthFacebook.datos.nombres),
+                    new JProperty("apellidos", respAuthFacebook.datos.apellidos),
+                    new JProperty("correo", respAuthFacebook.datos.correo),
+                    new JProperty("flgMostrarRegistroUsuario", respAuthFacebook.flgMostrarRegistroUsuario),
+                    new JProperty("flgCelularValidado", respAuthFacebook.flgCelularValidado),
+                    new JProperty("flgCorreoValidado", respAuthFacebook.flgCorreoValidado),
+                    new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                    new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+                );
+
+                return Request.CreateResponse(HttpStatusCode.OK, blob);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_token_facebook"),
+                    new JProperty("error_description", "No se pudo realizar la autenticación de técnico mediante facebook.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/celular")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> AutenticarTecnicoCelular(AutenticarTecnicoCelularRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.nroCelular))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone_number_empty"),
+                    new JProperty("error_description", "No se recibió el número de celular.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.codVerificacion))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verification_code_empty"),
+                    new JProperty("error_description", "No se recibió el codigo de autenticación.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respAuthPhone = _authenticationBO.AutenticarTecnicoCelular(request, cod_aplicacion, idLogTexto);
+            if (respAuthPhone.codeRes == HttpStatusCode.OK)
+            {
+                var userSearch = UserManager.FindById(respAuthPhone.datos.codUsuario);
+                var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+                identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+                identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+                identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+
+                EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
+
+                var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+                var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+                ticket.Properties.IssuedUtc = currentUtc;
+                ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+                var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+                Authentication.SignIn(cookiesIdentity);
+
+                // Create the response
+                JObject blob = new JObject(
+                    new JProperty("access_token", accesstoken),
+                    new JProperty("token_type", "bearer"),
+                    new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+                    new JProperty("nombres", respAuthPhone.datos.nombres),
+                    new JProperty("apellidos", respAuthPhone.datos.apellidos),
+                    new JProperty("correo", respAuthPhone.datos.correo),
+                    new JProperty("flgMostrarRegistroUsuario", respAuthPhone.flgMostrarRegistroUsuario),
+                    new JProperty("flgCelularValidado", respAuthPhone.flgCelularValidado),
+                    new JProperty("flgCorreoValidado", respAuthPhone.flgCorreoValidado),
+                    new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                    new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+                );
+
+                return Request.CreateResponse(HttpStatusCode.OK, blob);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone"),
+                    new JProperty("error_description", "No se pudo realizar la autenticación mediante el número de celular.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/envio-verificacion-celular")]
+        [HttpPost]
+        public HttpResponseMessage EnviarSmsOrWhatsappTecnico(EnviarSmsOrWhatsappRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.nroCelular))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone_number_empty"),
+                    new JProperty("error_description", "No se recibió el número de celular.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.tipoEnvio))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_type_empty"),
+                    new JProperty("error_description", "No se recibió el tipo de envío.")
+                ));
+            }
+
+            if (request.tipoEnvio != TipoEnvioCodigoVerificacion.SMS && request.tipoEnvio != TipoEnvioCodigoVerificacion.WHATSAPP)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_type_not_reconized"),
+                    new JProperty("error_description", "Tipo de envío desconocido.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioSmsOrWhatsapp = _authenticationBO.EnviarSmsOrWhatsappTecnico(request, cod_aplicacion, idLogTexto);
+            if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioSmsOrWhatsapp.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioSmsOrWhatsapp.messageRes });
+                }
+                return Request.CreateResponse(respEnvioSmsOrWhatsapp.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioSmsOrWhatsapp.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_a_verify_code"),
+                    new JProperty("error_description", "Could not send verify code.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/envio-verificacion-correo")]
+        [HttpPost]
+        public HttpResponseMessage EnviarCodigoVerificacionCorreoTecnico(EnviarCodigoVerificacionCorreoRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.correo))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_email_empty"),
+                    new JProperty("error_description", "No se recibió el correo.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioCorreo = _authenticationBO.EnviarCodigoVerificacionCorreoTecnico(request, cod_aplicacion, idLogTexto);
+            if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioCorreo.messageRes });
+                }
+                return Request.CreateResponse(respEnvioCorreo.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioCorreo.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_a_verify_code"),
+                    new JProperty("error_description", "No se pudo enviar el codigo de verificación de correo.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("tecnico/envio-correo-codigo-recuperacion-clave")]
+        [HttpPost]
+        public HttpResponseMessage EnviarCorreoCodigoRecuperacionClaveTecnico(EnviarCorreoCodigoRecuperacionClaveRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.correo))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_email_empty"),
+                    new JProperty("error_description", "No se recibió el correo.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioCorreo = _authenticationBO.EnviarCorreoCodigoRecuperacionClaveTecnico(request, cod_aplicacion, idLogTexto);
+            if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioCorreo.messageRes });
+                }
+                return Request.CreateResponse(respEnvioCorreo.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioCorreo.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_send_a_recovery_code"),
+                    new JProperty("error_description", "No se pudo enviar el código de recuperación.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/verificar-codigo-verificacion-correo")]
+        [HttpPost]
+        public HttpResponseMessage VerificarCodigoVerificacionCorreoTecnico(VerificarCodigoVerificacionCorreoRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+
+            if (String.IsNullOrEmpty(request.codigoVerificacion))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verify_code_empty"),
+                    new JProperty("error_description", "No se recibió el codigo de verificación de correo.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.correo))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_email_empty"),
+                    new JProperty("error_description", "No se recibió el correo.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioCorreo = _authenticationBO.VerificarCodigoVerificacionCorreoTecnico(request, cod_aplicacion, idLogTexto);
+            if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioCorreo.messageRes });
+                }
+                return Request.CreateResponse(respEnvioCorreo.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioCorreo.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verify_a_verify_code"),
+                    new JProperty("error_description", "Could not verify code.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("autenticacion/tecnico/verificar-codigo-verificacion-celular")]
+        [HttpPost]
+        public HttpResponseMessage VerificarCodigoVerificacionCelularTecnico(VerificarCodigoVerificacionCelularRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+
+            if (String.IsNullOrEmpty(request.codigoVerificacion))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verify_code_empty"),
+                    new JProperty("error_description", "No se recibió el código de verificación de celular.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.nroCelular))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_phone_empty"),
+                    new JProperty("error_description", "No se recibió el número de celular.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+            var respEnvioCorreo = _authenticationBO.VerificarCodigoVerificacionCelularTecnico(request, cod_aplicacion, idLogTexto);
+            if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+            {
+                if (respEnvioCorreo.codeRes == HttpStatusCode.OK)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = respEnvioCorreo.messageRes });
+                }
+                return Request.CreateResponse(respEnvioCorreo.codeRes,
+                    new MensajeHttpResponse() { Message = respEnvioCorreo.messageRes });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_verify_a_verify_code"),
+                    new JProperty("error_description", "No se pudo enviar el código de verificación de celula.")
+                ));
+            }
+        }
+
+        [ApplicationAuthenticationFilter]
+        [Route("tecnico/actualizar-clave")]
+        [HttpPut]
+        public HttpResponseMessage ActualizarClaveTecnico(ActualizarClaveRequest request)
+        {
+            log.Info($"request --> " + JsonConvert.SerializeObject(request));
+            string idLogTexto = Guid.NewGuid().ToString();
+            if (String.IsNullOrEmpty(request.username))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_username_empty"),
+                    new JProperty("error_description", "No se recibió el usuario.")
+                ));
+            }
+
+            if (String.IsNullOrEmpty(request.newPassword))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_password_empty"),
+                    new JProperty("error_description", "Debe ingresar la nueva contraseña.")
+                ));
+            }
+
+            var cod_aplicacion = AplicationData.codAplicacion;
+
+            if (request.newPassword.Length < 8)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                    new JProperty("error", "invalid_password_length"),
+                    new JProperty("error_description", "La contraseña debe tener un mínimo de 8 caracteres.")
+                ));
+            }
+
+            var resValRecoveryCode = _authenticationBO.ObtenerIdentificadorTecnico(request.username, cod_aplicacion, idLogTexto);
+            if (resValRecoveryCode.codeRes != HttpStatusCode.OK)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+                   new JProperty("error", "invalid_user"),
+                   new JProperty("error_description", "Técnico no encontrado.")
+               ));
+            }
+
+            var usuario = UserManager.FindByName(request.username);
+            var passwordToken = UserManager.GeneratePasswordResetToken(usuario.Id);
+            IdentityResult resultChangePassword = UserManager.ResetPassword(usuario.Id, passwordToken, request.newPassword);
+            log.Info($"resultChangePassword --> " + JsonConvert.SerializeObject(resultChangePassword));
+            if (resultChangePassword.Succeeded)
+            {
+                usuario.cod_aplicacion_actualizacion = usuario.cod_usuario;
+                usuario.fecha_actualizacion = DateTime.Now;
+                usuario.cod_aplicacion_actualizacion = cod_aplicacion;
+                var registerModified = UserManager.UpdateAsync(usuario);
+                log.Info($"registerModified --> " + JsonConvert.SerializeObject(registerModified));
+                return Request.CreateResponse(HttpStatusCode.OK,
+                   new { Message = "Clave actualizada" });
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                        new MensajeHttpResponse() { Message = "Error interno al actualizar la clave." });
             }
         }
     }

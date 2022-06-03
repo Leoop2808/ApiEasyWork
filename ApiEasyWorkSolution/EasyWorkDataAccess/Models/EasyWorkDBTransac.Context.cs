@@ -27,9 +27,9 @@ namespace EasyWorkDataAccess.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<mst_rol> mst_rol { get; set; }
-        public virtual DbSet<trs_usuario> trs_usuario { get; set; }
         public virtual DbSet<mst_aplicacion> mst_aplicacion { get; set; }
+        public virtual DbSet<trs_usuario> trs_usuario { get; set; }
+        public virtual DbSet<trs_usuario_rol> trs_usuario_rol { get; set; }
     
         public virtual ObjectResult<SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result> SP_OBTENER_DATA_PRINCIPAL_USUARIO(Nullable<int> idUsuario, string codMedioAcceso)
         {
@@ -397,6 +397,223 @@ namespace EasyWorkDataAccess.Models
         public virtual ObjectResult<SP_OBTENER_CATEGORIAS_SERVICIO_Result> SP_OBTENER_CATEGORIAS_SERVICIO()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_CATEGORIAS_SERVICIO_Result>("SP_OBTENER_CATEGORIAS_SERVICIO");
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result> SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO(string username, string cod_aplicacion)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var cod_aplicacionParameter = cod_aplicacion != null ?
+                new ObjectParameter("cod_aplicacion", cod_aplicacion) :
+                new ObjectParameter("cod_aplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO", usernameParameter, cod_aplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_IDENTIFICADOR_TECNICO_Result> SP_OBTENER_IDENTIFICADOR_TECNICO(string username, string codAplicacion)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_IDENTIFICADOR_TECNICO_Result>("SP_OBTENER_IDENTIFICADOR_TECNICO", usernameParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO_Result> SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO(string verifyCode, string correo, string nroCelular, string codTipoCodigoVerificacion)
+        {
+            var verifyCodeParameter = verifyCode != null ?
+                new ObjectParameter("verifyCode", verifyCode) :
+                new ObjectParameter("verifyCode", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var codTipoCodigoVerificacionParameter = codTipoCodigoVerificacion != null ?
+                new ObjectParameter("codTipoCodigoVerificacion", codTipoCodigoVerificacion) :
+                new ObjectParameter("codTipoCodigoVerificacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO_Result>("SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO", verifyCodeParameter, correoParameter, nroCelularParameter, codTipoCodigoVerificacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_REGISTRAR_DATOS_FACEBOOK_TECNICO_Result> SP_REGISTRAR_DATOS_FACEBOOK_TECNICO(string idUserFacebook, string firstName, string lastName, string username, string email, Nullable<bool> pictureIsSilhouette, string pictureUrl, string tokenData, Nullable<decimal> latitud, Nullable<decimal> longitud, string codAplicacion)
+        {
+            var idUserFacebookParameter = idUserFacebook != null ?
+                new ObjectParameter("idUserFacebook", idUserFacebook) :
+                new ObjectParameter("idUserFacebook", typeof(string));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("firstName", firstName) :
+                new ObjectParameter("firstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("lastName", lastName) :
+                new ObjectParameter("lastName", typeof(string));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var pictureIsSilhouetteParameter = pictureIsSilhouette.HasValue ?
+                new ObjectParameter("pictureIsSilhouette", pictureIsSilhouette) :
+                new ObjectParameter("pictureIsSilhouette", typeof(bool));
+    
+            var pictureUrlParameter = pictureUrl != null ?
+                new ObjectParameter("pictureUrl", pictureUrl) :
+                new ObjectParameter("pictureUrl", typeof(string));
+    
+            var tokenDataParameter = tokenData != null ?
+                new ObjectParameter("tokenData", tokenData) :
+                new ObjectParameter("tokenData", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_DATOS_FACEBOOK_TECNICO_Result>("SP_REGISTRAR_DATOS_FACEBOOK_TECNICO", idUserFacebookParameter, firstNameParameter, lastNameParameter, usernameParameter, emailParameter, pictureIsSilhouetteParameter, pictureUrlParameter, tokenDataParameter, latitudParameter, longitudParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_REGISTRAR_DATOS_GOOGLE_TECNICO_Result> SP_REGISTRAR_DATOS_GOOGLE_TECNICO(string idUserGoogle, string email, Nullable<bool> verified_email, string name, string given_name, string family_name, string pictureUrl, string locale, string tokenData, Nullable<decimal> latitud, Nullable<decimal> longitud, string codAplicacion)
+        {
+            var idUserGoogleParameter = idUserGoogle != null ?
+                new ObjectParameter("idUserGoogle", idUserGoogle) :
+                new ObjectParameter("idUserGoogle", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var verified_emailParameter = verified_email.HasValue ?
+                new ObjectParameter("verified_email", verified_email) :
+                new ObjectParameter("verified_email", typeof(bool));
+    
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var given_nameParameter = given_name != null ?
+                new ObjectParameter("given_name", given_name) :
+                new ObjectParameter("given_name", typeof(string));
+    
+            var family_nameParameter = family_name != null ?
+                new ObjectParameter("family_name", family_name) :
+                new ObjectParameter("family_name", typeof(string));
+    
+            var pictureUrlParameter = pictureUrl != null ?
+                new ObjectParameter("pictureUrl", pictureUrl) :
+                new ObjectParameter("pictureUrl", typeof(string));
+    
+            var localeParameter = locale != null ?
+                new ObjectParameter("locale", locale) :
+                new ObjectParameter("locale", typeof(string));
+    
+            var tokenDataParameter = tokenData != null ?
+                new ObjectParameter("tokenData", tokenData) :
+                new ObjectParameter("tokenData", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_DATOS_GOOGLE_TECNICO_Result>("SP_REGISTRAR_DATOS_GOOGLE_TECNICO", idUserGoogleParameter, emailParameter, verified_emailParameter, nameParameter, given_nameParameter, family_nameParameter, pictureUrlParameter, localeParameter, tokenDataParameter, latitudParameter, longitudParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO_Result> SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO(string nroCelular, string codAplicacion)
+        {
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO", nroCelularParameter, codAplicacionParameter);
+        }
+    
+        public virtual ObjectResult<SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO_Result> SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO(string codigoVerificacion, string nroCelular, Nullable<decimal> latitud, Nullable<decimal> longitud)
+        {
+            var codigoVerificacionParameter = codigoVerificacion != null ?
+                new ObjectParameter("codigoVerificacion", codigoVerificacion) :
+                new ObjectParameter("codigoVerificacion", typeof(string));
+    
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO_Result>("SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO", codigoVerificacionParameter, nroCelularParameter, latitudParameter, longitudParameter);
+        }
+    
+        public virtual ObjectResult<SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO_Result> SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO(string codigoVerificacion, string correo, string nroCelular, Nullable<bool> flgCelularCorreo)
+        {
+            var codigoVerificacionParameter = codigoVerificacion != null ?
+                new ObjectParameter("codigoVerificacion", codigoVerificacion) :
+                new ObjectParameter("codigoVerificacion", typeof(string));
+    
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var nroCelularParameter = nroCelular != null ?
+                new ObjectParameter("nroCelular", nroCelular) :
+                new ObjectParameter("nroCelular", typeof(string));
+    
+            var flgCelularCorreoParameter = flgCelularCorreo.HasValue ?
+                new ObjectParameter("flgCelularCorreo", flgCelularCorreo) :
+                new ObjectParameter("flgCelularCorreo", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO_Result>("SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO", codigoVerificacionParameter, correoParameter, nroCelularParameter, flgCelularCorreoParameter);
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result> SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO(string correo, string codAplicacion)
+        {
+            var correoParameter = correo != null ?
+                new ObjectParameter("correo", correo) :
+                new ObjectParameter("correo", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO", correoParameter, codAplicacionParameter);
         }
     }
 }

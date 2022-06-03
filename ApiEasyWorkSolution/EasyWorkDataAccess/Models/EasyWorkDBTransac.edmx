@@ -22,26 +22,11 @@
           <Property Name="refreshTokenLife" Type="int" />
           <Property Name="allowedorigin" Type="varchar" MaxLength="700" />
         </EntityType>
-        <EntityType Name="mst_rol">
-          <Key>
-            <PropertyRef Name="id_rol" />
-          </Key>
-          <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="cod_rol" Type="varchar" MaxLength="20" />
-          <Property Name="sigla_rol" Type="varchar" MaxLength="20" />
-          <Property Name="nombre_rol" Type="varchar" MaxLength="20" />
-          <Property Name="activo" Type="bit" />
-          <Property Name="eliminado" Type="bit" />
-          <Property Name="fecha_registro" Type="datetime" />
-          <Property Name="fecha_actualizacion" Type="datetime" />
-          <Property Name="fecha_eliminacion" Type="datetime" />
-        </EntityType>
         <EntityType Name="trs_usuario">
           <Key>
             <PropertyRef Name="id_usuario" />
           </Key>
           <Property Name="id_usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="id_rol" Type="int" Nullable="false" />
           <Property Name="id_persona" Type="int" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="200" />
           <Property Name="password" Type="varchar" MaxLength="300" />
@@ -55,15 +40,31 @@
           <Property Name="cod_aplicacion_eliminacion" Type="varchar" MaxLength="20" />
           <Property Name="cod_usuario" Type="varchar" MaxLength="40" />
         </EntityType>
-        <Association Name="FK_USUARIO_ROL">
-          <End Role="mst_rol" Type="Self.mst_rol" Multiplicity="1" />
-          <End Role="trs_usuario" Type="Self.trs_usuario" Multiplicity="*" />
+        <EntityType Name="trs_usuario_rol">
+          <Key>
+            <PropertyRef Name="id_usuario_rol" />
+          </Key>
+          <Property Name="id_usuario_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="id_rol" Type="int" Nullable="false" />
+          <Property Name="activo" Type="bit" />
+          <Property Name="eliminado" Type="bit" />
+          <Property Name="fecha_registro" Type="datetime" />
+          <Property Name="fecha_actualizacion" Type="datetime" />
+          <Property Name="fecha_eliminacion" Type="datetime" />
+          <Property Name="cod_aplicacion_registro" Type="varchar" MaxLength="20" />
+          <Property Name="cod_aplicacion_actualizacion" Type="varchar" MaxLength="20" />
+          <Property Name="cod_aplicacion_eliminacion" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_USUARIOROL_USUARIO">
+          <End Role="trs_usuario" Type="Self.trs_usuario" Multiplicity="1" />
+          <End Role="trs_usuario_rol" Type="Self.trs_usuario_rol" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="mst_rol">
-              <PropertyRef Name="id_rol" />
+            <Principal Role="trs_usuario">
+              <PropertyRef Name="id_usuario" />
             </Principal>
-            <Dependent Role="trs_usuario">
-              <PropertyRef Name="id_rol" />
+            <Dependent Role="trs_usuario_rol">
+              <PropertyRef Name="id_usuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -76,6 +77,10 @@
           <Parameter Name="idUsuario" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_OBTENER_DISTRITOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_OBTENER_IDENTIFICADOR_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_OBTENER_MEDIOS_PAGO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_OBTENER_ROL_X_COD_ROL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codRol" Type="varchar" Mode="In" />
@@ -84,6 +89,12 @@
         <Function Name="SP_OBTENER_TIPOS_DOCUMENTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_OBTENER_TIPOS_TRANSPORTE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_REGISTRAR_CODIGO_VERIFICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="verifyCode" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="nroCelular" Type="varchar" Mode="In" />
+          <Parameter Name="codTipoCodigoVerificacion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="verifyCode" Type="varchar" Mode="In" />
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="nroCelular" Type="varchar" Mode="In" />
@@ -102,7 +113,34 @@
           <Parameter Name="longitud" Type="numeric" Mode="In" />
           <Parameter Name="codAplicacion" Type="varchar(max)" Mode="In" />
         </Function>
+        <Function Name="SP_REGISTRAR_DATOS_FACEBOOK_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUserFacebook" Type="varchar" Mode="In" />
+          <Parameter Name="firstName" Type="varchar" Mode="In" />
+          <Parameter Name="lastName" Type="varchar" Mode="In" />
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="pictureIsSilhouette" Type="bit" Mode="In" />
+          <Parameter Name="pictureUrl" Type="varchar" Mode="In" />
+          <Parameter Name="tokenData" Type="varchar(max)" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="SP_REGISTRAR_DATOS_GOOGLE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUserGoogle" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="verified_email" Type="bit" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="given_name" Type="varchar" Mode="In" />
+          <Parameter Name="family_name" Type="varchar" Mode="In" />
+          <Parameter Name="pictureUrl" Type="varchar" Mode="In" />
+          <Parameter Name="locale" Type="varchar" Mode="In" />
+          <Parameter Name="tokenData" Type="varchar(max)" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_DATOS_GOOGLE_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="idUserGoogle" Type="varchar" Mode="In" />
           <Parameter Name="email" Type="varchar" Mode="In" />
           <Parameter Name="verified_email" Type="bit" Mode="In" />
@@ -148,6 +186,10 @@
           <Parameter Name="nroCelular" Type="varchar" Mode="In" />
           <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nroCelular" Type="varchar" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_CLIENTE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="celular" Type="varchar" Mode="In" />
@@ -156,7 +198,21 @@
           <Parameter Name="correo" Type="varchar" Mode="In" />
           <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="cod_aplicacion" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_VERIFICAR_CODIGO_AUTENTICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codigoVerificacion" Type="varchar" Mode="In" />
+          <Parameter Name="nroCelular" Type="varchar" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+        </Function>
+        <Function Name="SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigoVerificacion" Type="varchar" Mode="In" />
           <Parameter Name="nroCelular" Type="varchar" Mode="In" />
           <Parameter Name="latitud" Type="numeric" Mode="In" />
@@ -168,73 +224,26 @@
           <Parameter Name="nroCelular" Type="varchar" Mode="In" />
           <Parameter Name="flgCelularCorreo" Type="bit" Mode="In" />
         </Function>
+        <Function Name="SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codigoVerificacion" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="nroCelular" Type="varchar" Mode="In" />
+          <Parameter Name="flgCelularCorreo" Type="bit" Mode="In" />
+        </Function>
         <EntityContainer Name="EasyWorkDBModelStoreContainer">
           <EntitySet Name="mst_aplicacion" EntityType="Self.mst_aplicacion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="mst_rol" EntityType="Self.mst_rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="trs_usuario" EntityType="Self.trs_usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_USUARIO_ROL" Association="Self.FK_USUARIO_ROL">
-            <End Role="mst_rol" EntitySet="mst_rol" />
+          <EntitySet Name="trs_usuario_rol" EntityType="Self.trs_usuario_rol" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_USUARIOROL_USUARIO" Association="Self.FK_USUARIOROL_USUARIO">
             <End Role="trs_usuario" EntitySet="trs_usuario" />
+            <End Role="trs_usuario_rol" EntitySet="trs_usuario_rol" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EasyWorkDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="mst_rol">
-          <Key>
-            <PropertyRef Name="id_rol" />
-          </Key>
-          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="cod_rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="sigla_rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="nombre_rol" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="activo" Type="Boolean" />
-          <Property Name="eliminado" Type="Boolean" />
-          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
-          <Property Name="fecha_actualizacion" Type="DateTime" Precision="3" />
-          <Property Name="fecha_eliminacion" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="trs_usuario" Relationship="Self.FK_USUARIO_ROL" FromRole="mst_rol" ToRole="trs_usuario" />
-        </EntityType>
-        <EntityType Name="trs_usuario">
-          <Key>
-            <PropertyRef Name="id_usuario" />
-          </Key>
-          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_rol" Type="Int32" Nullable="false" />
-          <Property Name="id_persona" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="activo" Type="Boolean" />
-          <Property Name="eliminado" Type="Boolean" />
-          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
-          <Property Name="fecha_actualizacion" Type="DateTime" Precision="3" />
-          <Property Name="fecha_eliminacion" Type="DateTime" Precision="3" />
-          <Property Name="cod_aplicacion_registro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="cod_aplicacion_actualizacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="cod_aplicacion_eliminacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="mst_rol" Relationship="Self.FK_USUARIO_ROL" FromRole="trs_usuario" ToRole="mst_rol" />
-          <Property Name="cod_usuario" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_USUARIO_ROL">
-          <End Role="mst_rol" Type="Self.mst_rol" Multiplicity="1" />
-          <End Role="trs_usuario" Type="Self.trs_usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="mst_rol">
-              <PropertyRef Name="id_rol" />
-            </Principal>
-            <Dependent Role="trs_usuario">
-              <PropertyRef Name="id_rol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="EasyWorkDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="mst_rol" EntityType="Self.mst_rol" />
-          <EntitySet Name="trs_usuario" EntityType="Self.trs_usuario" />
-          <AssociationSet Name="FK_USUARIO_ROL" Association="Self.FK_USUARIO_ROL">
-            <End Role="mst_rol" EntitySet="mst_rol" />
-            <End Role="trs_usuario" EntitySet="trs_usuario" />
-          </AssociationSet>
           <EntitySet Name="mst_aplicacion" EntityType="EasyWorkDBModel.mst_aplicacion" />
           <FunctionImport Name="SP_OBTENER_DATA_PRINCIPAL_USUARIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result)">
             <Parameter Name="idUsuario" Mode="In" Type="Int32" />
@@ -337,6 +346,73 @@
             <Parameter Name="codAplicacion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_OBTENER_CATEGORIAS_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_CATEGORIAS_SERVICIO_Result)" />
+          <FunctionImport Name="SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="cod_aplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="trs_usuario" EntityType="EasyWorkDBModel.trs_usuario" />
+          <EntitySet Name="trs_usuario_rol" EntityType="EasyWorkDBModel.trs_usuario_rol" />
+          <AssociationSet Name="FK_USUARIOROL_USUARIO" Association="EasyWorkDBModel.FK_USUARIOROL_USUARIO">
+            <End Role="trs_usuario" EntitySet="trs_usuario" />
+            <End Role="trs_usuario_rol" EntitySet="trs_usuario_rol" />
+          </AssociationSet>
+          <FunctionImport Name="SP_OBTENER_IDENTIFICADOR_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_IDENTIFICADOR_TECNICO_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO_Result)">
+            <Parameter Name="verifyCode" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="nroCelular" Mode="In" Type="String" />
+            <Parameter Name="codTipoCodigoVerificacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_DATOS_FACEBOOK_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_DATOS_FACEBOOK_TECNICO_Result)">
+            <Parameter Name="idUserFacebook" Mode="In" Type="String" />
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="pictureIsSilhouette" Mode="In" Type="Boolean" />
+            <Parameter Name="pictureUrl" Mode="In" Type="String" />
+            <Parameter Name="tokenData" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_DATOS_GOOGLE_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_DATOS_GOOGLE_TECNICO_Result)">
+            <Parameter Name="idUserGoogle" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="verified_email" Mode="In" Type="Boolean" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="given_name" Mode="In" Type="String" />
+            <Parameter Name="family_name" Mode="In" Type="String" />
+            <Parameter Name="pictureUrl" Mode="In" Type="String" />
+            <Parameter Name="locale" Mode="In" Type="String" />
+            <Parameter Name="tokenData" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO_Result)">
+            <Parameter Name="nroCelular" Mode="In" Type="String" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO_Result)">
+            <Parameter Name="codigoVerificacion" Mode="In" Type="String" />
+            <Parameter Name="nroCelular" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO_Result)">
+            <Parameter Name="codigoVerificacion" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="nroCelular" Mode="In" Type="String" />
+            <Parameter Name="flgCelularCorreo" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result)">
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
           <Key>
@@ -462,47 +538,113 @@
           <Property Type="String" Name="siglaCategoriaServicio" Nullable="true" MaxLength="20" />
           <Property Type="String" Name="nombreImgCategoriaServicio" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="codUsuario" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="idUsuario" Nullable="true" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="trs_usuario">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_persona" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="activo" Type="Boolean" />
+          <Property Name="eliminado" Type="Boolean" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <Property Name="fecha_actualizacion" Type="DateTime" Precision="3" />
+          <Property Name="fecha_eliminacion" Type="DateTime" Precision="3" />
+          <Property Name="cod_aplicacion_registro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cod_aplicacion_actualizacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cod_aplicacion_eliminacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cod_usuario" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="trs_usuario_rol" Relationship="EasyWorkDBModel.FK_USUARIOROL_USUARIO" FromRole="trs_usuario" ToRole="trs_usuario_rol" />
+        </EntityType>
+        <EntityType Name="trs_usuario_rol">
+          <Key>
+            <PropertyRef Name="id_usuario_rol" />
+          </Key>
+          <Property Name="id_usuario_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <Property Name="activo" Type="Boolean" />
+          <Property Name="eliminado" Type="Boolean" />
+          <Property Name="fecha_registro" Type="DateTime" Precision="3" />
+          <Property Name="fecha_actualizacion" Type="DateTime" Precision="3" />
+          <Property Name="fecha_eliminacion" Type="DateTime" Precision="3" />
+          <Property Name="cod_aplicacion_registro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cod_aplicacion_actualizacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cod_aplicacion_eliminacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="trs_usuario" Relationship="EasyWorkDBModel.FK_USUARIOROL_USUARIO" FromRole="trs_usuario_rol" ToRole="trs_usuario" />
+        </EntityType>
+        <Association Name="FK_USUARIOROL_USUARIO">
+          <End Type="EasyWorkDBModel.trs_usuario" Role="trs_usuario" Multiplicity="1" />
+          <End Type="EasyWorkDBModel.trs_usuario_rol" Role="trs_usuario_rol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trs_usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="trs_usuario_rol">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_OBTENER_IDENTIFICADOR_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="idUsuario" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_DATOS_FACEBOOK_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="String" Name="codUsuarioCreado" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="idUsuarioCreado" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_DATOS_GOOGLE_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="String" Name="codUsuarioCreado" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="idUsuarioCreado" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="codUsuario" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="idUsuario" Nullable="true" />
+          <Property Type="Boolean" Name="flgMostrarRegistroUsuario" Nullable="true" />
+          <Property Type="Boolean" Name="flgCelularValidado" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="EasyWorkDBModelStoreContainer" CdmEntityContainer="EasyWorkDBEntities">
-          <EntitySetMapping Name="mst_rol">
-            <EntityTypeMapping TypeName="EasyWorkDBModel.mst_rol">
-              <MappingFragment StoreEntitySet="mst_rol">
-                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
-                <ScalarProperty Name="cod_rol" ColumnName="cod_rol" />
-                <ScalarProperty Name="sigla_rol" ColumnName="sigla_rol" />
-                <ScalarProperty Name="nombre_rol" ColumnName="nombre_rol" />
-                <ScalarProperty Name="activo" ColumnName="activo" />
-                <ScalarProperty Name="eliminado" ColumnName="eliminado" />
-                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
-                <ScalarProperty Name="fecha_actualizacion" ColumnName="fecha_actualizacion" />
-                <ScalarProperty Name="fecha_eliminacion" ColumnName="fecha_eliminacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="trs_usuario">
-            <EntityTypeMapping TypeName="EasyWorkDBModel.trs_usuario">
-              <MappingFragment StoreEntitySet="trs_usuario">
-                <ScalarProperty Name="cod_usuario" ColumnName="cod_usuario" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
-                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="activo" ColumnName="activo" />
-                <ScalarProperty Name="eliminado" ColumnName="eliminado" />
-                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
-                <ScalarProperty Name="fecha_actualizacion" ColumnName="fecha_actualizacion" />
-                <ScalarProperty Name="fecha_eliminacion" ColumnName="fecha_eliminacion" />
-                <ScalarProperty Name="cod_aplicacion_registro" ColumnName="cod_aplicacion_registro" />
-                <ScalarProperty Name="cod_aplicacion_actualizacion" ColumnName="cod_aplicacion_actualizacion" />
-                <ScalarProperty Name="cod_aplicacion_eliminacion" ColumnName="cod_aplicacion_eliminacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="mst_aplicacion">
             <EntityTypeMapping TypeName="EasyWorkDBModel.mst_aplicacion">
               <MappingFragment StoreEntitySet="mst_aplicacion">
@@ -705,6 +847,131 @@
                 <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
                 <ScalarProperty Name="siglaCategoriaServicio" ColumnName="siglaCategoriaServicio" />
                 <ScalarProperty Name="nombreImgCategoriaServicio" ColumnName="nombreImgCategoriaServicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="trs_usuario">
+            <EntityTypeMapping TypeName="EasyWorkDBModel.trs_usuario">
+              <MappingFragment StoreEntitySet="trs_usuario">
+                <ScalarProperty Name="cod_usuario" ColumnName="cod_usuario" />
+                <ScalarProperty Name="cod_aplicacion_eliminacion" ColumnName="cod_aplicacion_eliminacion" />
+                <ScalarProperty Name="cod_aplicacion_actualizacion" ColumnName="cod_aplicacion_actualizacion" />
+                <ScalarProperty Name="cod_aplicacion_registro" ColumnName="cod_aplicacion_registro" />
+                <ScalarProperty Name="fecha_eliminacion" ColumnName="fecha_eliminacion" />
+                <ScalarProperty Name="fecha_actualizacion" ColumnName="fecha_actualizacion" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="eliminado" ColumnName="eliminado" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id_persona" ColumnName="id_persona" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trs_usuario_rol">
+            <EntityTypeMapping TypeName="EasyWorkDBModel.trs_usuario_rol">
+              <MappingFragment StoreEntitySet="trs_usuario_rol">
+                <ScalarProperty Name="cod_aplicacion_eliminacion" ColumnName="cod_aplicacion_eliminacion" />
+                <ScalarProperty Name="cod_aplicacion_actualizacion" ColumnName="cod_aplicacion_actualizacion" />
+                <ScalarProperty Name="cod_aplicacion_registro" ColumnName="cod_aplicacion_registro" />
+                <ScalarProperty Name="fecha_eliminacion" ColumnName="fecha_eliminacion" />
+                <ScalarProperty Name="fecha_actualizacion" ColumnName="fecha_actualizacion" />
+                <ScalarProperty Name="fecha_registro" ColumnName="fecha_registro" />
+                <ScalarProperty Name="eliminado" ColumnName="eliminado" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_usuario_rol" ColumnName="id_usuario_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_IDENTIFICADOR_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_IDENTIFICADOR_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_IDENTIFICADOR_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_CODIGO_VERIFICACION_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_DATOS_FACEBOOK_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_DATOS_FACEBOOK_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_DATOS_FACEBOOK_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="codUsuarioCreado" ColumnName="codUsuarioCreado" />
+                <ScalarProperty Name="idUsuarioCreado" ColumnName="idUsuarioCreado" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_DATOS_GOOGLE_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_DATOS_GOOGLE_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_DATOS_GOOGLE_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="codUsuarioCreado" ColumnName="codUsuarioCreado" />
+                <ScalarProperty Name="idUsuarioCreado" ColumnName="idUsuarioCreado" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VERIFICAR_CODIGO_AUTENTICACION_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="flgMostrarRegistroUsuario" ColumnName="flgMostrarRegistroUsuario" />
+                <ScalarProperty Name="flgCelularValidado" ColumnName="flgCelularValidado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VERIFICAR_CODIGO_VERIFICACION_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

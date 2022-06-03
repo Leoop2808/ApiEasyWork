@@ -12,25 +12,20 @@ namespace EasyWorkDataAccess.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class mst_rol
+    public partial class trs_usuario_rol
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public mst_rol()
-        {
-            this.trs_usuario = new HashSet<trs_usuario>();
-        }
-    
+        public int id_usuario_rol { get; set; }
+        public int id_usuario { get; set; }
         public int id_rol { get; set; }
-        public string cod_rol { get; set; }
-        public string sigla_rol { get; set; }
-        public string nombre_rol { get; set; }
         public Nullable<bool> activo { get; set; }
         public Nullable<bool> eliminado { get; set; }
         public Nullable<System.DateTime> fecha_registro { get; set; }
         public Nullable<System.DateTime> fecha_actualizacion { get; set; }
         public Nullable<System.DateTime> fecha_eliminacion { get; set; }
+        public string cod_aplicacion_registro { get; set; }
+        public string cod_aplicacion_actualizacion { get; set; }
+        public string cod_aplicacion_eliminacion { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<trs_usuario> trs_usuario { get; set; }
+        public virtual trs_usuario trs_usuario { get; set; }
     }
 }
