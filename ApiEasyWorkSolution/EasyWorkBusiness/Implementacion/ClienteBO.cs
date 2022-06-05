@@ -2,16 +2,23 @@
 using EasyWorkDataAccess.Contrato;
 using EasyWorkEntities.Cliente.Request;
 using EasyWorkEntities.Cliente.Response;
+using GoogleApi.Entities.Maps.Common;
+using GoogleApi.Entities.Maps.DistanceMatrix.Request;
+using GoogleDistanceMatrix.Clients;
+using GoogleDistanceMatrix.Entities;
+using GoogleDistanceMatrix.Enums;
 using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 
 namespace EasyWorkBusiness.Implementacion
 {
     public class ClienteBO : IClienteBO
     {
+        private string _apiKeyGoogle = ConfigurationManager.AppSettings["API_KEY_GOOGLE"];
         private readonly ILog log = LogManager.GetLogger(typeof(ClienteBO));
         readonly IClienteDO _clienteDO;
         public ClienteBO(IClienteDO clienteDO)
@@ -119,15 +126,19 @@ namespace EasyWorkBusiness.Implementacion
         {
             try
             {
-                var response = new ObtenerListaTecnicosResponse() { 
+            //    var requestParameters = new RequestParameters();
+            //    requestParameters.Key = _apiKeyGoogle;
+            //    requestParameters.Origins = "-12.0464867%2C-76.9809687";
+            //    requestParameters.Destinations = "-12.0459677%2C-76.9704462";
+            //    requestParameters.Mode = TravelMode.Driving;
+            //    requestParameters.DepartureTime = DateTime.Now;
+            //    var responseDistanceMatrix = new GoogleDistanceMatrixClient(_apiKeyGoogle).GetDistanceMatrixReponse(requestParameters, OutputFormat.JSON);
+
+                var response = new ObtenerListaTecnicosResponse()
+                {
                     codeRes = HttpStatusCode.OK,
                     messageRes = "Prueba respuesta"
                 };
-
-                //var resDataTecnicos = _clienteDO.ObtenerListaTecnicos(cod_aplicacion, cod_aplicacion, idLogTexto);
-                //log.Info($"resDataTecnicos --> " + JsonConvert.SerializeObject(resDataTecnicos));
-                //response.codeRes = resDataTecnicos.codeRes;
-                //response.messageRes = resDataTecnicos.messageRes;
                 return response;
             }
             catch (Exception e)

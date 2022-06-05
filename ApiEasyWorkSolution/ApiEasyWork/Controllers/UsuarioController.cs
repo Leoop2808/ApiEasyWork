@@ -770,77 +770,77 @@ namespace ApiEasyWork.Controllers
 
         //TECNICO
 
-        [ApplicationAuthenticationFilter]
-        [Route("autenticacion/tecnico")]
-        [HttpPost]
-        public async Task<HttpResponseMessage> AutenticarTecnico(AutenticarTecnicoRequest request)
-        {
-            log.Info($"request --> " + JsonConvert.SerializeObject(request));
-            string idLogTexto = Guid.NewGuid().ToString();
-            if (String.IsNullOrEmpty(request.usuario))
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
-                    new JProperty("error", "invalid_user_empty"),
-                    new JProperty("error_description", "No se recibió el usuario técnico.")
-                ));
-            }
+        //[ApplicationAuthenticationFilter]
+        //[Route("autenticacion/tecnico")]
+        //[HttpPost]
+        //public async Task<HttpResponseMessage> AutenticarTecnico(AutenticarTecnicoRequest request)
+        //{
+        //    log.Info($"request --> " + JsonConvert.SerializeObject(request));
+        //    string idLogTexto = Guid.NewGuid().ToString();
+        //    if (String.IsNullOrEmpty(request.usuario))
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+        //            new JProperty("error", "invalid_user_empty"),
+        //            new JProperty("error_description", "No se recibió el usuario técnico.")
+        //        ));
+        //    }
 
-            if (String.IsNullOrEmpty(request.password))
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
-                    new JProperty("error", "invalid_verification_code_empty"),
-                    new JProperty("error_description", "No se recibió la contraseña.")
-                ));
-            }
+        //    if (String.IsNullOrEmpty(request.password))
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+        //            new JProperty("error", "invalid_verification_code_empty"),
+        //            new JProperty("error_description", "No se recibió la contraseña.")
+        //        ));
+        //    }
 
-            var cod_aplicacion = AplicationData.codAplicacion;
-            var respAuthTecnico = _authenticationBO.AutenticarTecnico(request, cod_aplicacion, idLogTexto);
-            if (respAuthTecnico.codeRes == HttpStatusCode.OK)
-            {
-                var userSearch = await UserManager.FindAsync(request.usuario, request.password);
-                //var userSearch = UserManager.FindById(respAuthTecnico.datos.codUsuario);
-                var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-                identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
-                identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
-                identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
+        //    var cod_aplicacion = AplicationData.codAplicacion;
+        //    var respAuthTecnico = _authenticationBO.AutenticarTecnico(request, cod_aplicacion, idLogTexto);
+        //    if (respAuthTecnico.codeRes == HttpStatusCode.OK)
+        //    {
+        //        var userSearch = await UserManager.FindAsync(request.usuario, request.password);
+        //        //var userSearch = UserManager.FindById(respAuthTecnico.datos.codUsuario);
+        //        var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+        //        identity.AddClaim(new Claim("cod_aplicacion", cod_aplicacion.ToString()));
+        //        identity.AddClaim(new Claim("user_id", userSearch.id_usuario.ToString()));
+        //        identity.AddClaim(new Claim("user_code", userSearch.cod_usuario.ToString()));
 
-                EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
+        //        EasyWorkDBEntities ctxBD = new EasyWorkDBEntities();
+        //        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userSearch.id_usuario.ToString()));
 
-                var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
+        //        var cookiesIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
-                var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
-                ticket.Properties.IssuedUtc = currentUtc;
-                ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
-                var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
-                Authentication.SignIn(cookiesIdentity);
+        //        AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+        //        var currentUtc = new Microsoft.Owin.Infrastructure.SystemClock().UtcNow;
+        //        ticket.Properties.IssuedUtc = currentUtc;
+        //        ticket.Properties.ExpiresUtc = currentUtc.Add(tokenExpirationTimeSpan);
+        //        var accesstoken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+        //        Authentication.SignIn(cookiesIdentity);
 
-                // Create the response
-                JObject blob = new JObject(
-                    new JProperty("access_token", accesstoken),
-                    new JProperty("token_type", "bearer"),
-                    new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
-                    new JProperty("nombres", respAuthTecnico.datos.nombres),
-                    new JProperty("apellidos", respAuthTecnico.datos.apellidos),
-                    new JProperty("correo", respAuthTecnico.datos.correo),
-                    new JProperty("flgMostrarRegistroUsuario", respAuthTecnico.flgMostrarRegistroUsuario),
-                    new JProperty("flgCelularValidado", respAuthTecnico.flgCelularValidado),
-                    new JProperty("flgCorreoValidado", respAuthTecnico.flgCorreoValidado),
-                    new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
-                    new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
-                );
+        //        // Create the response
+        //        JObject blob = new JObject(
+        //            new JProperty("access_token", accesstoken),
+        //            new JProperty("token_type", "bearer"),
+        //            new JProperty("expires_in", tokenExpirationTimeSpan.TotalSeconds.ToString()),
+        //            new JProperty("nombres", respAuthTecnico.datos.nombres),
+        //            new JProperty("apellidos", respAuthTecnico.datos.apellidos),
+        //            new JProperty("correo", respAuthTecnico.datos.correo),
+        //            new JProperty("flgMostrarRegistroUsuario", respAuthTecnico.flgMostrarRegistroUsuario),
+        //            new JProperty("flgCelularValidado", respAuthTecnico.flgCelularValidado),
+        //            new JProperty("flgCorreoValidado", respAuthTecnico.flgCorreoValidado),
+        //            new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+        //            new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+        //        );
 
-                return Request.CreateResponse(HttpStatusCode.OK, blob);
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
-                    new JProperty("error", "invalid_user"),
-                    new JProperty("error_description", "No se pudo realizar la autenticación del técnico.")
-                ));
-            }
-        }
+        //        return Request.CreateResponse(HttpStatusCode.OK, blob);
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest, new JObject(
+        //            new JProperty("error", "invalid_user"),
+        //            new JProperty("error_description", "No se pudo realizar la autenticación del técnico.")
+        //        ));
+        //    }
+        //}
 
         [ApplicationAuthenticationFilter]
         [Route("autenticacion/tecnico/google")]
