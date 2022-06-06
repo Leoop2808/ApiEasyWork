@@ -100,6 +100,7 @@ namespace ApiEasyWork.Controllers
                     new JProperty("flgMostrarRegistroUsuario", respAuthGoogle.flgMostrarRegistroUsuario),
                     new JProperty("flgCelularValidado", respAuthGoogle.flgCelularValidado),
                     new JProperty("flgCorreoValidado", respAuthGoogle.flgCorreoValidado),
+                    new JProperty("rol", "3"),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );
@@ -162,6 +163,7 @@ namespace ApiEasyWork.Controllers
                     new JProperty("flgMostrarRegistroUsuario", respAuthFacebook.flgMostrarRegistroUsuario),
                     new JProperty("flgCelularValidado", respAuthFacebook.flgCelularValidado),
                     new JProperty("flgCorreoValidado", respAuthFacebook.flgCorreoValidado),
+                    new JProperty("rol", "3"),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );
@@ -753,6 +755,7 @@ namespace ApiEasyWork.Controllers
                     new JProperty("flgMostrarRegistroUsuario", respAuthPhone.flgMostrarRegistroUsuario),
                     new JProperty("flgCelularValidado", respAuthPhone.flgCelularValidado),
                     new JProperty("flgCorreoValidado", respAuthPhone.flgCorreoValidado),
+                    new JProperty("rol", "3"),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );
@@ -887,6 +890,7 @@ namespace ApiEasyWork.Controllers
                     new JProperty("flgMostrarRegistroUsuario", respAuthGoogle.flgMostrarRegistroUsuario),
                     new JProperty("flgCelularValidado", respAuthGoogle.flgCelularValidado),
                     new JProperty("flgCorreoValidado", respAuthGoogle.flgCorreoValidado),
+                    new JProperty("rol", "2"),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );
@@ -949,6 +953,7 @@ namespace ApiEasyWork.Controllers
                     new JProperty("flgMostrarRegistroUsuario", respAuthFacebook.flgMostrarRegistroUsuario),
                     new JProperty("flgCelularValidado", respAuthFacebook.flgCelularValidado),
                     new JProperty("flgCorreoValidado", respAuthFacebook.flgCorreoValidado),
+                    new JProperty("rol", "2"),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );
@@ -1020,6 +1025,7 @@ namespace ApiEasyWork.Controllers
                     new JProperty("flgMostrarRegistroUsuario", respAuthPhone.flgMostrarRegistroUsuario),
                     new JProperty("flgCelularValidado", respAuthPhone.flgCelularValidado),
                     new JProperty("flgCorreoValidado", respAuthPhone.flgCorreoValidado),
+                    new JProperty("rol", "2"),
                     new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                     new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
                 );

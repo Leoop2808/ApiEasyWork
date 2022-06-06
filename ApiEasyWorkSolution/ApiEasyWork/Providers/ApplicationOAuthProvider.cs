@@ -159,6 +159,9 @@ namespace ApiEasyWork.Providers
                 {
                     {
                         "Username", user.username
+                    },
+                    {
+                        "rol", rol.cod_rol
                     }
                 });
 
