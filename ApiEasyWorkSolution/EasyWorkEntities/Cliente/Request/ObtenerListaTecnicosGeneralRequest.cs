@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace EasyWorkEntities.Cliente.Request
+﻿namespace EasyWorkEntities.Cliente.Request
 {
-    public class ObtenerListaTecnicosRequest
+    public class ObtenerListaTecnicosGeneralRequest
     {
         public string codCategoria { get; set; }
         public string direccion { get; set; }

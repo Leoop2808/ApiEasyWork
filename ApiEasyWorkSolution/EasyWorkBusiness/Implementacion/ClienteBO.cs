@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 
 namespace EasyWorkBusiness.Implementacion
@@ -122,29 +123,63 @@ namespace EasyWorkBusiness.Implementacion
             }
         }
 
-        public ObtenerListaTecnicosResponse ObtenerListaTecnicos(ObtenerListaTecnicosRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        public ObtenerListaTecnicosGeneralResponse ObtenerListaTecnicosGeneral(ObtenerListaTecnicosGeneralRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
         {
             try
             {
-            //    var requestParameters = new RequestParameters();
-            //    requestParameters.Key = _apiKeyGoogle;
-            //    requestParameters.Origins = "-12.0464867%2C-76.9809687";
-            //    requestParameters.Destinations = "-12.0459677%2C-76.9704462";
-            //    requestParameters.Mode = TravelMode.Driving;
-            //    requestParameters.DepartureTime = DateTime.Now;
-            //    var responseDistanceMatrix = new GoogleDistanceMatrixClient(_apiKeyGoogle).GetDistanceMatrixReponse(requestParameters, OutputFormat.JSON);
+                var resTecnicosDisponibles = _clienteDO.ObtenerTecnicosDisponibles(request, cod_aplicacion, cod_usuario, idLogTexto);
+                if (resTecnicosDisponibles.codeRes != HttpStatusCode.OK)
+                {
+                    return new ObtenerListaTecnicosGeneralResponse()
+                    {
+                        codeRes = resTecnicosDisponibles.codeRes,
+                        messageRes = resTecnicosDisponibles.messageRes
+                    };
+                }
 
-                var response = new ObtenerListaTecnicosResponse()
+                var listaTecDispSinOrdenar = new List<DataTecnicoDisponibleTiempo>();
+
+                foreach (var itemTecDisp in resTecnicosDisponibles.datos)
+                {
+                    var dataTecnicoDispTiempo = new DataTecnicoDisponibleTiempo();
+                    var requestParameters = new RequestParameters();
+                    requestParameters.Key = _apiKeyGoogle;
+                    requestParameters.Origins = $"{itemTecDisp.latitud.ToString()}%2C{itemTecDisp.longitud.ToString()}";
+                    requestParameters.Destinations = $"{request.latitud.ToString()}%2C{request.longitud.ToString()}";
+                    requestParameters.Mode = (TravelMode)itemTecDisp.travelMode;
+                    requestParameters.DepartureTime = DateTime.Now;
+                    var responseDistanceMatrix = new GoogleDistanceMatrixClient(_apiKeyGoogle).GetDistanceMatrixReponse(requestParameters, OutputFormat.JSON);
+                    if (responseDistanceMatrix.Status == "OK" && responseDistanceMatrix.Rows[0].Elements[0].status == "OK")
+                    {
+                        dataTecnicoDispTiempo.datosTecnico = itemTecDisp.datosTecnico;
+                        dataTecnicoDispTiempo.strDistancia = responseDistanceMatrix.Rows[0].Elements[0].Distance.Text;
+                        dataTecnicoDispTiempo.distancia = responseDistanceMatrix.Rows[0].Elements[0].Distance.Value;
+                        dataTecnicoDispTiempo.strTiempoViaje = responseDistanceMatrix.Rows[0].Elements[0].Duration.Text;
+                        dataTecnicoDispTiempo.tiempoViaje = responseDistanceMatrix.Rows[0].Elements[0].Duration.Value;
+
+                        listaTecDispSinOrdenar.Add(dataTecnicoDispTiempo);
+                    }
+                }
+
+                var listaTecDispOrdenada = listaTecDispSinOrdenar.Select(x => new DataTecnicoGeneral() 
+                {
+                    datosTecnico = x.datosTecnico,
+                    strDistancia = x.strDistancia,
+                    strTiempoViaje = x.strTiempoViaje
+                }).OrderByDescending(x => x.strDistancia).ToList();
+
+                var response = new ObtenerListaTecnicosGeneralResponse()
                 {
                     codeRes = HttpStatusCode.OK,
-                    messageRes = "Prueba respuesta"
+                    messageRes = "Prueba respuesta",
+                    datos = listaTecDispOrdenada
                 };
                 return response;
             }
             catch (Exception e)
             {
                 log.Error("Error :" + JsonConvert.SerializeObject(e));
-                return new ObtenerListaTecnicosResponse()
+                return new ObtenerListaTecnicosGeneralResponse()
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno al obtener lista tecnicos."

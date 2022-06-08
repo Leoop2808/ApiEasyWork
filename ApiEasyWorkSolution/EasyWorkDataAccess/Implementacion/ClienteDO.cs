@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyWorkDataAccess.Contrato;
 using EasyWorkDataAccess.Models;
+using EasyWorkEntities.Cliente.Request;
 using EasyWorkEntities.Cliente.Response;
 using log4net;
 using Newtonsoft.Json;
@@ -269,6 +270,49 @@ namespace EasyWorkDataAccess.Implementacion
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno en el listado de datos de tipos de busqueda."
+                };
+            }
+        }
+        public ObtenerTecnicosDisponiblesResponse ObtenerTecnicosDisponibles(ObtenerListaTecnicosGeneralRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var response = ctx.SP_OBTENER_TECNICOS_DISPONIBLES().ToList();
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                if (response != null && response.Count > 0)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_OBTENER_TECNICOS_DISPONIBLES_Result, DataTecnico>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<List<SP_OBTENER_TECNICOS_DISPONIBLES_Result>, List<DataTecnico>>(response);
+
+                    return new ObtenerTecnicosDisponiblesResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Tecnicos disponibles obtenidos correctamente.",
+                        datos = datosMapeados.ToList()
+                    };
+                }
+                else
+                {
+                    return new ObtenerTecnicosDisponiblesResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvieron datos de tecnicos disponibles.",
+                        datos = new List<DataTecnico>()
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerTecnicosDisponiblesResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el listado de datos de tecnicos disponibles."
                 };
             }
         }

@@ -1,8 +1,16 @@
-﻿namespace EasyWorkEntities.Cliente.Response
+﻿using System.Collections.Generic;
+
+namespace EasyWorkEntities.Cliente.Response
 {
-    public class ObtenerListaTecnicosResponse : GlobalHTTPResponse
+    public class ObtenerListaTecnicosGeneralResponse : GlobalHTTPResponse
     {
-        public DataTecnico datos { get; set; }       
+        public List<DataTecnicoGeneral> datos { get; set; }       
+    }
+    public class DataTecnicoGeneral
+    {
+        public DataTecnico datosTecnico { get; set; }
+        public string strDistancia { get; set; }
+        public string strTiempoViaje { get; set; }
     }
     public class DataTecnico 
     {

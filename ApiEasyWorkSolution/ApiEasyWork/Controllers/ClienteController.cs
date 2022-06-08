@@ -84,9 +84,9 @@ namespace ApiEasyWork.Controllers
            
         }
 
-        [Route("busqueda-tecnicos")]
+        [Route("busqueda-tecnicos-general")]
         [HttpGet]
-        public HttpResponseMessage ObtenerListaTecnicos(ObtenerListaTecnicosRequest request)
+        public HttpResponseMessage ObtenerListaTecnicosGeneral(ObtenerListaTecnicosGeneralRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
@@ -94,7 +94,7 @@ namespace ApiEasyWork.Controllers
             var cod_aplicacion = AplicationData.codAplicacion;
             try
             {
-                var respListaTecnicos = _clienteBO.ObtenerListaTecnicos(request, cod_aplicacion, cod_usuario, idLogTexto);
+                var respListaTecnicos = _clienteBO.ObtenerListaTecnicosGeneral(request, cod_aplicacion, cod_usuario, idLogTexto);
                 if (respListaTecnicos.codeRes == HttpStatusCode.OK)
                 {
                     if (respListaTecnicos.codeRes == HttpStatusCode.OK)
@@ -117,7 +117,7 @@ namespace ApiEasyWork.Controllers
             }
             catch (Exception ex)
             {
-                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerListaTecnicos. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerListaTecnicosGeneral. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
                     "Mensaje al cliente: Error interno en el servicio de obtener datos de los técnicos. " +
                     "Detalle error: " + JsonConvert.SerializeObject(ex));
 

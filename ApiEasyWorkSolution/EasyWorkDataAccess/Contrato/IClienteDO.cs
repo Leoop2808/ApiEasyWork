@@ -1,4 +1,5 @@
-﻿using EasyWorkEntities.Cliente.Response;
+﻿using EasyWorkEntities.Cliente.Request;
+using EasyWorkEntities.Cliente.Response;
 
 namespace EasyWorkDataAccess.Contrato
 {
@@ -10,5 +11,6 @@ namespace EasyWorkDataAccess.Contrato
         ObtenerMediosPagoResponse ObtenerMediosPago(string cod_usuario, string cod_aplicacion, string idLogTexto);
         ObtenerTiposTransporteResponse ObtenerTiposTransporte(string cod_usuario, string cod_aplicacion, string idLogTexto);
         ObtenerTiposBusquedaResponse ObtenerTiposBusqueda(string cod_usuario, string cod_aplicacion, string idLogTexto);
+        ObtenerTecnicosDisponiblesResponse ObtenerTecnicosDisponibles(ObtenerListaTecnicosGeneralRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto);
     }
 }
