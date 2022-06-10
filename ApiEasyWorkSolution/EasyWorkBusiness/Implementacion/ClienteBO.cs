@@ -344,6 +344,7 @@ namespace EasyWorkBusiness.Implementacion
                
                 response.datos = new DatosPerfilTecnico()
                 {
+                    urlImagenTecnico = resDatGenPerTec.datos.urlImagenTecnico,
                     idPerfilTrabajador = resDatGenPerTec.datos.idPerfilTrabajador,
                     codUsuarioTecnico = resDatGenPerTec.datos.codUsuarioTecnico,
                     nombreTecnico = resDatGenPerTec.datos.nombreTecnico,

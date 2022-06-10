@@ -13,6 +13,7 @@ namespace EasyWorkDataAccess.Models
     
     public partial class SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result
     {
+        public string urlImagenTecnico { get; set; }
         public int idPerfilTrabajador { get; set; }
         public string codUsuarioTecnico { get; set; }
         public string nombreTecnico { get; set; }

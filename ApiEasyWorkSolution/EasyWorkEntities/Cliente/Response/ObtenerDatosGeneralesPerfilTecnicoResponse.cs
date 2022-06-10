@@ -6,6 +6,7 @@
     }
     public class DatosGeneralesPerfilTecnico 
     {
+        public string urlImagenTecnico { get; set; }
         public int idPerfilTrabajador { get; set; }
         public string codUsuarioTecnico { get; set; }
         public string nombreTecnico { get; set; }

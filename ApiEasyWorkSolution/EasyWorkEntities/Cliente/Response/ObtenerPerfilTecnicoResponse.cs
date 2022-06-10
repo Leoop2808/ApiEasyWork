@@ -8,6 +8,7 @@ namespace EasyWorkEntities.Cliente.Response
     }
     public class DatosPerfilTecnico 
     {
+        public string urlImagenTecnico { get; set; }
         public int idPerfilTrabajador { get; set; }
         public string codUsuarioTecnico { get; set; }
         public string nombreTecnico { get; set; }

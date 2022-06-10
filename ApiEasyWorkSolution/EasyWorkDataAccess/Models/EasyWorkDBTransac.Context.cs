@@ -638,23 +638,6 @@ namespace EasyWorkDataAccess.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result>("SP_OBTENER_COMENTARIOS_PERFIL_TECNICO", codUsuarioTecnicoParameter, idPerfilTrabajadorParameter, codAplicacionParameter, codUsuarioParameter);
         }
     
-        public virtual ObjectResult<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result> SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO(Nullable<int> idTecnicoCategoriaServicio, string codAplicacion, string codUsuario)
-        {
-            var idTecnicoCategoriaServicioParameter = idTecnicoCategoriaServicio.HasValue ?
-                new ObjectParameter("idTecnicoCategoriaServicio", idTecnicoCategoriaServicio) :
-                new ObjectParameter("idTecnicoCategoriaServicio", typeof(int));
-    
-            var codAplicacionParameter = codAplicacion != null ?
-                new ObjectParameter("codAplicacion", codAplicacion) :
-                new ObjectParameter("codAplicacion", typeof(string));
-    
-            var codUsuarioParameter = codUsuario != null ?
-                new ObjectParameter("codUsuario", codUsuario) :
-                new ObjectParameter("codUsuario", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result>("SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO", idTecnicoCategoriaServicioParameter, codAplicacionParameter, codUsuarioParameter);
-        }
-    
         public virtual ObjectResult<SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result> SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO(string codUsuarioTecnico, Nullable<int> idPerfilTrabajador, string codAplicacion, string codUsuario)
         {
             var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
@@ -756,6 +739,23 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("codUsuario", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES_Result>("SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES", codCategoriaParameter, direccionParameter, latitudParameter, longitudParameter, codDistritoParameter, descripcionProblemaParameter, codMedioPagoParameter, codAplicacionParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result> SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO(Nullable<int> idTecnicoCategoriaServicio, string codAplicacion, string codUsuario)
+        {
+            var idTecnicoCategoriaServicioParameter = idTecnicoCategoriaServicio.HasValue ?
+                new ObjectParameter("idTecnicoCategoriaServicio", idTecnicoCategoriaServicio) :
+                new ObjectParameter("idTecnicoCategoriaServicio", typeof(int));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result>("SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO", idTecnicoCategoriaServicioParameter, codAplicacionParameter, codUsuarioParameter);
         }
     }
 }
