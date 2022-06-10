@@ -616,5 +616,146 @@ namespace EasyWorkDataAccess.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO", correoParameter, codAplicacionParameter);
         }
+    
+        public virtual ObjectResult<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result> SP_OBTENER_COMENTARIOS_PERFIL_TECNICO(string codUsuarioTecnico, Nullable<int> idPerfilTrabajador, string codAplicacion, string codUsuario)
+        {
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            var idPerfilTrabajadorParameter = idPerfilTrabajador.HasValue ?
+                new ObjectParameter("idPerfilTrabajador", idPerfilTrabajador) :
+                new ObjectParameter("idPerfilTrabajador", typeof(int));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result>("SP_OBTENER_COMENTARIOS_PERFIL_TECNICO", codUsuarioTecnicoParameter, idPerfilTrabajadorParameter, codAplicacionParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result> SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO(Nullable<int> idTecnicoCategoriaServicio, string codAplicacion, string codUsuario)
+        {
+            var idTecnicoCategoriaServicioParameter = idTecnicoCategoriaServicio.HasValue ?
+                new ObjectParameter("idTecnicoCategoriaServicio", idTecnicoCategoriaServicio) :
+                new ObjectParameter("idTecnicoCategoriaServicio", typeof(int));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result>("SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO", idTecnicoCategoriaServicioParameter, codAplicacionParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result> SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO(string codUsuarioTecnico, Nullable<int> idPerfilTrabajador, string codAplicacion, string codUsuario)
+        {
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            var idPerfilTrabajadorParameter = idPerfilTrabajador.HasValue ?
+                new ObjectParameter("idPerfilTrabajador", idPerfilTrabajador) :
+                new ObjectParameter("idPerfilTrabajador", typeof(int));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result>("SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO", codUsuarioTecnicoParameter, idPerfilTrabajadorParameter, codAplicacionParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_TECNICOS_DISPONIBLES_Result> SP_OBTENER_TECNICOS_DISPONIBLES(string codCategoria, string direccion, Nullable<decimal> latitud, Nullable<decimal> longitud, string codDistrito, string descripcionProblema, string codMedioPago, string codAplicacion, string codUsuario)
+        {
+            var codCategoriaParameter = codCategoria != null ?
+                new ObjectParameter("codCategoria", codCategoria) :
+                new ObjectParameter("codCategoria", typeof(string));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("direccion", direccion) :
+                new ObjectParameter("direccion", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codDistritoParameter = codDistrito != null ?
+                new ObjectParameter("codDistrito", codDistrito) :
+                new ObjectParameter("codDistrito", typeof(string));
+    
+            var descripcionProblemaParameter = descripcionProblema != null ?
+                new ObjectParameter("descripcionProblema", descripcionProblema) :
+                new ObjectParameter("descripcionProblema", typeof(string));
+    
+            var codMedioPagoParameter = codMedioPago != null ?
+                new ObjectParameter("codMedioPago", codMedioPago) :
+                new ObjectParameter("codMedioPago", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_TECNICOS_DISPONIBLES_Result>("SP_OBTENER_TECNICOS_DISPONIBLES", codCategoriaParameter, direccionParameter, latitudParameter, longitudParameter, codDistritoParameter, descripcionProblemaParameter, codMedioPagoParameter, codAplicacionParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES_Result> SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES(string codCategoria, string direccion, Nullable<decimal> latitud, Nullable<decimal> longitud, string codDistrito, string descripcionProblema, string codMedioPago, string codAplicacion, string codUsuario)
+        {
+            var codCategoriaParameter = codCategoria != null ?
+                new ObjectParameter("codCategoria", codCategoria) :
+                new ObjectParameter("codCategoria", typeof(string));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("direccion", direccion) :
+                new ObjectParameter("direccion", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codDistritoParameter = codDistrito != null ?
+                new ObjectParameter("codDistrito", codDistrito) :
+                new ObjectParameter("codDistrito", typeof(string));
+    
+            var descripcionProblemaParameter = descripcionProblema != null ?
+                new ObjectParameter("descripcionProblema", descripcionProblema) :
+                new ObjectParameter("descripcionProblema", typeof(string));
+    
+            var codMedioPagoParameter = codMedioPago != null ?
+                new ObjectParameter("codMedioPago", codMedioPago) :
+                new ObjectParameter("codMedioPago", typeof(string));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES_Result>("SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES", codCategoriaParameter, direccionParameter, latitudParameter, longitudParameter, codDistritoParameter, descripcionProblemaParameter, codMedioPagoParameter, codAplicacionParameter, codUsuarioParameter);
+        }
     }
 }

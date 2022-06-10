@@ -95,10 +95,19 @@
     <Compile Include="Models\SP_OBTENER_CATEGORIAS_SERVICIO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_OBTENER_DATA_PRINCIPAL_USUARIO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_DATA_SESION_X_USUARIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_DISTRITOS_Result.cs">
@@ -111,6 +120,12 @@
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_ROL_X_COD_ROL_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_TECNICOS_DISPONIBLES_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_TIPOS_BUSQUEDA_Result.cs">

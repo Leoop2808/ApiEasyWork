@@ -2,6 +2,6 @@
 {
     public class ObtenerPerfilTecnicoRequest
     {
-        public string codUsuarioTecnico { get; set; }
+        public int idTecnicoCategoriaServicio { get; set; }
     }
 }

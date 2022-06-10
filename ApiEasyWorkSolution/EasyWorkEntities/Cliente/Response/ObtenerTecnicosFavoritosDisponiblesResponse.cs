@@ -2,17 +2,17 @@
 
 namespace EasyWorkEntities.Cliente.Response
 {
-    public class ObtenerTecnicosDisponiblesResponse : GlobalHTTPResponse
+    public class ObtenerTecnicosFavoritosDisponiblesResponse : GlobalHTTPResponse
     {
-        public List<DataTecnicoDisponible> datos { get; set; }
+        public List<DataTecnicoFavoritoDisponible> datos { get; set; }
     }
-    public class DataTecnicoDisponible : DataTecnico
+    public class DataTecnicoFavoritoDisponible : DataTecnico
     {
         public double latitud { get; set; }
         public double longitud { get; set; }
         public int travelMode { get; set; }
     }
-    public class DataTecnicoDisponibleTiempo : DataTecnico
+    public class DataTecnicoFavoritoDisponibleTiempo : DataTecnico
     {
         public double tiempoViaje { get; set; }
         public string strTiempoViaje { get; set; }

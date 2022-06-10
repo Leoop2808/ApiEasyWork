@@ -127,6 +127,49 @@ namespace ApiEasyWork.Controllers
 
         }
 
+        [Route("busqueda-tecnicos-favoritos")]
+        [HttpGet]
+        public HttpResponseMessage ObtenerListaTecnicosFavoritos(ObtenerListaTecnicosFavoritosRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request --> ");
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var respListaTecnicos = _clienteBO.ObtenerListaTecnicosFavoritos(request, cod_aplicacion, cod_usuario, idLogTexto);
+                if (respListaTecnicos.codeRes == HttpStatusCode.OK)
+                {
+                    if (respListaTecnicos.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = respListaTecnicos.messageRes, data = respListaTecnicos.datos });
+                    }
+                    else if (respListaTecnicos.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(respListaTecnicos.codeRes,
+                        new MensajeHttpResponse() { Message = respListaTecnicos.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerListaTecnicosFavoritos. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de obtener datos de los técnicos favoritos. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener datos de los técnicos favoritos." });
+            }
+
+        }
+
         [Route("perfil-tecnico")]
         [HttpGet]
         public HttpResponseMessage ObtenerPerfilTecnico(ObtenerPerfilTecnicoRequest request)

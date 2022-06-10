@@ -1,6 +1,6 @@
 ﻿namespace EasyWorkEntities.Cliente.Request
 {
-    public class ObtenerListaTecnicosGeneralRequest
+    public class ObtenerListaTecnicosFavoritosRequest
     {
         public string codCategoria { get; set; }
         public string direccion { get; set; }

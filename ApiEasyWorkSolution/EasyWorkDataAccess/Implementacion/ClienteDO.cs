@@ -278,16 +278,17 @@ namespace EasyWorkDataAccess.Implementacion
             try
             {
                 var ctx = new EasyWorkDBEntities();
-                var response = ctx.SP_OBTENER_TECNICOS_DISPONIBLES().ToList();
+                var response = ctx.SP_OBTENER_TECNICOS_DISPONIBLES(request.codCategoria, request.direccion, Convert.ToDecimal(request.latitud),
+                Convert.ToDecimal(request.longitud), request.codDistrito, request.descripcionProblema, request.codMedioPago, cod_aplicacion, cod_usuario).ToList();
                 log.Info($"response --> " + JsonConvert.SerializeObject(response));
                 if (response != null && response.Count > 0)
                 {
                     var config = new MapperConfiguration(cfg => {
-                        cfg.CreateMap<SP_OBTENER_TECNICOS_DISPONIBLES_Result, DataTecnico>();
+                        cfg.CreateMap<SP_OBTENER_TECNICOS_DISPONIBLES_Result, DataTecnicoDisponible>();
                     });
 
                     IMapper mapper = config.CreateMapper();
-                    var datosMapeados = mapper.Map<List<SP_OBTENER_TECNICOS_DISPONIBLES_Result>, List<DataTecnico>>(response);
+                    var datosMapeados = mapper.Map<List<SP_OBTENER_TECNICOS_DISPONIBLES_Result>, List<DataTecnicoDisponible>>(response);
 
                     return new ObtenerTecnicosDisponiblesResponse()
                     {
@@ -302,7 +303,7 @@ namespace EasyWorkDataAccess.Implementacion
                     {
                         codeRes = HttpStatusCode.NoContent,
                         messageRes = "No se obtuvieron datos de tecnicos disponibles.",
-                        datos = new List<DataTecnico>()
+                        datos = new List<DataTecnicoDisponible>()
                     };
                 }
             }
@@ -313,6 +314,177 @@ namespace EasyWorkDataAccess.Implementacion
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno en el listado de datos de tecnicos disponibles."
+                };
+            }
+        }
+        public ObtenerTecnicosFavoritosDisponiblesResponse ObtenerTecnicosFavoritosDisponibles(ObtenerListaTecnicosFavoritosRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var response = ctx.SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES(request.codCategoria, request.direccion, Convert.ToDecimal(request.latitud),
+                Convert.ToDecimal(request.longitud), request.codDistrito, request.descripcionProblema, request.codMedioPago, cod_aplicacion, cod_usuario).ToList();
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                if (response != null && response.Count > 0)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES_Result, DataTecnicoFavoritoDisponible>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<List<SP_OBTENER_TECNICOS_FAVORITOS_DISPONIBLES_Result>, List<DataTecnicoFavoritoDisponible>>(response);
+
+                    return new ObtenerTecnicosFavoritosDisponiblesResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Técnicos favoritos disponibles obtenidos correctamente.",
+                        datos = datosMapeados.ToList()
+                    };
+                }
+                else
+                {
+                    return new ObtenerTecnicosFavoritosDisponiblesResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvieron datos de técnicos favoritos disponibles.",
+                        datos = new List<DataTecnicoFavoritoDisponible>()
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerTecnicosFavoritosDisponiblesResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el listado de datos de técnicos favoritos disponibles."
+                };
+            }
+        }
+        public ObtenerDatosGeneralesPerfilTecnicoResponse ObtenerDatosGeneralesPerfilTecnico(int idTecnicoCategoriaServicio, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var response = ctx.SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO(idTecnicoCategoriaServicio, cod_aplicacion, cod_usuario).FirstOrDefault();
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                if (response != null)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result, DatosGeneralesPerfilTecnico>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result, DatosGeneralesPerfilTecnico>(response);
+
+                    return new ObtenerDatosGeneralesPerfilTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Datos generales del perfil de técnico obtenidos correctamente.",
+                        datos = datosMapeados
+                    };
+                }
+                else
+                {
+                    return new ObtenerDatosGeneralesPerfilTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvieron datos generales de técnicos."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerDatosGeneralesPerfilTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el listado de datos generales de técnicos."
+                };
+            }
+        }
+        public ObtenerDatosValoracionPerfilTecnicoResponse ObtenerDatosValoracionPerfilTecnico(string codUsuarioTecnico, int idPerfilTrabajador, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var response = ctx.SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO(codUsuarioTecnico, idPerfilTrabajador, cod_aplicacion, cod_usuario).FirstOrDefault();
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                if (response != null)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result, DataValoracion>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result, DataValoracion>(response);
+
+                    return new ObtenerDatosValoracionPerfilTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Datos de valoración de técnico obtenidos correctamente.",
+                        datosValoracion = datosMapeados
+                    };
+                }
+                else
+                {
+                    return new ObtenerDatosValoracionPerfilTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvieron datos de valoración de técnicos."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerDatosValoracionPerfilTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el listado de datos de valoración de técnicos."
+                };
+            }
+        }
+        public ObtenerListaComentariosPerfilTecnicoResponse ObtenerListaComentariosPerfilTecnico(string codUsuarioTecnico, int idPerfilTrabajador, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var response = ctx.SP_OBTENER_COMENTARIOS_PERFIL_TECNICO(codUsuarioTecnico, idPerfilTrabajador, cod_aplicacion, cod_usuario).ToList();
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                if (response != null && response.Count > 0)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result, DataComentario>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<List<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result>, List<DataComentario>>(response);
+
+                    return new ObtenerListaComentariosPerfilTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Comentarios del perfil técnico obtenidos correctamente.",
+                        listaComentarios = datosMapeados.ToList()
+                    };
+                }
+                else
+                {
+                    return new ObtenerListaComentariosPerfilTecnicoResponse()
+                    {
+                        codeRes = HttpStatusCode.NoContent,
+                        messageRes = "No se obtuvieron comentarios del perfil técnico disponibles.",
+                        listaComentarios = new List<DataComentario>()
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ObtenerListaComentariosPerfilTecnicoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el listado de comentarios del perfil técnico."
                 };
             }
         }
