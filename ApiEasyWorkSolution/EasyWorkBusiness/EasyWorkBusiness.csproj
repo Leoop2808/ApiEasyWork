@@ -80,9 +80,11 @@
   <ItemGroup>
     <Compile Include="Contrato\IAuthenticationBO.cs" />
     <Compile Include="Contrato\IClienteBO.cs" />
+    <Compile Include="Contrato\ITecnicoBO.cs" />
     <Compile Include="Contrato\IUsuarioBO.cs" />
     <Compile Include="Implementacion\AuthenticationBO.cs" />
     <Compile Include="Implementacion\ClienteBO.cs" />
+    <Compile Include="Implementacion\TecnicoBO.cs" />
     <Compile Include="Implementacion\UsuarioBO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

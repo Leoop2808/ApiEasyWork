@@ -257,6 +257,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TecnicoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="FiltersAttributes\ApplicationAuthenticationFilter.cs" />
@@ -327,6 +328,8 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Cliente\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Tecnico\" />
+    <Folder Include="Views\Trabajador\" />
     <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>

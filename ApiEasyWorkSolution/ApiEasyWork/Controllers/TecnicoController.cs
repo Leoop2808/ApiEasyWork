@@ -1,14 +1,12 @@
 ﻿using ApiEasyWork.App_Start;
-using ApiEasyWork.FiltersAttributes;
 using ApiEasyWork.Util;
 using EasyWorkBusiness.Contrato;
 using EasyWorkEntities;
-using EasyWorkEntities.Cliente.Request;
+using EasyWorkEntities.Tecnico.Request;
 using log4net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -17,15 +15,14 @@ using System.Web.Http;
 namespace ApiEasyWork.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/cliente")]
-    public class ClienteController : ApiController
+    [RoutePrefix("api/tecnico")]
+    public class TecnicoController : ApiController
     {
-        private TimeSpan tokenExpirationTimeSpan = TimeSpan.FromHours(24);
         private readonly ILog log = LogManager.GetLogger(typeof(UsuarioController));
-        private readonly IClienteBO _clienteBO;
-        public ClienteController(IClienteBO clienteBO)
+        private readonly ITecnicoBO _tecnicoBO;
+        public TecnicoController(ITecnicoBO tecnicoBO)
         {
-            _clienteBO = clienteBO;
+            _tecnicoBO = tecnicoBO;
         }
 
         private ApplicationUserManager _userManager;
@@ -41,180 +38,9 @@ namespace ApiEasyWork.Controllers
             }
         }
 
-        [Route("lista-maestros")]
-        [HttpGet]
-        public HttpResponseMessage ObtenerListaMaestros()
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var respListaMaestros = _clienteBO.ObtenerListaMaestros(cod_aplicacion, cod_usuario, idLogTexto);
-                if (respListaMaestros.codeRes == HttpStatusCode.OK)
-                {
-                    if (respListaMaestros.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = respListaMaestros.messageRes, data = respListaMaestros.datos });
-                    }
-                    else if (respListaMaestros.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(respListaMaestros.codeRes,
-                        new MensajeHttpResponse() { Message = respListaMaestros.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerListaMaestros. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de obtener datos de los maestros. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener datos de los maestros." });
-            }
-
-        }
-
-        [Route("busqueda-tecnicos-general")]
-        [HttpGet]
-        public HttpResponseMessage ObtenerListaTecnicosGeneral(ObtenerListaTecnicosGeneralRequest request)
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var respListaTecnicos = _clienteBO.ObtenerListaTecnicosGeneral(request, cod_aplicacion, cod_usuario, idLogTexto);
-                if (respListaTecnicos.codeRes == HttpStatusCode.OK)
-                {
-                    if (respListaTecnicos.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = respListaTecnicos.messageRes, data = respListaTecnicos.datos });
-                    }
-                    else if (respListaTecnicos.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(respListaTecnicos.codeRes,
-                        new MensajeHttpResponse() { Message = respListaTecnicos.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerListaTecnicosGeneral. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de obtener datos de los técnicos. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener datos de los técnicos." });
-            }
-
-        }
-
-        [Route("busqueda-tecnicos-favoritos")]
-        [HttpGet]
-        public HttpResponseMessage ObtenerListaTecnicosFavoritos(ObtenerListaTecnicosFavoritosRequest request)
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var respListaTecnicos = _clienteBO.ObtenerListaTecnicosFavoritos(request, cod_aplicacion, cod_usuario, idLogTexto);
-                if (respListaTecnicos.codeRes == HttpStatusCode.OK)
-                {
-                    if (respListaTecnicos.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = respListaTecnicos.messageRes, data = respListaTecnicos.datos });
-                    }
-                    else if (respListaTecnicos.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(respListaTecnicos.codeRes,
-                        new MensajeHttpResponse() { Message = respListaTecnicos.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerListaTecnicosFavoritos. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de obtener datos de los técnicos favoritos. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener datos de los técnicos favoritos." });
-            }
-
-        }
-
-        [Route("perfil-tecnico")]
-        [HttpGet]
-        public HttpResponseMessage ObtenerPerfilTecnico(ObtenerPerfilTecnicoRequest request)
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var respListaMaestros = _clienteBO.ObtenerPerfilTecnico(request, cod_aplicacion, cod_usuario, idLogTexto);
-                if (respListaMaestros.codeRes == HttpStatusCode.OK)
-                {
-                    if (respListaMaestros.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = respListaMaestros.messageRes, data = respListaMaestros.datos });
-                    }
-                    else if (respListaMaestros.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(respListaMaestros.codeRes,
-                        new MensajeHttpResponse() { Message = respListaMaestros.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  ObtenerPerfilTecnico. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de obtener perfil del tecnico. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener perfil del tecnico." });
-            }
-        }
-
         [Route("validar-servicio-en-proceso")]
         [HttpGet]
-        public HttpResponseMessage ValidarClienteServicioEnProceso()
+        public HttpResponseMessage ValidarTecnicoServicioEnProceso()
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
@@ -222,7 +48,7 @@ namespace ApiEasyWork.Controllers
             var cod_aplicacion = AplicationData.codAplicacion;
             try
             {
-                var response = _clienteBO.ValidarClienteServicioEnProceso(cod_aplicacion, cod_usuario, idLogTexto);
+                var response = _tecnicoBO.ValidarTecnicoServicioEnProceso(cod_aplicacion, cod_usuario, idLogTexto);
                 if (response.codeRes == HttpStatusCode.OK)
                 {
                     if (response.codeRes == HttpStatusCode.OK)
@@ -245,7 +71,7 @@ namespace ApiEasyWork.Controllers
             }
             catch (Exception ex)
             {
-                log.Error($"ClienteController ({idLogTexto}) ->  ValidarClienteServicioEnProceso. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                log.Error($"TecnicoController ({idLogTexto}) ->  ValidarTecnicoServicioEnProceso. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
                     "Mensaje al cliente: Error interno en el servicio de validar servicio en proceso. " +
                     "Detalle error: " + JsonConvert.SerializeObject(ex));
 
@@ -254,51 +80,9 @@ namespace ApiEasyWork.Controllers
             }
         }
 
-        [Route("solicitar-servicio")]
-        [HttpPost]
-        public HttpResponseMessage RegistrarSolicitudServicio(RegistrarSolicitudServicioRequest request)
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var response = _clienteBO.RegistrarSolicitudServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
-                if (response.codeRes == HttpStatusCode.OK)
-                {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, idServicio = response.idServicio });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  RegistrarSolicitudServicio. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de registrar solicitud de servicio. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de registrar solicitud de servicio." });
-            }
-        }
-
         [Route("cancelar-servicio")]
         [HttpPost]
-        public HttpResponseMessage ClienteCancelarServicio(ClienteCancelarServicioRequest request)
+        public HttpResponseMessage TecnicoCancelarServicio(TecnicoFinalizarCancelarServicioRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
@@ -306,91 +90,7 @@ namespace ApiEasyWork.Controllers
             var cod_aplicacion = AplicationData.codAplicacion;
             try
             {
-                var respListaMaestros = _clienteBO.ClienteCancelarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
-                if (respListaMaestros.codeRes == HttpStatusCode.OK)
-                {
-                    if (respListaMaestros.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = respListaMaestros.messageRes });
-                    }
-                    else if (respListaMaestros.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(respListaMaestros.codeRes,
-                        new MensajeHttpResponse() { Message = respListaMaestros.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  ClienteCancelarServicio. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de cancelar servicio. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de cancelar servicio." });
-            }
-        }
-
-        [Route("servicio-en-proceso/{idServicioEnProceso}")]
-        [HttpGet]
-        public HttpResponseMessage ClienteObtenerServicioEnProceso(int idServicioEnProceso)
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> idServicioEnProceso : " + idServicioEnProceso.ToString());
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var response = _clienteBO.ClienteObtenerServicioEnProceso(idServicioEnProceso, cod_aplicacion, cod_usuario, idLogTexto);
-                if (response.codeRes == HttpStatusCode.OK)
-                {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, data = response.datos });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error($"ClienteController ({idLogTexto}) ->  ClienteObtenerServicioEnProceso. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de obtener servicio en proceso. " +
-                    "Detalle error: " + JsonConvert.SerializeObject(ex));
-
-                return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener servicio en proceso." });
-            }
-        }
-
-        [Route("registrar-resenia")]
-        [HttpPost]
-        public HttpResponseMessage RegistrarResenia(RegistrarReseniaRequest request)
-        {
-            string idLogTexto = Guid.NewGuid().ToString();
-            log.Info($"request --> " + JsonConvert.SerializeObject(request));
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
-            try
-            {
-                var response = _clienteBO.RegistrarResenia(request, cod_aplicacion, cod_usuario, idLogTexto);
+                var response = _tecnicoBO.TecnicoCancelarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
                 if (response.codeRes == HttpStatusCode.OK)
                 {
                     if (response.codeRes == HttpStatusCode.OK)
@@ -413,12 +113,264 @@ namespace ApiEasyWork.Controllers
             }
             catch (Exception ex)
             {
-                log.Error($"ClienteController ({idLogTexto}) ->  RegistrarResenia. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
-                    "Mensaje al cliente: Error interno en el servicio de registrar reseña. " +
+                log.Error($"TecnicoController ({idLogTexto}) ->  TecnicoCancelarServicio. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de cancelar servicio. " +
                     "Detalle error: " + JsonConvert.SerializeObject(ex));
 
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                      new MensajeHttpResponse() { Message = "Error interno en el servicio de registrar reseña." });
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de cancelar servicio." });
+            }
+        }
+
+        [Route("finalizar-servicio")]
+        [HttpPost]
+        public HttpResponseMessage TecnicoFinalizarServicio(TecnicoFinalizarCancelarServicioRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request --> ");
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var response = _tecnicoBO.TecnicoFinalizarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
+                if (response.codeRes == HttpStatusCode.OK)
+                {
+                    if (response.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = response.messageRes });
+                    }
+                    else if (response.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(response.codeRes,
+                        new MensajeHttpResponse() { Message = response.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"TecnicoController ({idLogTexto}) ->  TecnicoFinalizarServicio. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de finalizar servicio. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de finalizar servicio." });
+            }
+        }
+
+        [Route("servicio-en-proceso/{idServicioEnProceso}")]
+        [HttpGet]
+        public HttpResponseMessage TecnicoObtenerServicioEnProceso(int idServicioEnProceso)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request --> idServicioEnProceso : " + idServicioEnProceso.ToString());
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var response = _tecnicoBO.TecnicoObtenerServicioEnProceso(idServicioEnProceso, cod_aplicacion, cod_usuario, idLogTexto);
+                if (response.codeRes == HttpStatusCode.OK)
+                {
+                    if (response.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = response.messageRes, data = response.datos });
+                    }
+                    else if (response.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(response.codeRes,
+                        new MensajeHttpResponse() { Message = response.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"TecnicoController ({idLogTexto}) ->  TecnicoObtenerServicioEnProceso. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de obtener servicio en proceso. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener servicio en proceso." });
+            }
+        }
+
+        [Route("solicitudes")]
+        [HttpGet]
+        public HttpResponseMessage ObtenerSolicitudes()
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request -->" );
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var response = _tecnicoBO.ObtenerSolicitudes(cod_aplicacion, cod_usuario, idLogTexto);
+                if (response.codeRes == HttpStatusCode.OK)
+                {
+                    if (response.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = response.messageRes, data = response.datos });
+                    }
+                    else if (response.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(response.codeRes,
+                        new MensajeHttpResponse() { Message = response.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"TecnicoController ({idLogTexto}) ->  ObtenerSolicitudes. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de obtener solicitudes. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener solicitudes." });
+            }
+        }
+
+        [Route("solicitudes-generales")]
+        [HttpGet]
+        public HttpResponseMessage ObtenerSolicitudesGenerales(ObtenerSolicitudesGeneralesRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request -->" + JsonConvert.SerializeObject(request));
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var response = _tecnicoBO.ObtenerSolicitudesGenerales(request, cod_aplicacion, cod_usuario, idLogTexto);
+                if (response.codeRes == HttpStatusCode.OK)
+                {
+                    if (response.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = response.messageRes, data = response.datos });
+                    }
+                    else if (response.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(response.codeRes,
+                        new MensajeHttpResponse() { Message = response.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"TecnicoController ({idLogTexto}) ->  ObtenerSolicitudesGenerales. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de obtener solicitudes generales. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener solicitudes generales." });
+            }
+        }
+
+        [Route("solicitudes-directas")]
+        [HttpGet]
+        public HttpResponseMessage ObtenerSolicitudesDirectas(ObtenerSolicitudesDirectasRequest request)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request -->" + JsonConvert.SerializeObject(request));
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var response = _tecnicoBO.ObtenerSolicitudesDirectas(request, cod_aplicacion, cod_usuario, idLogTexto);
+                if (response.codeRes == HttpStatusCode.OK)
+                {
+                    if (response.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = response.messageRes, data = response.datos });
+                    }
+                    else if (response.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(response.codeRes,
+                        new MensajeHttpResponse() { Message = response.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"TecnicoController ({idLogTexto}) ->  ObtenerSolicitudesDirectas. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de obtener solicitudes directas. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de obtener solicitudes directas." });
+            }
+        }
+
+        [Route("aceptar-solicitud/{idServicio}")]
+        [HttpPost]
+        public HttpResponseMessage AceptarSolicitudServicio(int idServicio)
+        {
+            string idLogTexto = Guid.NewGuid().ToString();
+            log.Info($"request --> ");
+            var cod_usuario = User.Identity.GetUserId();
+            var cod_aplicacion = AplicationData.codAplicacion;
+            try
+            {
+                var response = _tecnicoBO.AceptarSolicitudServicio(idServicio, cod_aplicacion, cod_usuario, idLogTexto);
+                if (response.codeRes == HttpStatusCode.OK)
+                {
+                    if (response.codeRes == HttpStatusCode.OK)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            new { Message = response.messageRes});
+                    }
+                    else if (response.codeRes == HttpStatusCode.NoContent)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NoContent);
+                    }
+                    return Request.CreateResponse(response.codeRes,
+                        new MensajeHttpResponse() { Message = response.messageRes });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error($"TecnicoController ({idLogTexto}) ->  AceptarSolicitudServicio. Usuario: {cod_usuario}, Aplicacion: {cod_aplicacion}." +
+                    "Mensaje al cliente: Error interno en el servicio de aceptar solicitud de servicio. " +
+                    "Detalle error: " + JsonConvert.SerializeObject(ex));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                      new MensajeHttpResponse() { Message = "Error interno en el servicio de aceptar solicitud de servicio." });
             }
         }
     }

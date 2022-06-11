@@ -488,5 +488,187 @@ namespace EasyWorkDataAccess.Implementacion
                 };
             }
         }
+        public ValidarClienteServicioEnProcesoResponse ValidarClienteServicioEnProceso(string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var dataRes = ctx.SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO(cod_usuario).FirstOrDefault();
+                if (dataRes != null)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result, DatosClienteServicioEnProceso>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result, DatosClienteServicioEnProceso>(dataRes);
+
+                    return new ValidarClienteServicioEnProcesoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Validación servicio en proceso exitoso.",
+                        datos = datosMapeados
+                    };
+                }
+                else
+                {
+                    return new ValidarClienteServicioEnProcesoResponse()
+                    {
+                        codeRes = HttpStatusCode.BadRequest,
+                        messageRes = "No se obtuvo respuesta del servicio de validar servicio en proceso."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                return new ValidarClienteServicioEnProcesoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en la validación de servicio en proceso."
+                };
+            }
+        }
+        public RegistrarSolicitudServicioResponse RegistrarSolicitudServicio(RegistrarSolicitudServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var dataRes = ctx.SP_REGISTRAR_SOLICITUD_SERVICIO(request.idUsuarioTecnicoCategoria, request.codDistrito, request.codMedioPago, 
+                    request.codCategoriaServicio, request.codTipoBusqueda, request.direccion, request.descripcionProblema,
+                    Convert.ToDecimal(request.latitud), Convert.ToDecimal(request.longitud), cod_usuario).FirstOrDefault();
+
+                if (dataRes != null)
+                {
+                    return new RegistrarSolicitudServicioResponse()
+                    {
+                        codeRes = (HttpStatusCode)dataRes.codeRes.GetValueOrDefault(),
+                        messageRes = dataRes.messageRes,
+                        idServicio = dataRes.idServicio.GetValueOrDefault()
+                    };
+                }
+                else
+                {
+                    return new RegistrarSolicitudServicioResponse()
+                    {
+                        codeRes = HttpStatusCode.NotFound,
+                        messageRes = "No se obtuvo respuesta del servicio de registrar solicitud de servicio"
+                    };
+                }
+            }
+            catch (Exception)
+            {
+                return new RegistrarSolicitudServicioResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el servicio de registrar solicitud de servicio"
+                };
+            }
+        }
+        public ClienteCancelarServicioResponse ClienteCancelarServicio(ClienteCancelarServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var dataRes = ctx.SP_CLIENTE_CANCELAR_SERVICIO(request.idServicio, request.motivoCancelacion, cod_usuario).FirstOrDefault();
+
+                if (dataRes != null)
+                {
+                    return new ClienteCancelarServicioResponse()
+                    {
+                        codeRes = (HttpStatusCode)dataRes.codeRes.GetValueOrDefault(),
+                        messageRes = dataRes.messageRes
+                    };
+                }
+                else
+                {
+                    return new ClienteCancelarServicioResponse()
+                    {
+                        codeRes = HttpStatusCode.NotFound,
+                        messageRes = "No se obtuvo respuesta del servicio de cancelar servicio"
+                    };
+                }
+            }
+            catch (Exception)
+            {
+                return new ClienteCancelarServicioResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el servicio de cancelar servicio"
+                };
+            }
+        }
+        public ClienteObtenerServicioEnProcesoResponse ClienteObtenerServicioEnProceso(int idServicioEnProceso, string cod_aplicacion, string cod_usuario, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var dataRes = ctx.SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO(idServicioEnProceso, cod_usuario).FirstOrDefault();
+                if (dataRes != null)
+                {
+                    var config = new MapperConfiguration(cfg => {
+                        cfg.CreateMap<SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result, DataClienteServicioEnProceso>();
+                    });
+
+                    IMapper mapper = config.CreateMapper();
+                    var datosMapeados = mapper.Map<SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result, DataClienteServicioEnProceso>(dataRes);
+
+                    return new ClienteObtenerServicioEnProcesoResponse()
+                    {
+                        codeRes = HttpStatusCode.OK,
+                        messageRes = "Datos servicio en proceso obtenidos correctamente.",
+                        datos = datosMapeados
+                    };
+                }
+                else
+                {
+                    return new ClienteObtenerServicioEnProcesoResponse()
+                    {
+                        codeRes = HttpStatusCode.BadRequest,
+                        messageRes = "No se obtuvo respuesta del servicio de obtener servicio en proceso."
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                return new ClienteObtenerServicioEnProcesoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al obtener servicio en proceso."
+                };
+            }
+        }
+        public RegistrarReseniaResponse RegistrarResenia(RegistrarReseniaRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto)
+        {
+            try
+            {
+                var ctx = new EasyWorkDBEntities();
+                var dataRes = ctx.SP_REGISTRAR_RESENIA(request.idTrabajadorCategoriaServicio, request.comentario, request.valoracion, cod_usuario).FirstOrDefault();
+
+                if (dataRes != null)
+                {
+                    return new RegistrarReseniaResponse()
+                    {
+                        codeRes = (HttpStatusCode)dataRes.codeRes.GetValueOrDefault(),
+                        messageRes = dataRes.messageRes
+                    };
+                }
+                else
+                {
+                    return new RegistrarReseniaResponse()
+                    {
+                        codeRes = HttpStatusCode.NotFound,
+                        messageRes = "No se obtuvo respuesta al registrar reseña"
+                    };
+                }
+            }
+            catch (Exception)
+            {
+                return new RegistrarReseniaResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno en el servicio de registro de reseña"
+                };
+            }
+        }
     }
 }

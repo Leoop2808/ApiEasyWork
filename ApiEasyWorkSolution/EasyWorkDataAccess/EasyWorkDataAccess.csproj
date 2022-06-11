@@ -67,9 +67,11 @@
   <ItemGroup>
     <Compile Include="Contrato\IAuthenticationDO.cs" />
     <Compile Include="Contrato\IClienteDO.cs" />
+    <Compile Include="Contrato\ITecnicoDO.cs" />
     <Compile Include="Contrato\IUsuarioDO.cs" />
     <Compile Include="Implementacion\AuthenticationDO.cs" />
     <Compile Include="Implementacion\ClienteDO.cs" />
+    <Compile Include="Implementacion\TecnicoDO.cs" />
     <Compile Include="Implementacion\UsuarioDO.cs" />
     <Compile Include="Models\EasyWorkDBTransac.Context.cs">
       <AutoGen>True</AutoGen>
@@ -90,6 +92,15 @@
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\mst_rol.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_ACEPTAR_SOLICITUD_SERVICIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_CLIENTE_CANCELAR_SERVICIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_CATEGORIAS_SERVICIO_Result.cs">
@@ -120,6 +131,15 @@
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_ROL_X_COD_ROL_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_SOLICITUDES_DIRECTAS_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_SOLICITUDES_GENERALES_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_OBTENER_SOLICITUDES_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_OBTENER_TECNICOS_DISPONIBLES_Result.cs">
@@ -161,7 +181,22 @@
     <Compile Include="Models\SP_REGISTRAR_PERSONA_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_REGISTRAR_RESENIA_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_REGISTRAR_SOLICITUD_SERVICIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR_Result.cs">
@@ -180,6 +215,9 @@
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO_Result.cs">
+      <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO_Result.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SP_VERIFICAR_CODIGO_AUTENTICACION_Result.cs">

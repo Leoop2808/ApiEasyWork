@@ -94,6 +94,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_ACEPTAR_SOLICITUD_SERVICIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idServicio" Type="int" Mode="In" />
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CLIENTE_CANCELAR_SERVICIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idServicio" Type="int" Mode="In" />
+          <Parameter Name="motivoCancelacion" Type="varchar" Mode="In" />
+          <Parameter Name="codUsuarioCliente" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idServicioEnProceso" Type="int" Mode="In" />
+          <Parameter Name="codUsuarioCliente" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_OBTENER_CATEGORIAS_SERVICIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_OBTENER_COMENTARIOS_PERFIL_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
@@ -127,6 +140,22 @@
         <Function Name="SP_OBTENER_MEDIOS_PAGO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_OBTENER_ROL_X_COD_ROL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codRol" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_OBTENER_SOLICITUDES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_OBTENER_SOLICITUDES_DIRECTAS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="flgOrderByCategoria" Type="bit" Mode="In" />
+          <Parameter Name="flgOrderByZonas" Type="bit" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_OBTENER_SOLICITUDES_GENERALES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="flgOrderByCategoria" Type="bit" Mode="In" />
+          <Parameter Name="flgOrderByZonas" Type="bit" Mode="In" />
+          <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_OBTENER_TECNICOS_DISPONIBLES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codCategoria" Type="varchar" Mode="In" />
@@ -243,9 +272,40 @@
           <Parameter Name="longitud" Type="numeric" Mode="In" />
           <Parameter Name="codAplicacion" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="SP_REGISTRAR_RESENIA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idTrabajadorCategoriaServicio" Type="int" Mode="In" />
+          <Parameter Name="comentario" Type="varchar" Mode="In" />
+          <Parameter Name="valoracion" Type="int" Mode="In" />
+          <Parameter Name="codUsuarioCliente" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_REGISTRAR_SOLICITUD_SERVICIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUsuarioTecnicoCategoria" Type="int" Mode="In" />
+          <Parameter Name="codDistrito" Type="varchar" Mode="In" />
+          <Parameter Name="codMedioPago" Type="varchar" Mode="In" />
+          <Parameter Name="codCategoriaServicio" Type="varchar" Mode="In" />
+          <Parameter Name="codTipoBusqueda" Type="varchar" Mode="In" />
+          <Parameter Name="direccion" Type="varchar" Mode="In" />
+          <Parameter Name="descripcionProblema" Type="varchar(max)" Mode="In" />
+          <Parameter Name="latitud" Type="numeric" Mode="In" />
+          <Parameter Name="longitud" Type="numeric" Mode="In" />
+          <Parameter Name="codUsuario" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SP_SEGURIDAD_ATTRIBUTE_VALIDAR_APLICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nombreAplicacion" Type="varchar" Mode="In" />
           <Parameter Name="accesId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idServicio" Type="int" Mode="In" />
+          <Parameter Name="motivoCancelacion" Type="varchar" Mode="In" />
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
+          <Parameter Name="flgFinalizarCancelar" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idServicioEnProceso" Type="int" Mode="In" />
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codUsuarioCliente" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_CELULAR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="nroCelular" Type="varchar" Mode="In" />
@@ -270,6 +330,9 @@
         <Function Name="SP_VALIDAR_EXISTENCIA_USUARIO_TECNICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="varchar" Mode="In" />
           <Parameter Name="cod_aplicacion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codUsuarioTecnico" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_VERIFICAR_CODIGO_AUTENTICACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="codigoVerificacion" Type="varchar" Mode="In" />
@@ -526,6 +589,69 @@
             <Parameter Name="idTecnicoCategoriaServicio" Mode="In" Type="Int32" />
             <Parameter Name="codAplicacion" Mode="In" Type="String" />
             <Parameter Name="codUsuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ACEPTAR_SOLICITUD_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_ACEPTAR_SOLICITUD_SERVICIO_Result)">
+            <Parameter Name="idServicio" Mode="In" Type="Int32" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO" ReturnType="Collection(EasyWorkDBModel.SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result)">
+            <Parameter Name="idServicioEnProceso" Mode="In" Type="Int32" />
+            <Parameter Name="codUsuarioCliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_SOLICITUDES" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_Result)">
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_SOLICITUDES_DIRECTAS" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result)">
+            <Parameter Name="flgOrderByCategoria" Mode="In" Type="Boolean" />
+            <Parameter Name="flgOrderByZonas" Mode="In" Type="Boolean" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_SOLICITUDES_GENERALES" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result)">
+            <Parameter Name="flgOrderByCategoria" Mode="In" Type="Boolean" />
+            <Parameter Name="flgOrderByZonas" Mode="In" Type="Boolean" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_RESENIA" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_RESENIA_Result)">
+            <Parameter Name="idTrabajadorCategoriaServicio" Mode="In" Type="Int32" />
+            <Parameter Name="comentario" Mode="In" Type="String" />
+            <Parameter Name="valoracion" Mode="In" Type="Int32" />
+            <Parameter Name="codUsuarioCliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_REGISTRAR_SOLICITUD_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_SOLICITUD_SERVICIO_Result)">
+            <Parameter Name="idUsuarioTecnicoCategoria" Mode="In" Type="Int32" />
+            <Parameter Name="codDistrito" Mode="In" Type="String" />
+            <Parameter Name="codMedioPago" Mode="In" Type="String" />
+            <Parameter Name="codCategoriaServicio" Mode="In" Type="String" />
+            <Parameter Name="codTipoBusqueda" Mode="In" Type="String" />
+            <Parameter Name="direccion" Mode="In" Type="String" />
+            <Parameter Name="descripcionProblema" Mode="In" Type="String" />
+            <Parameter Name="latitud" Mode="In" Type="Decimal" />
+            <Parameter Name="longitud" Mode="In" Type="Decimal" />
+            <Parameter Name="codUsuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO_Result)">
+            <Parameter Name="idServicio" Mode="In" Type="Int32" />
+            <Parameter Name="motivoCancelacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+            <Parameter Name="flgFinalizarCancelar" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO" ReturnType="Collection(EasyWorkDBModel.SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO_Result)">
+            <Parameter Name="idServicioEnProceso" Mode="In" Type="Int32" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result)">
+          <Parameter Name="codUsuarioCliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO" ReturnType="Collection(EasyWorkDBModel.SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO_Result)">
+          <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CLIENTE_CANCELAR_SERVICIO" ReturnType="Collection(EasyWorkDBModel.SP_CLIENTE_CANCELAR_SERVICIO_Result)">
+            <Parameter Name="idServicio" Mode="In" Type="Int32" />
+            <Parameter Name="motivoCancelacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioCliente" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
@@ -833,6 +959,87 @@
           <Property Type="Int32" Name="cantidadClientes" Nullable="true" />
           <Property Type="Int32" Name="flgCorazon" Nullable="false" />
           <Property Type="Int32" Name="cantidadResenias" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_ACEPTAR_SOLICITUD_SERVICIO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result">
+          <Property Type="Int32" Name="idServicio" Nullable="false" />
+          <Property Type="String" Name="codUsuarioTecnico" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="nombreUsuarioTecnico" Nullable="true" MaxLength="240" />
+          <Property Type="String" Name="urlImagenUsuarioTecnico" Nullable="true" />
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="descripcionProblema" Nullable="true" />
+          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="codMedioPago" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreMedioPago" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="direccion" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_SOLICITUDES_Result">
+          <Property Type="Int32" Name="cantidadSolicitudesDia" Nullable="true" />
+          <Property Type="Int32" Name="cantidadSolicitudesDirectas" Nullable="true" />
+          <Property Type="Int32" Name="cantidadSolicitudesGenerales" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
+          <Property Type="Int32" Name="id_servicio" Nullable="false" />
+          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="descripcionProblema" Nullable="true" />
+          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_SOLICITUDES_GENERALES_Result">
+          <Property Type="Int32" Name="id_servicio" Nullable="false" />
+          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="descripcionProblema" Nullable="true" />
+          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_RESENIA_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_REGISTRAR_SOLICITUD_SERVICIO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="idServicio" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO_Result">
+          <Property Type="Int32" Name="idServicio" Nullable="false" />
+          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="descripcionProblema" Nullable="true" />
+          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="codMedioPago" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreMedioPago" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="direccion" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result">
+          <Property Type="Boolean" Name="flgServicioEnProceso" Nullable="true" />
+          <Property Type="Int32" Name="idServicioEnProceso" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO_Result">
+          <Property Type="Boolean" Name="flgServicioEnProceso" Nullable="true" />
+          <Property Type="Int32" Name="idServicioEnProceso" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_CLIENTE_CANCELAR_SERVICIO_Result">
+          <Property Type="Int32" Name="codeRes" Nullable="true" />
+          <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1255,6 +1462,135 @@
                 <ScalarProperty Name="cantidadClientes" ColumnName="cantidadClientes" />
                 <ScalarProperty Name="flgCorazon" ColumnName="flgCorazon" />
                 <ScalarProperty Name="cantidadResenias" ColumnName="cantidadResenias" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ACEPTAR_SOLICITUD_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_ACEPTAR_SOLICITUD_SERVICIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_ACEPTAR_SOLICITUD_SERVICIO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO" FunctionName="EasyWorkDBModel.Store.SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result">
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+                <ScalarProperty Name="codUsuarioTecnico" ColumnName="codUsuarioTecnico" />
+                <ScalarProperty Name="nombreUsuarioTecnico" ColumnName="nombreUsuarioTecnico" />
+                <ScalarProperty Name="urlImagenUsuarioTecnico" ColumnName="urlImagenUsuarioTecnico" />
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
+                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
+                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
+                <ScalarProperty Name="codMedioPago" ColumnName="codMedioPago" />
+                <ScalarProperty Name="nombreMedioPago" ColumnName="nombreMedioPago" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_Result">
+                <ScalarProperty Name="cantidadSolicitudesDia" ColumnName="cantidadSolicitudesDia" />
+                <ScalarProperty Name="cantidadSolicitudesDirectas" ColumnName="cantidadSolicitudesDirectas" />
+                <ScalarProperty Name="cantidadSolicitudesGenerales" ColumnName="cantidadSolicitudesGenerales" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_DIRECTAS" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_DIRECTAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
+                <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
+                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
+                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
+                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
+                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
+                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_GENERALES" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_GENERALES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result">
+                <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
+                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
+                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
+                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
+                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
+                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_RESENIA" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_RESENIA">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_RESENIA_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_REGISTRAR_SOLICITUD_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_SOLICITUD_SERVICIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_SOLICITUD_SERVICIO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO" FunctionName="EasyWorkDBModel.Store.SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO_Result">
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
+                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
+                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
+                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
+                <ScalarProperty Name="codMedioPago" ColumnName="codMedioPago" />
+                <ScalarProperty Name="nombreMedioPago" ColumnName="nombreMedioPago" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result">
+                <ScalarProperty Name="flgServicioEnProceso" ColumnName="flgServicioEnProceso" />
+                <ScalarProperty Name="idServicioEnProceso" ColumnName="idServicioEnProceso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO" FunctionName="EasyWorkDBModel.Store.SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO_Result">
+                <ScalarProperty Name="flgServicioEnProceso" ColumnName="flgServicioEnProceso" />
+                <ScalarProperty Name="idServicioEnProceso" ColumnName="idServicioEnProceso" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CLIENTE_CANCELAR_SERVICIO" FunctionName="EasyWorkDBModel.Store.SP_CLIENTE_CANCELAR_SERVICIO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_CLIENTE_CANCELAR_SERVICIO_Result">
+                <ScalarProperty Name="codeRes" ColumnName="codeRes" />
+                <ScalarProperty Name="messageRes" ColumnName="messageRes" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

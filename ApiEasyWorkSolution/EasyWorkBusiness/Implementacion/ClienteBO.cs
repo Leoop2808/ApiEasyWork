@@ -2,8 +2,6 @@
 using EasyWorkDataAccess.Contrato;
 using EasyWorkEntities.Cliente.Request;
 using EasyWorkEntities.Cliente.Response;
-using GoogleApi.Entities.Maps.Common;
-using GoogleApi.Entities.Maps.DistanceMatrix.Request;
 using GoogleDistanceMatrix.Clients;
 using GoogleDistanceMatrix.Entities;
 using GoogleDistanceMatrix.Enums;
@@ -50,7 +48,6 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         private void ListadoDatosMaestrosFillData(ObtenerListaMaestrosResponse response, string cod_usuario, string cod_aplicacion, string idLogTexto) 
         {
             var dataCategoriaServicio = _clienteDO.ObtenerCategoriasServicio(cod_usuario, cod_aplicacion, idLogTexto);
@@ -122,7 +119,6 @@ namespace EasyWorkBusiness.Implementacion
                 dataTipoBusqueda.messageRes += dataTipoBusqueda.messageRes;
             }
         }
-
         public ObtenerListaTecnicosGeneralResponse ObtenerListaTecnicosGeneral(ObtenerListaTecnicosGeneralRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
         {
             try
@@ -212,7 +208,6 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
         public ObtenerListaTecnicosFavoritosResponse ObtenerListaTecnicosFavoritos(ObtenerListaTecnicosFavoritosRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
         {
             try
@@ -370,7 +365,24 @@ namespace EasyWorkBusiness.Implementacion
                 };
             }
         }
-
+        public ValidarClienteServicioEnProcesoResponse ValidarClienteServicioEnProceso(string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var response = _clienteDO.ValidarClienteServicioEnProceso(cod_aplicacion, cod_usuario, idLogTexto);
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ValidarClienteServicioEnProcesoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al validar servicio en proceso."
+                };
+            }
+        }
         public RegistrarSolicitudServicioResponse RegistrarSolicitudServicio(RegistrarSolicitudServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
         {
             try
@@ -394,6 +406,60 @@ namespace EasyWorkBusiness.Implementacion
                 {
                     codeRes = HttpStatusCode.InternalServerError,
                     messageRes = "Error interno al registrar solicitud de servicio."
+                };
+            }
+        }
+        public ClienteCancelarServicioResponse ClienteCancelarServicio(ClienteCancelarServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto)
+        {
+            try
+            {
+                var response = _clienteDO.ClienteCancelarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ClienteCancelarServicioResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al actualizar estado del servicio."
+                };
+            }
+        }
+        public ClienteObtenerServicioEnProcesoResponse ClienteObtenerServicioEnProceso(int idServicioEnProceso, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var response = _clienteDO.ClienteObtenerServicioEnProceso(idServicioEnProceso, cod_aplicacion, cod_usuario, idLogTexto);
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new ClienteObtenerServicioEnProcesoResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al obtener servicio en proceso."
+                };
+            }
+        }
+        public RegistrarReseniaResponse RegistrarResenia(RegistrarReseniaRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto) 
+        {
+            try
+            {
+                var response = _clienteDO.RegistrarResenia(request, cod_aplicacion, cod_usuario, idLogTexto);
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
+                return response;
+            }
+            catch (Exception e)
+            {
+                log.Error("Error :" + JsonConvert.SerializeObject(e));
+                return new RegistrarReseniaResponse()
+                {
+                    codeRes = HttpStatusCode.InternalServerError,
+                    messageRes = "Error interno al registrar reseña."
                 };
             }
         }

@@ -16,5 +16,10 @@ namespace EasyWorkDataAccess.Contrato
         ObtenerDatosGeneralesPerfilTecnicoResponse ObtenerDatosGeneralesPerfilTecnico(int idTecnicoCategoriaServicio, string cod_aplicacion, string cod_usuario, string idLogTexto);
         ObtenerDatosValoracionPerfilTecnicoResponse ObtenerDatosValoracionPerfilTecnico(string codUsuarioTecnico, int idPerfilTrabajador, string cod_aplicacion, string cod_usuario, string idLogTexto);
         ObtenerListaComentariosPerfilTecnicoResponse ObtenerListaComentariosPerfilTecnico(string codUsuarioTecnico, int idPerfilTrabajador, string cod_aplicacion, string cod_usuario, string idLogTexto);
+        ValidarClienteServicioEnProcesoResponse ValidarClienteServicioEnProceso(string cod_aplicacion, string cod_usuario, string idLogTexto);
+        RegistrarSolicitudServicioResponse RegistrarSolicitudServicio(RegistrarSolicitudServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto);
+        ClienteCancelarServicioResponse ClienteCancelarServicio(ClienteCancelarServicioRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto);
+        ClienteObtenerServicioEnProcesoResponse ClienteObtenerServicioEnProceso(int idServicioEnProceso, string cod_aplicacion, string cod_usuario, string idLogTexto);
+        RegistrarReseniaResponse RegistrarResenia(RegistrarReseniaRequest request, string cod_aplicacion, string cod_usuario, string idLogTexto);
     }
 }

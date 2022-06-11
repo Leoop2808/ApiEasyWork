@@ -757,5 +757,221 @@ namespace EasyWorkDataAccess.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO_Result>("SP_OBTENER_DATOS_GENERALES_PERFIL_TECNICO", idTecnicoCategoriaServicioParameter, codAplicacionParameter, codUsuarioParameter);
         }
+    
+        public virtual ObjectResult<SP_ACEPTAR_SOLICITUD_SERVICIO_Result> SP_ACEPTAR_SOLICITUD_SERVICIO(Nullable<int> idServicio, string codUsuarioTecnico)
+        {
+            var idServicioParameter = idServicio.HasValue ?
+                new ObjectParameter("idServicio", idServicio) :
+                new ObjectParameter("idServicio", typeof(int));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_ACEPTAR_SOLICITUD_SERVICIO_Result>("SP_ACEPTAR_SOLICITUD_SERVICIO", idServicioParameter, codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result> SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO(Nullable<int> idServicioEnProceso, string codUsuarioCliente)
+        {
+            var idServicioEnProcesoParameter = idServicioEnProceso.HasValue ?
+                new ObjectParameter("idServicioEnProceso", idServicioEnProceso) :
+                new ObjectParameter("idServicioEnProceso", typeof(int));
+    
+            var codUsuarioClienteParameter = codUsuarioCliente != null ?
+                new ObjectParameter("codUsuarioCliente", codUsuarioCliente) :
+                new ObjectParameter("codUsuarioCliente", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO_Result>("SP_CLIENTE_OBTENER_SERVICIO_EN_PROCESO", idServicioEnProcesoParameter, codUsuarioClienteParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_Result> SP_OBTENER_SOLICITUDES(string codAplicacion, string codUsuarioTecnico)
+        {
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_Result>("SP_OBTENER_SOLICITUDES", codAplicacionParameter, codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_DIRECTAS_Result> SP_OBTENER_SOLICITUDES_DIRECTAS(Nullable<bool> flgOrderByCategoria, Nullable<bool> flgOrderByZonas, string codAplicacion, string codUsuarioTecnico)
+        {
+            var flgOrderByCategoriaParameter = flgOrderByCategoria.HasValue ?
+                new ObjectParameter("flgOrderByCategoria", flgOrderByCategoria) :
+                new ObjectParameter("flgOrderByCategoria", typeof(bool));
+    
+            var flgOrderByZonasParameter = flgOrderByZonas.HasValue ?
+                new ObjectParameter("flgOrderByZonas", flgOrderByZonas) :
+                new ObjectParameter("flgOrderByZonas", typeof(bool));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_DIRECTAS_Result>("SP_OBTENER_SOLICITUDES_DIRECTAS", flgOrderByCategoriaParameter, flgOrderByZonasParameter, codAplicacionParameter, codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_GENERALES_Result> SP_OBTENER_SOLICITUDES_GENERALES(Nullable<bool> flgOrderByCategoria, Nullable<bool> flgOrderByZonas, string codAplicacion, string codUsuarioTecnico)
+        {
+            var flgOrderByCategoriaParameter = flgOrderByCategoria.HasValue ?
+                new ObjectParameter("flgOrderByCategoria", flgOrderByCategoria) :
+                new ObjectParameter("flgOrderByCategoria", typeof(bool));
+    
+            var flgOrderByZonasParameter = flgOrderByZonas.HasValue ?
+                new ObjectParameter("flgOrderByZonas", flgOrderByZonas) :
+                new ObjectParameter("flgOrderByZonas", typeof(bool));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_GENERALES_Result>("SP_OBTENER_SOLICITUDES_GENERALES", flgOrderByCategoriaParameter, flgOrderByZonasParameter, codAplicacionParameter, codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_REGISTRAR_RESENIA_Result> SP_REGISTRAR_RESENIA(Nullable<int> idTrabajadorCategoriaServicio, string comentario, Nullable<int> valoracion, string codUsuarioCliente)
+        {
+            var idTrabajadorCategoriaServicioParameter = idTrabajadorCategoriaServicio.HasValue ?
+                new ObjectParameter("idTrabajadorCategoriaServicio", idTrabajadorCategoriaServicio) :
+                new ObjectParameter("idTrabajadorCategoriaServicio", typeof(int));
+    
+            var comentarioParameter = comentario != null ?
+                new ObjectParameter("comentario", comentario) :
+                new ObjectParameter("comentario", typeof(string));
+    
+            var valoracionParameter = valoracion.HasValue ?
+                new ObjectParameter("valoracion", valoracion) :
+                new ObjectParameter("valoracion", typeof(int));
+    
+            var codUsuarioClienteParameter = codUsuarioCliente != null ?
+                new ObjectParameter("codUsuarioCliente", codUsuarioCliente) :
+                new ObjectParameter("codUsuarioCliente", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_RESENIA_Result>("SP_REGISTRAR_RESENIA", idTrabajadorCategoriaServicioParameter, comentarioParameter, valoracionParameter, codUsuarioClienteParameter);
+        }
+    
+        public virtual ObjectResult<SP_REGISTRAR_SOLICITUD_SERVICIO_Result> SP_REGISTRAR_SOLICITUD_SERVICIO(Nullable<int> idUsuarioTecnicoCategoria, string codDistrito, string codMedioPago, string codCategoriaServicio, string codTipoBusqueda, string direccion, string descripcionProblema, Nullable<decimal> latitud, Nullable<decimal> longitud, string codUsuario)
+        {
+            var idUsuarioTecnicoCategoriaParameter = idUsuarioTecnicoCategoria.HasValue ?
+                new ObjectParameter("idUsuarioTecnicoCategoria", idUsuarioTecnicoCategoria) :
+                new ObjectParameter("idUsuarioTecnicoCategoria", typeof(int));
+    
+            var codDistritoParameter = codDistrito != null ?
+                new ObjectParameter("codDistrito", codDistrito) :
+                new ObjectParameter("codDistrito", typeof(string));
+    
+            var codMedioPagoParameter = codMedioPago != null ?
+                new ObjectParameter("codMedioPago", codMedioPago) :
+                new ObjectParameter("codMedioPago", typeof(string));
+    
+            var codCategoriaServicioParameter = codCategoriaServicio != null ?
+                new ObjectParameter("codCategoriaServicio", codCategoriaServicio) :
+                new ObjectParameter("codCategoriaServicio", typeof(string));
+    
+            var codTipoBusquedaParameter = codTipoBusqueda != null ?
+                new ObjectParameter("codTipoBusqueda", codTipoBusqueda) :
+                new ObjectParameter("codTipoBusqueda", typeof(string));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("direccion", direccion) :
+                new ObjectParameter("direccion", typeof(string));
+    
+            var descripcionProblemaParameter = descripcionProblema != null ?
+                new ObjectParameter("descripcionProblema", descripcionProblema) :
+                new ObjectParameter("descripcionProblema", typeof(string));
+    
+            var latitudParameter = latitud.HasValue ?
+                new ObjectParameter("latitud", latitud) :
+                new ObjectParameter("latitud", typeof(decimal));
+    
+            var longitudParameter = longitud.HasValue ?
+                new ObjectParameter("longitud", longitud) :
+                new ObjectParameter("longitud", typeof(decimal));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_REGISTRAR_SOLICITUD_SERVICIO_Result>("SP_REGISTRAR_SOLICITUD_SERVICIO", idUsuarioTecnicoCategoriaParameter, codDistritoParameter, codMedioPagoParameter, codCategoriaServicioParameter, codTipoBusquedaParameter, direccionParameter, descripcionProblemaParameter, latitudParameter, longitudParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO_Result> SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO(Nullable<int> idServicio, string motivoCancelacion, string codUsuarioTecnico, Nullable<bool> flgFinalizarCancelar)
+        {
+            var idServicioParameter = idServicio.HasValue ?
+                new ObjectParameter("idServicio", idServicio) :
+                new ObjectParameter("idServicio", typeof(int));
+    
+            var motivoCancelacionParameter = motivoCancelacion != null ?
+                new ObjectParameter("motivoCancelacion", motivoCancelacion) :
+                new ObjectParameter("motivoCancelacion", typeof(string));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            var flgFinalizarCancelarParameter = flgFinalizarCancelar.HasValue ?
+                new ObjectParameter("flgFinalizarCancelar", flgFinalizarCancelar) :
+                new ObjectParameter("flgFinalizarCancelar", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO_Result>("SP_TECNICO_CANCELAR_FINALIZAR_SERVICIO", idServicioParameter, motivoCancelacionParameter, codUsuarioTecnicoParameter, flgFinalizarCancelarParameter);
+        }
+    
+        public virtual ObjectResult<SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO_Result> SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO(Nullable<int> idServicioEnProceso, string codUsuarioTecnico)
+        {
+            var idServicioEnProcesoParameter = idServicioEnProceso.HasValue ?
+                new ObjectParameter("idServicioEnProceso", idServicioEnProceso) :
+                new ObjectParameter("idServicioEnProceso", typeof(int));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO_Result>("SP_TECNICO_OBTENER_SERVICIO_EN_PROCESO", idServicioEnProcesoParameter, codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result> SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO(string codUsuarioCliente)
+        {
+            var codUsuarioClienteParameter = codUsuarioCliente != null ?
+                new ObjectParameter("codUsuarioCliente", codUsuarioCliente) :
+                new ObjectParameter("codUsuarioCliente", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO_Result>("SP_VALIDAR_CLIENTE_SERVICIO_EN_PROCESO", codUsuarioClienteParameter);
+        }
+    
+        public virtual ObjectResult<SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO_Result> SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO(string codUsuarioTecnico)
+        {
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO_Result>("SP_VALIDAR_TECNICO_SERVICIO_EN_PROCESO", codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_CLIENTE_CANCELAR_SERVICIO_Result> SP_CLIENTE_CANCELAR_SERVICIO(Nullable<int> idServicio, string motivoCancelacion, string codUsuarioCliente)
+        {
+            var idServicioParameter = idServicio.HasValue ?
+                new ObjectParameter("idServicio", idServicio) :
+                new ObjectParameter("idServicio", typeof(int));
+    
+            var motivoCancelacionParameter = motivoCancelacion != null ?
+                new ObjectParameter("motivoCancelacion", motivoCancelacion) :
+                new ObjectParameter("motivoCancelacion", typeof(string));
+    
+            var codUsuarioClienteParameter = codUsuarioCliente != null ?
+                new ObjectParameter("codUsuarioCliente", codUsuarioCliente) :
+                new ObjectParameter("codUsuarioCliente", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CLIENTE_CANCELAR_SERVICIO_Result>("SP_CLIENTE_CANCELAR_SERVICIO", idServicioParameter, motivoCancelacionParameter, codUsuarioClienteParameter);
+        }
     }
 }

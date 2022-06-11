@@ -51,6 +51,7 @@ namespace EasyWorkBusiness.Implementacion
                 log.Info($"reCodRol --> " + JsonConvert.SerializeObject(reCodRol));
                 response.codeRes = reCodRol.codeRes;
                 response.messageRes = reCodRol.messageRes;
+                response.idRol = reCodRol.idRol;
                 return response;
             }
             catch (Exception e)
@@ -102,6 +103,11 @@ namespace EasyWorkBusiness.Implementacion
                 log.Info($"reDataSesion --> " + JsonConvert.SerializeObject(reDataSesion));
                 response.codeRes = reDataSesion.codeRes;
                 response.messageRes = reDataSesion.messageRes;
+                response.nombres = reDataSesion.nombres;
+                response.apellidos = reDataSesion.apellidos;
+                response.flgMostrarRegistroUsuario = reDataSesion.flgMostrarRegistroUsuario;
+                response.flgCelularValidado = reDataSesion.flgCelularValidado;
+                response.flgCorreoValidado = reDataSesion.flgCorreoValidado;
                 return response;
             }
             catch (Exception e)

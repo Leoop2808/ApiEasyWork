@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\EasyWork\01_DataEasyWork\EasyWork_Publicados</_PublishTargetUrl>
-    <History>True|2022-06-06T00:30:35.3079790Z;True|2022-06-05T17:12:23.3841622-05:00;True|2022-05-22T03:11:06.3080441-05:00;True|2022-05-21T21:14:33.5401984-05:00;True|2022-05-21T18:41:12.2168373-05:00;True|2022-05-21T18:01:29.9903255-05:00;True|2022-05-21T17:51:07.4568378-05:00;True|2022-05-21T17:43:38.9227786-05:00;True|2022-05-21T17:34:30.6426305-05:00;True|2022-05-21T17:03:07.9852424-05:00;True|2022-05-21T17:00:27.9344630-05:00;True|2022-05-21T16:55:16.8620656-05:00;</History>
+    <History>True|2022-06-11T00:04:15.2488422Z;True|2022-06-05T19:30:35.3079790-05:00;True|2022-06-05T17:12:23.3841622-05:00;True|2022-05-22T03:11:06.3080441-05:00;True|2022-05-21T21:14:33.5401984-05:00;True|2022-05-21T18:41:12.2168373-05:00;True|2022-05-21T18:01:29.9903255-05:00;True|2022-05-21T17:51:07.4568378-05:00;True|2022-05-21T17:43:38.9227786-05:00;True|2022-05-21T17:34:30.6426305-05:00;True|2022-05-21T17:03:07.9852424-05:00;True|2022-05-21T17:00:27.9344630-05:00;True|2022-05-21T16:55:16.8620656-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -78,49 +78,49 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/ApiEasyWork.dll">
-      <publishTime>06/05/2022 19:30:25</publishTime>
+      <publishTime>06/10/2022 19:04:01</publishTime>
     </File>
     <File Include="bin/ApiEasyWork.pdb">
-      <publishTime>06/05/2022 19:30:25</publishTime>
+      <publishTime>06/10/2022 19:04:01</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/05/2022 19:30:33</publishTime>
+      <publishTime>06/10/2022 19:04:12</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/05/2022 19:30:33</publishTime>
+      <publishTime>06/10/2022 19:04:12</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>05/20/2022 14:43:33</publishTime>
     </File>
     <File Include="bin/EasyWorkBusiness.dll">
-      <publishTime>06/05/2022 17:12:09</publishTime>
+      <publishTime>06/10/2022 19:04:00</publishTime>
     </File>
     <File Include="bin/EasyWorkBusiness.dll.config">
       <publishTime>06/05/2022 15:43:58</publishTime>
     </File>
     <File Include="bin/EasyWorkBusiness.pdb">
-      <publishTime>06/05/2022 17:12:09</publishTime>
+      <publishTime>06/10/2022 19:04:00</publishTime>
     </File>
     <File Include="bin/EasyWorkDataAccess.dll">
-      <publishTime>06/05/2022 17:12:08</publishTime>
+      <publishTime>06/10/2022 19:04:00</publishTime>
     </File>
     <File Include="bin/EasyWorkDataAccess.dll.config">
-      <publishTime>06/03/2022 13:55:14</publishTime>
+      <publishTime>06/09/2022 23:55:09</publishTime>
     </File>
     <File Include="bin/EasyWorkDataAccess.pdb">
-      <publishTime>06/05/2022 17:12:08</publishTime>
+      <publishTime>06/10/2022 19:04:00</publishTime>
     </File>
     <File Include="bin/EasyWorkEntities.dll">
-      <publishTime>06/05/2022 17:12:08</publishTime>
+      <publishTime>06/10/2022 19:03:59</publishTime>
     </File>
     <File Include="bin/EasyWorkEntities.pdb">
-      <publishTime>06/05/2022 17:12:08</publishTime>
+      <publishTime>06/10/2022 19:03:59</publishTime>
     </File>
     <File Include="bin/EasyWorkHelpers.dll">
-      <publishTime>06/05/2022 17:12:09</publishTime>
+      <publishTime>06/10/2022 19:04:00</publishTime>
     </File>
     <File Include="bin/EasyWorkHelpers.pdb">
-      <publishTime>06/05/2022 17:12:09</publishTime>
+      <publishTime>06/10/2022 19:04:00</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>05/20/2022 14:43:33</publishTime>
@@ -157,6 +157,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/es/System.Web.WebPages.resources.dll">
       <publishTime>11/28/2018 08:04:36</publishTime>
+    </File>
+    <File Include="bin/GoogleDistanceMatrix.dll">
+      <publishTime>04/13/2022 09:20:24</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>05/20/2022 14:43:36</publishTime>
@@ -229,6 +232,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>05/20/2022 14:43:35</publishTime>
+    </File>
+    <File Include="bin/RestSharp.dll">
+      <publishTime>12/08/2021 09:02:42</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>08/08/2018 05:38:48</publishTime>
@@ -377,6 +383,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>08/08/2018 12:18:16</publishTime>
     </File>
+    <File Include="bin/SimpleRestSharp.dll">
+      <publishTime>12/15/2021 03:24:30</publishTime>
+    </File>
     <File Include="bin/System.Buffers.dll">
       <publishTime>05/20/2022 14:43:35</publishTime>
     </File>
@@ -504,7 +513,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/07/2022 15:19:41</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/05/2022 19:30:26</publishTime>
+      <publishTime>06/10/2022 19:04:02</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>02/07/2022 15:19:41</publishTime>
