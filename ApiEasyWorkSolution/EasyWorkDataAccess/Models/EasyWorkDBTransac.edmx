@@ -983,7 +983,7 @@
           <Property Type="Int32" Name="cantidadSolicitudesGenerales" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
-          <Property Type="Int32" Name="id_servicio" Nullable="false" />
+          <Property Type="Int32" Name="idServicio" Nullable="false" />
           <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
           <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
           <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
@@ -994,7 +994,7 @@
           <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
         </ComplexType>
         <ComplexType Name="SP_OBTENER_SOLICITUDES_GENERALES_Result">
-          <Property Type="Int32" Name="id_servicio" Nullable="false" />
+          <Property Type="Int32" Name="idServicio" Nullable="false" />
           <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
           <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
           <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
@@ -1502,7 +1502,7 @@
           <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_DIRECTAS" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_DIRECTAS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
-                <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
                 <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
                 <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
                 <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
@@ -1517,7 +1517,7 @@
           <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_GENERALES" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_GENERALES">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result">
-                <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
                 <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
                 <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
                 <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />

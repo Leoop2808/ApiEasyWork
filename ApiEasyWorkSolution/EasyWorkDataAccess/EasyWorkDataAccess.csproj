@@ -88,6 +88,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EasyWorkDBTransac.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\EasyWorkDBTransac1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EasyWorkDBTransac.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\mst_aplicacion.cs">
       <DependentUpon>EasyWorkDBTransac.tt</DependentUpon>
     </Compile>
@@ -247,7 +252,7 @@
   <ItemGroup>
     <EntityDeploy Include="Models\EasyWorkDBTransac.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EasyWorkDBTransac.Designer.cs</LastGenOutput>
+      <LastGenOutput>EasyWorkDBTransac1.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>

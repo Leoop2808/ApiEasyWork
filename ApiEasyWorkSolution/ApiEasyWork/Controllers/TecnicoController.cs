@@ -49,25 +49,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.ValidarTecnicoServicioEnProceso(cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, data = response.datos });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes, data = response.datos });
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -91,25 +84,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.TecnicoCancelarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes});
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes});
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -133,25 +119,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.TecnicoFinalizarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes });
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -175,25 +154,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.TecnicoObtenerServicioEnProceso(idServicioEnProceso, cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, data = response.datos });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes, data = response.datos });
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -217,25 +189,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.ObtenerSolicitudes(cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, data = response.datos });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes, data = response.datos });
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -259,25 +224,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.ObtenerSolicitudesGenerales(request, cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, data = response.datos });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes, data = response.datos });
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -301,25 +259,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.ObtenerSolicitudesDirectas(request, cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes, data = response.datos });
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes, data = response.datos });
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {
@@ -343,25 +294,18 @@ namespace ApiEasyWork.Controllers
             try
             {
                 var response = _tecnicoBO.AceptarSolicitudServicio(idServicio, cod_aplicacion, cod_usuario, idLogTexto);
+
                 if (response.codeRes == HttpStatusCode.OK)
                 {
-                    if (response.codeRes == HttpStatusCode.OK)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.OK,
-                            new { Message = response.messageRes});
-                    }
-                    else if (response.codeRes == HttpStatusCode.NoContent)
-                    {
-                        return Request.CreateResponse(HttpStatusCode.NoContent);
-                    }
-                    return Request.CreateResponse(response.codeRes,
-                        new MensajeHttpResponse() { Message = response.messageRes });
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { Message = response.messageRes});
                 }
-                else
+                else if (response.codeRes == HttpStatusCode.NoContent)
                 {
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                          new MensajeHttpResponse() { Message = "Error interno al obtener respuesta." });
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
                 }
+                return Request.CreateResponse(response.codeRes,
+                    new MensajeHttpResponse() { Message = response.messageRes });
             }
             catch (Exception ex)
             {

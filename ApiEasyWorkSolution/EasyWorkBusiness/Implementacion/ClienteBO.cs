@@ -387,16 +387,27 @@ namespace EasyWorkBusiness.Implementacion
         {
             try
             {
-                var response = new RegistrarSolicitudServicioResponse()
+                var valProcEnCurso = _clienteDO.ValidarClienteServicioEnProceso(cod_aplicacion, cod_usuario, idLogTexto);
+                if (valProcEnCurso.codeRes != HttpStatusCode.OK && valProcEnCurso.datos != null)
                 {
-                    codeRes = HttpStatusCode.OK,
-                    messageRes = "Prueba respuesta"
-                };
+                    return new RegistrarSolicitudServicioResponse()
+                    {
+                        codeRes = valProcEnCurso.codeRes,
+                        messageRes = valProcEnCurso.messageRes
+                    };
+                }
 
-                //var resRegSolServ = _clienteDO.RegistrarSolicitudServicio(cod_aplicacion, cod_aplicacion, idLogTexto);
-                //log.Info($"resRegSolServ --> " + JsonConvert.SerializeObject(resRegSolServ));
-                //response.codeRes = resRegSolServ.codeRes;
-                //response.messageRes = resRegSolServ.messageRes;
+                if (valProcEnCurso.datos.flgServicioEnProceso)
+                {
+                    return new RegistrarSolicitudServicioResponse()
+                    {
+                        codeRes = HttpStatusCode.BadRequest,
+                        messageRes = "Ya cuenta con una solicitud de servicio en proceso"
+                    };
+                }
+
+                var response = _clienteDO.RegistrarSolicitudServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
+                log.Info($"response --> " + JsonConvert.SerializeObject(response));
                 return response;
             }
             catch (Exception e)

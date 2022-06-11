@@ -13,7 +13,7 @@ namespace EasyWorkDataAccess.Models
     
     public partial class SP_OBTENER_SOLICITUDES_DIRECTAS_Result
     {
-        public int id_servicio { get; set; }
+        public int idServicio { get; set; }
         public string codUsuarioCliente { get; set; }
         public string nombreUsuarioCliente { get; set; }
         public string codCategoriaServicio { get; set; }
