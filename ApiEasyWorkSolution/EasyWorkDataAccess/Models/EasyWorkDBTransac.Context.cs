@@ -617,27 +617,6 @@ namespace EasyWorkDataAccess.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO_Result>("SP_VALIDAR_EXISTENCIA_USUARIO_CORREO_TECNICO", correoParameter, codAplicacionParameter);
         }
     
-        public virtual ObjectResult<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result> SP_OBTENER_COMENTARIOS_PERFIL_TECNICO(string codUsuarioTecnico, Nullable<int> idPerfilTrabajador, string codAplicacion, string codUsuario)
-        {
-            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
-                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
-                new ObjectParameter("codUsuarioTecnico", typeof(string));
-    
-            var idPerfilTrabajadorParameter = idPerfilTrabajador.HasValue ?
-                new ObjectParameter("idPerfilTrabajador", idPerfilTrabajador) :
-                new ObjectParameter("idPerfilTrabajador", typeof(int));
-    
-            var codAplicacionParameter = codAplicacion != null ?
-                new ObjectParameter("codAplicacion", codAplicacion) :
-                new ObjectParameter("codAplicacion", typeof(string));
-    
-            var codUsuarioParameter = codUsuario != null ?
-                new ObjectParameter("codUsuario", codUsuario) :
-                new ObjectParameter("codUsuario", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result>("SP_OBTENER_COMENTARIOS_PERFIL_TECNICO", codUsuarioTecnicoParameter, idPerfilTrabajadorParameter, codAplicacionParameter, codUsuarioParameter);
-        }
-    
         public virtual ObjectResult<SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO_Result> SP_OBTENER_DATOS_VALORACION_PERFIL_TECNICO(string codUsuarioTecnico, Nullable<int> idPerfilTrabajador, string codAplicacion, string codUsuario)
         {
             var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
@@ -972,6 +951,27 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("codUsuarioCliente", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CLIENTE_CANCELAR_SERVICIO_Result>("SP_CLIENTE_CANCELAR_SERVICIO", idServicioParameter, motivoCancelacionParameter, codUsuarioClienteParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result> SP_OBTENER_COMENTARIOS_PERFIL_TECNICO(string codUsuarioTecnico, Nullable<int> idPerfilTrabajador, string codAplicacion, string codUsuario)
+        {
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            var idPerfilTrabajadorParameter = idPerfilTrabajador.HasValue ?
+                new ObjectParameter("idPerfilTrabajador", idPerfilTrabajador) :
+                new ObjectParameter("idPerfilTrabajador", typeof(int));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioParameter = codUsuario != null ?
+                new ObjectParameter("codUsuario", codUsuario) :
+                new ObjectParameter("codUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result>("SP_OBTENER_COMENTARIOS_PERFIL_TECNICO", codUsuarioTecnicoParameter, idPerfilTrabajadorParameter, codAplicacionParameter, codUsuarioParameter);
         }
     }
 }

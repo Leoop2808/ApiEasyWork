@@ -15,7 +15,7 @@ namespace EasyWorkDataAccess.Models
     {
         public Nullable<int> cantEstrellas { get; set; }
         public string nombreUsuario { get; set; }
-        public Nullable<System.DateTime> fechaComentario { get; set; }
+        public string fechaComentario { get; set; }
         public int flgServicioVerificado { get; set; }
         public string comentario { get; set; }
     }
