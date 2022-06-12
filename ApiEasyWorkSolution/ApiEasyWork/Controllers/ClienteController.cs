@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace ApiEasyWork.Controllers
@@ -47,8 +48,18 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+           
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
+
             try
             {
                 var respListaMaestros = _clienteBO.ObtenerListaMaestros(cod_aplicacion, cod_usuario, idLogTexto);
@@ -83,8 +94,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var respListaTecnicos = _clienteBO.ObtenerListaTecnicosGeneral(request, cod_aplicacion, cod_usuario, idLogTexto);
@@ -126,8 +145,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var respListaTecnicos = _clienteBO.ObtenerListaTecnicosFavoritos(request, cod_aplicacion, cod_usuario, idLogTexto);
@@ -162,8 +189,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var respListaMaestros = _clienteBO.ObtenerPerfilTecnico(request, cod_aplicacion, cod_usuario, idLogTexto);
@@ -197,8 +232,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var response = _clienteBO.ValidarClienteServicioEnProceso(cod_aplicacion, cod_usuario, idLogTexto);
@@ -232,8 +275,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var response = _clienteBO.RegistrarSolicitudServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
@@ -266,8 +317,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> ");
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var respListaMaestros = _clienteBO.ClienteCancelarServicio(request, cod_aplicacion, cod_usuario, idLogTexto);
@@ -300,8 +359,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> idServicioEnProceso : " + idServicioEnProceso.ToString());
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var response = _clienteBO.ClienteObtenerServicioEnProceso(idServicioEnProceso, cod_aplicacion, cod_usuario, idLogTexto);
@@ -335,8 +402,16 @@ namespace ApiEasyWork.Controllers
         {
             string idLogTexto = Guid.NewGuid().ToString();
             log.Info($"request --> " + JsonConvert.SerializeObject(request));
-            var cod_usuario = User.Identity.GetUserId();
-            var cod_aplicacion = AplicationData.codAplicacion;
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var validToken = HelperToken.LeerToken(principal);
+            if (validToken.codigo != 1)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized,
+                    new MensajeHttpResponse() { Message = "No se pudo validar el token." });
+            }
+
+            var cod_usuario = validToken.cod_usuario;
+            var cod_aplicacion = validToken.cod_aplicacion;
             try
             {
                 var response = _clienteBO.RegistrarResenia(request, cod_aplicacion, cod_usuario, idLogTexto);
