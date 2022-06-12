@@ -214,7 +214,7 @@ namespace ApiEasyWork.Controllers
         }
 
         [Route("solicitudes-generales")]
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage ObtenerSolicitudesGenerales(ObtenerSolicitudesGeneralesRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
@@ -249,7 +249,7 @@ namespace ApiEasyWork.Controllers
         }
 
         [Route("solicitudes-directas")]
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage ObtenerSolicitudesDirectas(ObtenerSolicitudesDirectasRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();

@@ -78,7 +78,7 @@ namespace ApiEasyWork.Controllers
         }
 
         [Route("busqueda-tecnicos-general")]
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage ObtenerListaTecnicosGeneral(ObtenerListaTecnicosGeneralRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
@@ -121,7 +121,7 @@ namespace ApiEasyWork.Controllers
         }
 
         [Route("busqueda-tecnicos-favoritos")]
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage ObtenerListaTecnicosFavoritos(ObtenerListaTecnicosFavoritosRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();
@@ -157,7 +157,7 @@ namespace ApiEasyWork.Controllers
         }
 
         [Route("perfil-tecnico")]
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage ObtenerPerfilTecnico(ObtenerPerfilTecnicoRequest request)
         {
             string idLogTexto = Guid.NewGuid().ToString();

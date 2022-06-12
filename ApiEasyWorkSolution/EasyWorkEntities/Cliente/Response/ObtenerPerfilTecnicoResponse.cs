@@ -18,7 +18,7 @@ namespace EasyWorkEntities.Cliente.Response
         public string cantidadClientes { get; set; }
         public bool flgCorazon { get; set; }
         public DataValoracion datosValoracion { get; set; }
-        public string cantidadReseñas { get; set; }
+        public string cantidadResenias { get; set; }
         public List<DataComentario> listaComentarios { get; set; }
     }
     public class DataValoracion 

@@ -348,7 +348,7 @@ namespace EasyWorkBusiness.Implementacion
                     codCategoria = resDatGenPerTec.datos.codCategoria,
                     cantidadClientes = resDatGenPerTec.datos.cantidadClientes,
                     flgCorazon = resDatGenPerTec.datos.flgCorazon,
-                    cantidadReseñas = resDatGenPerTec.datos.cantidadResenias,
+                    cantidadResenias = resDatGenPerTec.datos.cantidadResenias,
                     datosValoracion = resDatVal.datosValoracion,
                     listaComentarios = resListComentarios.listaComentarios
                 };
