@@ -16,5 +16,7 @@ namespace EasyWorkEntities.Tecnico.Response
         public string descripcionProblema { get; set; }
         public string codDistrito { get; set; }
         public string nombreDistrito { get; set; }
+        public string nombreMedioPago { get; set; }
+        public string direccion { get; set; }
     }
 }

@@ -596,18 +596,6 @@
             <Parameter Name="codAplicacion" Mode="In" Type="String" />
             <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SP_OBTENER_SOLICITUDES_DIRECTAS" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result)">
-            <Parameter Name="flgOrderByCategoria" Mode="In" Type="Boolean" />
-            <Parameter Name="flgOrderByZonas" Mode="In" Type="Boolean" />
-            <Parameter Name="codAplicacion" Mode="In" Type="String" />
-            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SP_OBTENER_SOLICITUDES_GENERALES" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result)">
-            <Parameter Name="flgOrderByCategoria" Mode="In" Type="Boolean" />
-            <Parameter Name="flgOrderByZonas" Mode="In" Type="Boolean" />
-            <Parameter Name="codAplicacion" Mode="In" Type="String" />
-            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SP_REGISTRAR_RESENIA" ReturnType="Collection(EasyWorkDBModel.SP_REGISTRAR_RESENIA_Result)">
             <Parameter Name="idTrabajadorCategoriaServicio" Mode="In" Type="Int32" />
             <Parameter Name="comentario" Mode="In" Type="String" />
@@ -652,6 +640,18 @@
             <Parameter Name="idPerfilTrabajador" Mode="In" Type="Int32" />
             <Parameter Name="codAplicacion" Mode="In" Type="String" />
             <Parameter Name="codUsuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_SOLICITUDES_DIRECTAS" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result)">
+            <Parameter Name="flgOrderByCategoria" Mode="In" Type="Boolean" />
+            <Parameter Name="flgOrderByZonas" Mode="In" Type="Boolean" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_OBTENER_SOLICITUDES_GENERALES" ReturnType="Collection(EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result)">
+            <Parameter Name="flgOrderByCategoria" Mode="In" Type="Boolean" />
+            <Parameter Name="flgOrderByZonas" Mode="In" Type="Boolean" />
+            <Parameter Name="codAplicacion" Mode="In" Type="String" />
+            <Parameter Name="codUsuarioTecnico" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="mst_aplicacion">
@@ -975,28 +975,6 @@
           <Property Type="Int32" Name="cantidadSolicitudesDirectas" Nullable="true" />
           <Property Type="Int32" Name="cantidadSolicitudesGenerales" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
-          <Property Type="Int32" Name="idServicio" Nullable="false" />
-          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
-          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
-          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="descripcionProblema" Nullable="true" />
-          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="SP_OBTENER_SOLICITUDES_GENERALES_Result">
-          <Property Type="Int32" Name="idServicio" Nullable="false" />
-          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
-          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
-          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="descripcionProblema" Nullable="true" />
-          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
-        </ComplexType>
         <ComplexType Name="SP_REGISTRAR_RESENIA_Result">
           <Property Type="Int32" Name="codeRes" Nullable="true" />
           <Property Type="String" Name="messageRes" Nullable="true" MaxLength="200" />
@@ -1040,6 +1018,30 @@
           <Property Type="String" Name="fechaComentario" Nullable="true" MaxLength="30" />
           <Property Type="Int32" Name="flgServicioVerificado" Nullable="false" />
           <Property Type="String" Name="comentario" Nullable="true" MaxLength="600" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
+          <Property Type="Int32" Name="idServicio" Nullable="false" />
+          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="descripcionProblema" Nullable="true" />
+          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_OBTENER_SOLICITUDES_GENERALES_Result">
+          <Property Type="Int32" Name="idServicio" Nullable="false" />
+          <Property Type="String" Name="codUsuarioCliente" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="nombreUsuarioCliente" Nullable="true" MaxLength="240" />
+          <Property Type="String" Name="codCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreCategoriaServicio" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="descripcionProblema" Nullable="true" />
+          <Property Type="String" Name="codDistrito" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="nombreDistrito" Nullable="true" MaxLength="40" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="true" Precision="23" />
+          <Property Type="String" Name="direccion" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="nombreMedioPago" Nullable="true" MaxLength="20" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1488,36 +1490,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_DIRECTAS" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_DIRECTAS">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
-                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
-                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
-                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
-                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
-                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
-                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
-                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
-                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_GENERALES" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_GENERALES">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result">
-                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
-                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
-                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
-                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
-                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
-                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
-                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
-                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_REGISTRAR_RESENIA" FunctionName="EasyWorkDBModel.Store.SP_REGISTRAR_RESENIA">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_REGISTRAR_RESENIA_Result">
@@ -1591,6 +1563,38 @@
                 <ScalarProperty Name="fechaComentario" ColumnName="fechaComentario" />
                 <ScalarProperty Name="flgServicioVerificado" ColumnName="flgServicioVerificado" />
                 <ScalarProperty Name="comentario" ColumnName="comentario" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_DIRECTAS" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_DIRECTAS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_DIRECTAS_Result">
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
+                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
+                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
+                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
+                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_OBTENER_SOLICITUDES_GENERALES" FunctionName="EasyWorkDBModel.Store.SP_OBTENER_SOLICITUDES_GENERALES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EasyWorkDBModel.SP_OBTENER_SOLICITUDES_GENERALES_Result">
+                <ScalarProperty Name="idServicio" ColumnName="idServicio" />
+                <ScalarProperty Name="codUsuarioCliente" ColumnName="codUsuarioCliente" />
+                <ScalarProperty Name="nombreUsuarioCliente" ColumnName="nombreUsuarioCliente" />
+                <ScalarProperty Name="codCategoriaServicio" ColumnName="codCategoriaServicio" />
+                <ScalarProperty Name="nombreCategoriaServicio" ColumnName="nombreCategoriaServicio" />
+                <ScalarProperty Name="descripcionProblema" ColumnName="descripcionProblema" />
+                <ScalarProperty Name="codDistrito" ColumnName="codDistrito" />
+                <ScalarProperty Name="nombreDistrito" ColumnName="nombreDistrito" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="nombreMedioPago" ColumnName="nombreMedioPago" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

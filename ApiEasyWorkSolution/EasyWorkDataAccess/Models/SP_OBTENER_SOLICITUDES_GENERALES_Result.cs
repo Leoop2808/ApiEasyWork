@@ -22,5 +22,7 @@ namespace EasyWorkDataAccess.Models
         public string codDistrito { get; set; }
         public string nombreDistrito { get; set; }
         public Nullable<System.DateTime> fechaRegistro { get; set; }
+        public string direccion { get; set; }
+        public string nombreMedioPago { get; set; }
     }
 }

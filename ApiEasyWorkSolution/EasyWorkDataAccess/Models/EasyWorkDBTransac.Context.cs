@@ -776,48 +776,6 @@ namespace EasyWorkDataAccess.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_Result>("SP_OBTENER_SOLICITUDES", codAplicacionParameter, codUsuarioTecnicoParameter);
         }
     
-        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_DIRECTAS_Result> SP_OBTENER_SOLICITUDES_DIRECTAS(Nullable<bool> flgOrderByCategoria, Nullable<bool> flgOrderByZonas, string codAplicacion, string codUsuarioTecnico)
-        {
-            var flgOrderByCategoriaParameter = flgOrderByCategoria.HasValue ?
-                new ObjectParameter("flgOrderByCategoria", flgOrderByCategoria) :
-                new ObjectParameter("flgOrderByCategoria", typeof(bool));
-    
-            var flgOrderByZonasParameter = flgOrderByZonas.HasValue ?
-                new ObjectParameter("flgOrderByZonas", flgOrderByZonas) :
-                new ObjectParameter("flgOrderByZonas", typeof(bool));
-    
-            var codAplicacionParameter = codAplicacion != null ?
-                new ObjectParameter("codAplicacion", codAplicacion) :
-                new ObjectParameter("codAplicacion", typeof(string));
-    
-            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
-                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
-                new ObjectParameter("codUsuarioTecnico", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_DIRECTAS_Result>("SP_OBTENER_SOLICITUDES_DIRECTAS", flgOrderByCategoriaParameter, flgOrderByZonasParameter, codAplicacionParameter, codUsuarioTecnicoParameter);
-        }
-    
-        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_GENERALES_Result> SP_OBTENER_SOLICITUDES_GENERALES(Nullable<bool> flgOrderByCategoria, Nullable<bool> flgOrderByZonas, string codAplicacion, string codUsuarioTecnico)
-        {
-            var flgOrderByCategoriaParameter = flgOrderByCategoria.HasValue ?
-                new ObjectParameter("flgOrderByCategoria", flgOrderByCategoria) :
-                new ObjectParameter("flgOrderByCategoria", typeof(bool));
-    
-            var flgOrderByZonasParameter = flgOrderByZonas.HasValue ?
-                new ObjectParameter("flgOrderByZonas", flgOrderByZonas) :
-                new ObjectParameter("flgOrderByZonas", typeof(bool));
-    
-            var codAplicacionParameter = codAplicacion != null ?
-                new ObjectParameter("codAplicacion", codAplicacion) :
-                new ObjectParameter("codAplicacion", typeof(string));
-    
-            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
-                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
-                new ObjectParameter("codUsuarioTecnico", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_GENERALES_Result>("SP_OBTENER_SOLICITUDES_GENERALES", flgOrderByCategoriaParameter, flgOrderByZonasParameter, codAplicacionParameter, codUsuarioTecnicoParameter);
-        }
-    
         public virtual ObjectResult<SP_REGISTRAR_RESENIA_Result> SP_REGISTRAR_RESENIA(Nullable<int> idTrabajadorCategoriaServicio, string comentario, Nullable<int> valoracion, string codUsuarioCliente)
         {
             var idTrabajadorCategoriaServicioParameter = idTrabajadorCategoriaServicio.HasValue ?
@@ -972,6 +930,48 @@ namespace EasyWorkDataAccess.Models
                 new ObjectParameter("codUsuario", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_COMENTARIOS_PERFIL_TECNICO_Result>("SP_OBTENER_COMENTARIOS_PERFIL_TECNICO", codUsuarioTecnicoParameter, idPerfilTrabajadorParameter, codAplicacionParameter, codUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_DIRECTAS_Result> SP_OBTENER_SOLICITUDES_DIRECTAS(Nullable<bool> flgOrderByCategoria, Nullable<bool> flgOrderByZonas, string codAplicacion, string codUsuarioTecnico)
+        {
+            var flgOrderByCategoriaParameter = flgOrderByCategoria.HasValue ?
+                new ObjectParameter("flgOrderByCategoria", flgOrderByCategoria) :
+                new ObjectParameter("flgOrderByCategoria", typeof(bool));
+    
+            var flgOrderByZonasParameter = flgOrderByZonas.HasValue ?
+                new ObjectParameter("flgOrderByZonas", flgOrderByZonas) :
+                new ObjectParameter("flgOrderByZonas", typeof(bool));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_DIRECTAS_Result>("SP_OBTENER_SOLICITUDES_DIRECTAS", flgOrderByCategoriaParameter, flgOrderByZonasParameter, codAplicacionParameter, codUsuarioTecnicoParameter);
+        }
+    
+        public virtual ObjectResult<SP_OBTENER_SOLICITUDES_GENERALES_Result> SP_OBTENER_SOLICITUDES_GENERALES(Nullable<bool> flgOrderByCategoria, Nullable<bool> flgOrderByZonas, string codAplicacion, string codUsuarioTecnico)
+        {
+            var flgOrderByCategoriaParameter = flgOrderByCategoria.HasValue ?
+                new ObjectParameter("flgOrderByCategoria", flgOrderByCategoria) :
+                new ObjectParameter("flgOrderByCategoria", typeof(bool));
+    
+            var flgOrderByZonasParameter = flgOrderByZonas.HasValue ?
+                new ObjectParameter("flgOrderByZonas", flgOrderByZonas) :
+                new ObjectParameter("flgOrderByZonas", typeof(bool));
+    
+            var codAplicacionParameter = codAplicacion != null ?
+                new ObjectParameter("codAplicacion", codAplicacion) :
+                new ObjectParameter("codAplicacion", typeof(string));
+    
+            var codUsuarioTecnicoParameter = codUsuarioTecnico != null ?
+                new ObjectParameter("codUsuarioTecnico", codUsuarioTecnico) :
+                new ObjectParameter("codUsuarioTecnico", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_OBTENER_SOLICITUDES_GENERALES_Result>("SP_OBTENER_SOLICITUDES_GENERALES", flgOrderByCategoriaParameter, flgOrderByZonasParameter, codAplicacionParameter, codUsuarioTecnicoParameter);
         }
     }
 }
